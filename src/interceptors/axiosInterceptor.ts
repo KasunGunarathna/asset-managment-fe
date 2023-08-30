@@ -1,21 +1,31 @@
 import axios from 'axios';
 import { getTokenFromLocalStorage } from '../utils/utils'; // Replace with your own token retrieval method
+const API_BASE_URL = 'http://localhost:3000';
 
-axios.interceptors.request.use((config) => {
-  console.log("config")
-  config.headers['Access-Control-Allow-Origin']='*'
-  const token = getTokenFromLocalStorage(); // Retrieve token from local storage or Redux state
-  if (token) {
-    config.headers['Authorization'] = `Bearer ${token}`;
-  }
-  console.log(config)
-  return config;
+const instance = axios.create({
+  baseURL: API_BASE_URL,
 });
 
-axios.interceptors.response.use(
+// Request interceptor
+instance.interceptors.request.use(
+  (config) => {
+    const token = getTokenFromLocalStorage();
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+instance.interceptors.response.use(
   (response) => response,
   (error) => {
     // Handle error globally
     return Promise.reject(error);
   }
 );
+
+export default instance;

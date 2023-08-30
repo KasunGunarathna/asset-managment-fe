@@ -1,14 +1,13 @@
 import { useState } from 'react'; // Import useState from React
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setToken,setNic } from '../store/authSlice';
+import { setTokenToLocalStorage } from '../utils/utils';
+import instance from '../interceptors/axiosInterceptor';
 
-const API_BASE_URL = 'http://localhost:3000';
-
-const instance = axios.create({
-  baseURL: API_BASE_URL,
-});
 
 // Create a custom hook for login
 export const useLogin = () => {
+  const dispatch = useDispatch(); 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null); // Specify the type for the error state
 
@@ -17,12 +16,14 @@ export const useLogin = () => {
     setError(null); // Clear the error before making the API call
     try {
       const response = await instance.post('/auth/login', credentials);
-      console.log(response)
       const token = response.data.data.access_token;
-      console.log(token)
+      dispatch(setToken(token));
+      dispatch(setNic(credentials.nic)); 
+      setTokenToLocalStorage(token);
       // Handle token or dispatch it to Redux
     } catch (error) {
       setError(error as Error); // Cast the error to the Error type
+      throw error
     } finally {
       setLoading(false);
     }
@@ -32,14 +33,10 @@ export const useLogin = () => {
 };
 
 
-export const fetchUserDetails = async (nic: string, token: string) => {
+export const fetchUserDetails = async (nic: string | null) => {
   try {
-    const response = await instance.get(`/users/nic/${nic}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data;
+    const response = await instance.get(`/users/nic/${nic}`);
+    return response.data.data;
   } catch (error) {
     throw error;
   }

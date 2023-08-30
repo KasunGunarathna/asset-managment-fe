@@ -3,19 +3,20 @@ import Input from "../components/common/Input";
 import Button from "../components/common/Buttton";
 import { useLogin } from "../api/api"; // Import your API functions
 import './LoginPage.css';
+import { useNavigate } from 'react-router-dom';
 
 // Import your logo image
 import logoImage from '../assets/logo.png';
 
 const LoginPage: React.FC = () => {
+  const navigate = useNavigate();
   const [nic, setNic] = React.useState("");
   const [password, setPassword] = React.useState("");
   const { login, loading, error } = useLogin(); 
   const handleLogin = async () => {
     try {
-      console.log(nic, password)
       await login({ nic, password });
-      // Redirect to dashboard or handle success
+      navigate('/home');
     } catch (error) {
       console.error("Login error:", error);
     }
