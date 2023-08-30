@@ -1,7 +1,7 @@
 import { useState } from 'react'; // Import useState from React
 import axios from 'axios';
 
-const API_BASE_URL = 'localhost:3000';
+const API_BASE_URL = 'http://localhost:3000';
 
 const instance = axios.create({
   baseURL: API_BASE_URL,
@@ -18,7 +18,8 @@ export const useLogin = () => {
     try {
       const response = await instance.post('/auth/login', credentials);
       console.log(response)
-      const token = response.data.token;
+      const token = response.data.data.access_token;
+      console.log(token)
       // Handle token or dispatch it to Redux
     } catch (error) {
       setError(error as Error); // Cast the error to the Error type
@@ -28,4 +29,18 @@ export const useLogin = () => {
   };
 
   return { login, loading, error };
+};
+
+
+export const fetchUserDetails = async (nic: string, token: string) => {
+  try {
+    const response = await instance.get(`/users/nic/${nic}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 };
