@@ -1,12 +1,12 @@
 import React from "react";
-import Input from "../components/common/Input";
-import Button from "../components/common/Buttton";
-import { useLogin } from "../api/api"; // Import your API functions
+import Input from "../../components/common/Input";
+import Button from "../../components/common/Buttton";
+import { useLogin } from "../../api/api"; // Import your API functions
 import './LoginPage.css';
 import { useNavigate } from 'react-router-dom';
 
 // Import your logo image
-import logoImage from '../assets/logo.png';
+import logoImage from '../../assets/logo.png';
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -29,6 +29,7 @@ const LoginPage: React.FC = () => {
         <h2>Asset Management System</h2>
         <h3>Kaduwela Municipal Council</h3>
         <h4>Sri Lanka</h4>
+        
         <Input
           type="text"
           placeholder="NIC"

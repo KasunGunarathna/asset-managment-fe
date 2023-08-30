@@ -17,6 +17,7 @@ const Input: React.FC<InputProps> = ({ type, placeholder, value, onChange, class
       value={value}
       onChange={(e) => onChange(e.target.value)}
       className={className}
+      sx={{ marginY: 1 }}
     />
   );
 };

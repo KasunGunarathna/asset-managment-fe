@@ -18,7 +18,8 @@ export const useLogin = () => {
       const response = await instance.post('/auth/login', credentials);
       const token = response.data.data.access_token;
       dispatch(setToken(token));
-      dispatch(setNic(credentials.nic)); 
+      sessionStorage.setItem('userNic', credentials.nic);
+      // dispatch(setNic(credentials.nic)); 
       setTokenToLocalStorage(token);
       // Handle token or dispatch it to Redux
     } catch (error) {
