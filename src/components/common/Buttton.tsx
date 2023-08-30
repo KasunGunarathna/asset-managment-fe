@@ -18,6 +18,8 @@ const Button: React.FC<ButtonProps> = ({ onClick, type, children, className, loa
       type={type} // Use the type prop here
       className={className}
       disabled={loading} // Disable the button if loading is true
+      sx={{ marginY: 1, paddingX: 3, paddingY:1 }} 
+      
     >
       {children}
     </MuiButton>

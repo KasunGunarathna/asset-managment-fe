@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { fetchUserDetails } from '../api/api';
+import { fetchUserDetails } from '../../api/api';
 import { useSelector } from 'react-redux';
-import { selectAuth } from '../store/authSlice';
+import { selectAuth } from '../../store/authSlice';
 
 const HomePage = () => {
-    const { nic } = useSelector(selectAuth);
+    const nic = sessionStorage.getItem('userNic'); 
   const [userDetails, setUserDetails] = useState<any>(null);
   useEffect(() => {
       fetchUserDetails(nic)
