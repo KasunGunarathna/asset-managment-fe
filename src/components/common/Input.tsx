@@ -6,10 +6,19 @@ interface InputProps {
   placeholder: string;
   value: string;
   onChange: (value: string) => void;
+  className?: string;
 }
 
-const Input: React.FC<InputProps> = ({ type, placeholder, value, onChange }) => {
-  return <TextField type={type} label={placeholder} value={value} onChange={(e) => onChange(e.target.value)} />;
+const Input: React.FC<InputProps> = ({ type, placeholder, value, onChange, className }) => {
+  return (
+    <TextField
+      type={type}
+      label={placeholder}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      className={className}
+    />
+  );
 };
 
 export default Input;

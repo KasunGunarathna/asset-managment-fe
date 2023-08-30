@@ -2,6 +2,10 @@ import React from "react";
 import Input from "../components/common/Input";
 import Button from "../components/common/Buttton";
 import { useLogin } from "../api/api"; // Import your API functions
+import './LoginPage.css';
+
+// Import your logo image
+import logoImage from '../assets/logo.png';
 
 const LoginPage: React.FC = () => {
   const [nic, setNic] = React.useState("");
@@ -9,6 +13,7 @@ const LoginPage: React.FC = () => {
   const { login, loading, error } = useLogin(); 
   const handleLogin = async () => {
     try {
+      console.log(nic, password)
       await login({ nic, password });
       // Redirect to dashboard or handle success
     } catch (error) {
@@ -17,16 +22,36 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <Input type="text" placeholder="NIC" value={nic} onChange={setNic} />
-      <Input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={setPassword}
-      />
-      <Button onClick={handleLogin}>Login</Button>
+    <div className="login-container">
+      <div className="login-form">
+        <img src={logoImage} alt="Logo" className="logo-image" />
+        <h2>Asset Management System</h2>
+        <h3>Kaduwela Municipal Council</h3>
+        <h4>Sri Lanka</h4>
+        <Input
+          type="text"
+          placeholder="NIC"
+          value={nic}
+          onChange={(value) => setNic(value)}
+          className="input-field"
+        />
+        <Input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(value) => setPassword(value)}
+          className="input-field"
+        />
+        <Button
+          type="button"
+          onClick={handleLogin}
+          className="login-button"
+          loading={loading}
+        >
+          Login
+        </Button>
+        {error && <p>{error.message}</p>}
+      </div>
     </div>
   );
 };
