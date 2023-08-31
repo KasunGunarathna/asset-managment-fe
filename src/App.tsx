@@ -1,15 +1,24 @@
-import React from 'react';
-import LoginPage from './pages/LoginPage/LoginPage';
-import HomePage from './pages/HomePage/HomePage';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React from "react";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import HomePage from "./pages/HomePage/HomePage";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import ProtectedRoute from "./ProtectedRoute";
+import NotFoundPage from "./pages/PageNotFound/PageNotFound";
 
 const App: React.FC = () => {
-
   return (
     <Router>
       <Routes>
-        <Route  path="/" element={<LoginPage/>} />
-        <Route path="/home" element={<HomePage/>} />
+        <Route path="/" element={<LoginPage />} />
+        <Route
+          path="/home"
+          element={
+            <ProtectedRoute>
+              <HomePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="*" element={<NotFoundPage />} /> 
       </Routes>
     </Router>
   );
