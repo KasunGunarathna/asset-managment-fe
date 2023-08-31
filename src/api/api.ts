@@ -17,7 +17,8 @@ export const useLogin = () => {
     try {
       const response = await instance.post('/auth/login', credentials);
       const token = response.data.data.access_token;
-      dispatch(setToken(token));
+      const expiresIn = response.data.data.expires_in;
+      dispatch(setToken({ token, expiresIn }));
       sessionStorage.setItem('userNic', credentials.nic);
       // dispatch(setNic(credentials.nic)); 
       setTokenToLocalStorage(token);
