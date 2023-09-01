@@ -20,8 +20,8 @@ export const useLogin = () => {
       const expiresIn = response.data.data.expires_in;
       dispatch(setToken({ token, expiresIn }));
       sessionStorage.setItem('userNic', credentials.nic);
-      // dispatch(setNic(credentials.nic)); 
       setTokenToLocalStorage(token);
+      localStorage.setItem("isAuthenticated", "true");
       // Handle token or dispatch it to Redux
     } catch (error) {
       setError(error as Error); // Cast the error to the Error type
