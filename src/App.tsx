@@ -4,6 +4,8 @@ import HomePage from "./pages/HomePage/HomePage";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import NotFoundPage from "./pages/PageNotFound/PageNotFound";
+import NavigationList from "./components/MenuList";
+import UsersPage from "./pages/UsersPage/HomePage";
 
 const App: React.FC = () => {
   return (
@@ -15,6 +17,14 @@ const App: React.FC = () => {
           element={
             <ProtectedRoute>
               <HomePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/users"
+          element={
+            <ProtectedRoute>
+              <UsersPage />
             </ProtectedRoute>
           }
         />
