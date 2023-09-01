@@ -27,7 +27,7 @@ import Sidebar from "../../components/Sidebar";
 import MainContent from "../../components/MainContent";
 const drawerWidth = 240;
 
-const HomePage = () => {
+const UsersPage = () => {
   const dispatch = useDispatch();
   const nic = sessionStorage.getItem("userNic");
   const [userDetails, setUserDetails] = useState<any>(null);
@@ -60,7 +60,7 @@ const HomePage = () => {
     <Header userDetails={userDetails} onLogout={handleLogout} />
     <Sidebar drawerWidth={drawerWidth} />
     <MainContent>
-      <h1>Welcome to the Home Page</h1>
+      <h1>Welcome to the User Page</h1>
       {<p>You are authenticated!</p>}
     </MainContent>
     </Box>
@@ -68,4 +68,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default UsersPage;

@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 // Import your logo image
 import logoImage from '../../assets/logo.png';
+import { Box, Container } from "@mui/material";
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -23,13 +24,20 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-form">
-        <img src={logoImage} alt="Logo" className="logo-image" />
-        <h2>Asset Management System</h2>
-        <h3>Kaduwela Municipal Council</h3>
-        <h4>Sri Lanka</h4>
-        
+    <Container maxWidth="xs">
+      <Box
+        className="login-container"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+      >
+        <Box>
+          <img src={logoImage} alt="Logo" className="logo-image" />
+          <h2>Asset Management System</h2>
+          <h3>Kaduwela Municipal Council</h3>
+          <h4>Sri Lanka</h4>
+        </Box>
+
         <Input
           type="text"
           placeholder="NIC"
@@ -53,8 +61,8 @@ const LoginPage: React.FC = () => {
           Login
         </Button>
         {error && <p>{error.message}</p>}
-      </div>
-    </div>
+      </Box>
+    </Container>
   );
 };
 
