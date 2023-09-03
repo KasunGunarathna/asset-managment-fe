@@ -1,5 +1,5 @@
-import React from 'react';
-import { TextField } from '@mui/material';
+import React from "react";
+import { TextField } from "@mui/material";
 
 interface InputProps {
   type: string;
@@ -9,7 +9,13 @@ interface InputProps {
   className?: string;
 }
 
-const Input: React.FC<InputProps> = ({ type, placeholder, value, onChange, className }) => {
+const Input: React.FC<InputProps> = ({
+  type,
+  placeholder,
+  value,
+  onChange,
+  className,
+}) => {
   return (
     <TextField
       type={type}

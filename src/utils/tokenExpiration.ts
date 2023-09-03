@@ -5,7 +5,7 @@ let timeoutId: NodeJS.Timeout | null = null;
 export const setTokenExpiration = (tokenExpiry: number, dispatch: AppDispatch) => {
   clearTimeout(timeoutId!);
 
-  const currentTime = Date.now();
+  //const currentTime = Date.now();
   const timeUntilExpiration = tokenExpiry ;
   console.log(timeUntilExpiration)
   timeoutId = setTimeout(() => {

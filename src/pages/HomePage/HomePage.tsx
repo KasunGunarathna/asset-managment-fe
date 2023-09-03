@@ -1,31 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchUserDetails } from "../../api/api";
 import { useDispatch, useSelector } from "react-redux";
 import { clearToken, selectAuth } from "../../store/authSlice";
 import { setTokenExpiration } from "../../utils/tokenExpiration";
-import {
-  AppBar,
-  Avatar,
-  Box,
-  CssBaseline,
-  Divider,
-  Drawer,
-  Hidden,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Toolbar,
-  Typography,
-} from "@mui/material";
-import Logo from "../../assets/logo.png";
-import Button from "../../components/common/Buttton";
-import HomeIcon from "@mui/icons-material/Home";
-import Header from "../../components/Header";
-import Sidebar from "../../components/Sidebar";
-import MainContent from "../../components/MainContent";
-const drawerWidth = 240;
+import MainTemplate from "../../templates/MainTemplate";
 
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -56,15 +34,11 @@ const HomePage = () => {
 
   return (
     <>
-     <Box sx={{ display: "flex" }}>
-    <Header userDetails={userDetails} onLogout={handleLogout} />
-    <Sidebar drawerWidth={drawerWidth} />
-    <MainContent>
-      <h1>Welcome to the Home Page</h1>
-      {<p>You are authenticated!</p>}
-    </MainContent>
-    </Box>
-  </>
+      <MainTemplate userDetails={userDetails} handleLogout={handleLogout}>
+        <h1>Welcome to the Home Page</h1>
+        {<p>You are authenticated!</p>}
+      </MainTemplate>
+    </>
   );
 };
 

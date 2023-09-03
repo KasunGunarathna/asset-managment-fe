@@ -8,17 +8,14 @@ const Copyright: React.FC = () => {
       sx={{
         mt: "auto",
         backgroundColor: "#f5f5f5",
-        p: "5px",
+        p: "2px",
         textAlign: "center",
         position: "fixed",
         bottom: 0,
         width: "100%",
       }}
     >
-      <Typography
-        variant="body2"
-        color="text.secondary"
-      >
+      <Typography variant="body2" color="text.secondary">
         {"Copyright © "}
         <Link color="inherit" href="https://mui.com/">
           Your Website

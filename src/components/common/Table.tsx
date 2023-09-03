@@ -6,7 +6,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
   TablePagination,
 } from "@mui/material";
 
@@ -40,15 +39,20 @@ const ReusableTable: React.FC<ReusableTableProps> = ({ columns, data }) => {
   };
   return (
     <>
-      <TableContainer sx={{ maxHeight: 440 }}>
+      <TableContainer sx={{ maxHeight: 400 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
               {columns.map((column) => (
-                <TableCell key={column.id} sx={{
+                <TableCell
+                  key={column.id}
+                  sx={{
                     backgroundColor: "#9bcbea",
-                    fontWeight: "bold", // Set font-weight to bold
-                  }}>{column.label}</TableCell>
+                    fontWeight: "bold", 
+                  }}
+                >
+                  {column.label}
+                </TableCell>
               ))}
             </TableRow>
           </TableHead>
@@ -66,7 +70,7 @@ const ReusableTable: React.FC<ReusableTableProps> = ({ columns, data }) => {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
+        rowsPerPageOptions={[5, 10]}
         component="div"
         count={data.length}
         rowsPerPage={rowsPerPage}
