@@ -39,7 +39,7 @@ const ReusableTable: React.FC<ReusableTableProps> = ({ columns, data }) => {
   };
   return (
     <>
-      <TableContainer sx={{ maxHeight: 400 }}>
+      <TableContainer sx={{ maxHeight: 380 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>

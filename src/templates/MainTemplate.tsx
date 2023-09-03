@@ -5,7 +5,7 @@ import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import MainContent from "../components/MainContent";
 import BreadcrumbTrail from "../components/BreadcrumbTrail";
-import { Copyright } from "@mui/icons-material";
+import CopyrightTrail from "../components/Copyright";
 
 interface YourReusableTemplateProps {
     userDetails: any; 
@@ -24,14 +24,14 @@ const MainTemplate: React.FC<YourReusableTemplateProps> = ({
         <Sidebar />
         <Container sx={{ flexGrow: 1, paddingTop: "16px" }}>
           <MainContent>
-            <Paper elevation={3} sx={{ padding: "10px" }}>
+            <Paper elevation={3} sx={{ padding: "15px" }}>
               <BreadcrumbTrail items={["Home", "Users"]} />
               {children}
             </Paper>
           </MainContent>
         </Container>
       </Box>
-      <Copyright />
+      <CopyrightTrail />
     </>
   );
 };

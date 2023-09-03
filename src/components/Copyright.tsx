@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Link, Typography } from "@mui/material";
 
-const Copyright: React.FC = () => {
+const CopyrightTrail: React.FC = () => {
   return (
     <Box
       component="footer"
@@ -27,4 +27,4 @@ const Copyright: React.FC = () => {
   );
 };
 
-export default Copyright;
+export default CopyrightTrail;

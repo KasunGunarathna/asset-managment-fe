@@ -7,7 +7,7 @@ const MainContent: React.FC<MainContentProps> = ({ children }) => {
   return (
     <Box
       component="main"
-      sx={{ flexGrow: 1, bgcolor: "background.default", paddingLeft: 2 }}
+      sx={{ flexGrow: 1, bgcolor: "background.default"}}
     >
       <Toolbar />
       {children}

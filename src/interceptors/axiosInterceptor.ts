@@ -1,10 +1,14 @@
 import axios from "axios";
 import { getTokenFromLocalStorage } from "../utils/utils"; 
+import { useDispatch } from "react-redux";
+import { clearToken } from "../store/authSlice";
 const API_BASE_URL = "http://localhost:3000";
 
 const instance = axios.create({
   baseURL: API_BASE_URL,
 });
+
+
 
 // Request interceptor
 instance.interceptors.request.use(
@@ -17,10 +21,8 @@ instance.interceptors.request.use(
   },
   (error) => {
     if (error.response?.status === 401) {
-      // Handle 401 error, for example, by logging out the user.
-      // Dispatch an action to clear the user's authentication state.
-      // You should replace 'logoutAction' with the actual action to clear the session.
-      // Example: dispatch(logoutAction());
+      const dispatch = useDispatch();
+      dispatch(clearToken());
     }
     return Promise.reject(error);
   }
