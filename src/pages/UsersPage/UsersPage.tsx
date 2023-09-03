@@ -1,17 +1,16 @@
 import { useEffect } from "react";
-import { fetchUserDetails, fetchUsers } from "../../api/api";
 import { useDispatch, useSelector } from "react-redux";
-import { clearToken } from "../../store/authSlice";
+import { clearToken, fetchLoginUser, selectAuth } from "../../store/authSlice";
 import ReusableTable from "../../components/common/Table";
 import TableControls from "../../components/common/TableControls";
 import MainTemplate from "../../templates/MainTemplate";
 import {
+  fetchUsers,
   selectUser,
-  setSearchQuery,
-  setUserDetails,
-  setUsers,
 } from "../../store/userSlice";
 import { useNavigate } from "react-router-dom";
+import { AppDispatch } from "../../store/store";
+import { setSearchQuery } from "../../store/searchSlice";
 
 const UsersPage = () => {
   const nic = sessionStorage.getItem("userNic");
@@ -22,29 +21,17 @@ const UsersPage = () => {
     { id: "nic", label: "NIC" },
   ];
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const user = useSelector(selectUser);
+  const { users, loading, error } = useSelector(selectUser);
+  const auth = useSelector(selectAuth);
 
   useEffect(() => {
-    fetchUserDetails(nic)
-      .then((data) => {
-        dispatch(setUserDetails(data));
-      })
-      .catch((error) => {
-        console.error("Error fetching user details:", error);
-      });
-  });
+    dispatch(fetchLoginUser(nic))
+    dispatch(fetchUsers());
+  }, [nic,dispatch]);
 
-  useEffect(() => {
-    fetchUsers()
-      .then((data) => {
-        dispatch(setUsers(data));
-      })
-      .catch((error) => {
-        console.error("Error fetching user details:", error);
-      });
-  });
+
 
   const handleLogout = () => {
     dispatch(clearToken());
@@ -55,19 +42,27 @@ const UsersPage = () => {
     navigate("/users/add");
   };
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
     <>
       <MainTemplate
-        userDetails={user.userDetails}
+        userDetails={auth.loginUser}
         handleLogout={handleLogout}
         breadCrumb={["Home", "Users"]}
       >
         <TableControls
-          searchQuery={user.searchQuery}
+          searchQuery={""}
           setSearchQuery={setSearchQuery}
           onChange={nextPage}
         />
-        <ReusableTable columns={columns} data={user.usersDetails} />
+        <ReusableTable columns={columns} data={users} />
       </MainTemplate>
     </>
   );

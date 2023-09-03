@@ -1,40 +1,60 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { RootState } from "./store";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { AppDispatch, RootState } from "./store";
+import { getUserByNIC, getUsers } from "../api/userApis";
 
-interface RowData {
-  [key: string]: string | number;
+interface User {
+  id: number;
+  name: string;
+  user_type: string;
+  nic: string;
+  password: string;
 }
 
 interface UserState {
-  userDetails: object;
-  searchQuery: string | "";
-  usersDetails: RowData[];
+  users: User[];
+  selectedUser: User | null;
+  loading: boolean;
+  error: string | null;
 }
 
 const initialState: UserState = {
-  userDetails: {},
-  searchQuery: "",
-  usersDetails: [],
+  users: [],
+  selectedUser: null,
+  loading: false,
+  error: null,
 };
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUserDetails: (state, action) => {
-      state.userDetails= action.payload;
+    getUsersStart(state) {
+      state.loading = true;
+      state.error = null;
     },
-    setUsers: (state, action) => {
-      state.usersDetails= action.payload;
+    getUsersSuccess(state, action: PayloadAction<User[]>) {
+      state.loading = false;
+      state.users = action.payload;
     },
-    setSearchQuery: (state, action) => {
-      state.searchQuery= action.payload; 
+    getUsersFailure(state, action: PayloadAction<string>) {
+      state.loading = false;
+      state.error = action.payload;
     },
   },
 });
 
-export const { setUserDetails, setUsers, setSearchQuery } = userSlice.actions;
+export const { getUsersStart, getUsersSuccess, getUsersFailure } =
+  userSlice.actions;
 
+export const fetchUsers = () => async (dispatch: AppDispatch) => {
+  dispatch(getUsersStart());
+  try {
+    const response = await getUsers(); 
+    dispatch(getUsersSuccess(response));
+  } catch (error:any) {
+    dispatch(getUsersFailure(error.message));
+  }
+};
 export default userSlice.reducer;
 
-export const selectUser= (state: RootState) => state.user;
+export const selectUser = (state: RootState) => state.user;
