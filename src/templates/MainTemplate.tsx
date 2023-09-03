@@ -24,7 +24,7 @@ const MainTemplate: React.FC<YourReusableTemplateProps> = ({
         <Sidebar />
         <Container sx={{ flexGrow: 1, paddingTop: "16px" }}>
           <MainContent>
-            <Paper elevation={3} sx={{ padding: "5px" }}>
+            <Paper elevation={3} sx={{ padding: "15px" }}>
               <BreadcrumbTrail items={["Home", "Users"]} />
               {children}
             </Paper>
