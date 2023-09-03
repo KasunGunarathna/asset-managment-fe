@@ -1,7 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "./store";
+import { AppDispatch, RootState } from "./store";
+import { getUserByNIC } from "../api/userApis";
 
+interface RowData {
+  [key: string]: string | number;
+}
 interface AuthState {
+  loginUser: object;
   token: string | null;
   isAuthenticated: boolean;
   nic: string | null;
@@ -9,6 +14,7 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
+  loginUser: {},
   token: null,
   isAuthenticated:
     localStorage.getItem("isAuthenticated")?.toLowerCase?.() === "true" ||
@@ -21,6 +27,9 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
+    setLoginUser: (state, action) => {
+      state.loginUser = action.payload;
+    },
     setToken: (
       state,
       action: PayloadAction<{ token: string; expiresIn: number }>
@@ -40,8 +49,16 @@ const authSlice = createSlice({
   },
 });
 
-export const { setToken, clearToken, setNic } = authSlice.actions;
+export const { setToken, clearToken, setNic, setLoginUser } = authSlice.actions;
 
+export const fetchLoginUser = (nic:string|null) => async (dispatch: AppDispatch) => {
+  try {
+    const response = await getUserByNIC(nic); 
+    dispatch(setLoginUser(response));
+  } catch (error:any) {
+    dispatch(clearToken());
+  }
+};
 export default authSlice.reducer;
 
 export const selectAuth = (state: RootState) => state.auth;

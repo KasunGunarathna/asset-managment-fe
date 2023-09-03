@@ -33,21 +33,3 @@ export const useLogin = () => {
 
   return { login, loading, error };
 };
-
-export const fetchUserDetails = async (nic: string | null) => {
-  try {
-    const response = await instance.get(`/users/nic/${nic}`);
-    return response.data.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const fetchUsers = async () => {
-  try {
-    const response = await instance.get(`/users`);
-    return response.data.data;
-  } catch (error) {
-    throw error;
-  }
-};

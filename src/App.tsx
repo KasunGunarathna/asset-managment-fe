@@ -1,32 +1,31 @@
-import React from "react";
-import LoginPage from "./pages/LoginPage/LoginPage";
-import HomePage from "./pages/HomePage/HomePage";
+import React, { Suspense } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import NotFoundPage from "./pages/PageNotFound/PageNotFound";
-import UsersPage from "./pages/UsersPage/UsersPage";
+import { routes } from "./routes";
+
+
+const LoadingFallback = <div>Loading...</div>;
 
 const App: React.FC = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LoginPage />} />
-        <Route
-          path="/home"
-          element={
-            <ProtectedRoute>
-              <HomePage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/users"
-          element={
-            <ProtectedRoute>
-              <UsersPage />
-            </ProtectedRoute>
-          }
-        />
+      {routes.map((route, index) => (
+          <Route
+            key={index}
+            path={route.path}
+            element={
+              <Suspense fallback={LoadingFallback}>
+                {route.protected ? (
+                  <ProtectedRoute>{React.createElement(route.component)}</ProtectedRoute>
+                ) : (
+                  React.createElement(route.component)
+                )}
+              </Suspense>
+            }
+          />
+        ))}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>

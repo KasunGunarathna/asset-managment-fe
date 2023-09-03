@@ -1,7 +1,7 @@
 import React from "react";
 import Input from "../../components/common/Input";
 import Button from "../../components/common/Button";
-import { useLogin } from "../../api/api"; // Import your API functions
+import { useLogin } from "../../api/authApis"; // Import your API functions
 import "./LoginPage.css";
 import { useNavigate } from "react-router-dom";
 

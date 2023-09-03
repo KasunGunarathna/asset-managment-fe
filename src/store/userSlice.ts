@@ -1,40 +1,75 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { RootState } from "./store";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { AppDispatch, RootState } from "./store";
+import { getUserByNIC, getUsers, insertUser } from "../api/userApis";
+import { User } from "../types/types";
 
-interface RowData {
-  [key: string]: string | number;
-}
+
+
 
 interface UserState {
-  userDetails: object;
-  searchQuery: string | "";
-  usersDetails: RowData[];
+  users: User[];
+  user:User|null;
+  selectedUser: User | null;
+  loading: boolean;
+  error: string | null;
 }
 
 const initialState: UserState = {
-  userDetails: {},
-  searchQuery: "",
-  usersDetails: [],
+  users: [],
+  user:null,
+  selectedUser: null,
+  loading: false,
+  error: null,
 };
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUserDetails: (state, action) => {
-      state.userDetails= action.payload;
+    getUsersStart(state) {
+      state.loading = true;
+      state.error = null;
     },
-    setUsers: (state, action) => {
-      state.usersDetails= action.payload;
+    getUsersSuccess(state, action: PayloadAction<User[]>) {
+      state.loading = false;
+      state.users = action.payload;
     },
-    setSearchQuery: (state, action) => {
-      state.searchQuery= action.payload; 
+    getUsersFailure(state, action: PayloadAction<string>) {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    setSuccess(state) {
+      state.loading = false;
+      state.error = null;
     },
   },
 });
 
-export const { setUserDetails, setUsers, setSearchQuery } = userSlice.actions;
+export const { getUsersStart, getUsersSuccess, getUsersFailure,setSuccess } =
+  userSlice.actions;
+
+export const fetchUsers = () => async (dispatch: AppDispatch) => {
+  dispatch(getUsersStart());
+  try {
+    const res = await getUsers(); 
+    dispatch(getUsersSuccess(res));
+  } catch (error:any) {
+    dispatch(getUsersFailure(error.message));
+  }
+};
+
+export const addUser = (user:User|null) => async (dispatch: AppDispatch) => {
+  dispatch(getUsersStart());
+  try {
+    const res= await insertUser(user); 
+    console.log(res)
+    dispatch(setSuccess());
+  } catch (error:any) {
+    dispatch(getUsersFailure(error.message));
+  }
+};
+
 
 export default userSlice.reducer;
 
-export const selectUser= (state: RootState) => state.user;
+export const selectUser = (state: RootState) => state.user;

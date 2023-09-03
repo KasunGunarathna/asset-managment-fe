@@ -14,13 +14,10 @@ interface Column {
   label: string;
 }
 
-interface RowData {
-  [key: string]: string | number;
-}
 
 interface ReusableTableProps {
   columns: Column[];
-  data: RowData[];
+  data: any[];
 }
 
 const ReusableTable: React.FC<ReusableTableProps> = ({ columns, data }) => {
