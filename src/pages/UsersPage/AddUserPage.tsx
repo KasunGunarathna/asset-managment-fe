@@ -11,9 +11,8 @@ import {
   setUserDetails,
   setUsers,
 } from "../../store/userSlice";
-import { useNavigate } from "react-router-dom";
 
-const UsersPage = () => {
+const AddUsersPage = () => {
   const nic = sessionStorage.getItem("userNic");
 
   const columns = [
@@ -23,7 +22,6 @@ const UsersPage = () => {
   ];
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const user = useSelector(selectUser);
 
   useEffect(() => {
@@ -46,13 +44,25 @@ const UsersPage = () => {
       });
   });
 
+  // useEffect(() => {
+  //   // Filter the users based on the searchQuery
+  //   const filteredData = users.filter((user) =>
+  //     Object.values(user).some(
+  //       (value) =>
+  //         value &&
+  //         value.toString().toLowerCase().includes(searchQuery.toLowerCase())
+  //     )
+  //   );
+  //   setFilteredUsers(filteredData);
+  // }, [searchQuery, users]);
+
   const handleLogout = () => {
     dispatch(clearToken());
     localStorage.removeItem("isAuthenticated");
   };
 
   const nextPage = () => {
-    navigate("/users/add");
+    console.log("next page");
   };
 
   return (
@@ -60,7 +70,7 @@ const UsersPage = () => {
       <MainTemplate
         userDetails={user.userDetails}
         handleLogout={handleLogout}
-        breadCrumb={["Home", "Users"]}
+        breadCrumb={["Home", "Users", "Add User"]}
       >
         <TableControls
           searchQuery={user.searchQuery}
@@ -73,4 +83,4 @@ const UsersPage = () => {
   );
 };
 
-export default UsersPage;
+export default AddUsersPage;

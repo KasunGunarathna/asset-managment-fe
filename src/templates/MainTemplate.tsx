@@ -8,14 +8,16 @@ import BreadcrumbTrail from "../components/BreadcrumbTrail";
 import CopyrightTrail from "../components/Copyright";
 
 interface YourReusableTemplateProps {
-    userDetails: any; 
-    handleLogout: () => void;
-  }
+  userDetails: any;
+  handleLogout: () => void;
+  breadCrumb: string[];
+}
 
 const MainTemplate: React.FC<YourReusableTemplateProps> = ({
   userDetails,
   handleLogout,
-  children
+  breadCrumb,
+  children,
 }) => {
   return (
     <>
@@ -25,7 +27,7 @@ const MainTemplate: React.FC<YourReusableTemplateProps> = ({
         <Container sx={{ flexGrow: 1, paddingTop: "16px" }}>
           <MainContent>
             <Paper elevation={3} sx={{ padding: "15px" }}>
-              <BreadcrumbTrail items={["Home", "Users"]} />
+              <BreadcrumbTrail items={breadCrumb} />
               {children}
             </Paper>
           </MainContent>

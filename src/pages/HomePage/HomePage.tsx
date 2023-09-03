@@ -36,7 +36,11 @@ const HomePage = () => {
 
   return (
     <>
-      <MainTemplate userDetails={user.userDetails} handleLogout={handleLogout}>
+      <MainTemplate
+        userDetails={user.userDetails}
+        handleLogout={handleLogout}
+        breadCrumb={["Home", "Home"]}
+      >
         <h1>Welcome to the Home Page</h1>
         {<p>You are authenticated!</p>}
       </MainTemplate>
