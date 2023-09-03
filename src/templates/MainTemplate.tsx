@@ -1,6 +1,6 @@
 import React from "react";
 import Paper from "@mui/material/Paper";
-import { Box, Container } from "@mui/material";
+import { Box, Container, Divider, Typography } from "@mui/material";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import MainContent from "../components/MainContent";
@@ -28,6 +28,10 @@ const MainTemplate: React.FC<YourReusableTemplateProps> = ({
           <MainContent>
             <Paper elevation={3} sx={{ padding: "15px" }}>
               <BreadcrumbTrail items={breadCrumb} />
+              <Typography variant="h5" component="div" sx={{ flexGrow: 1,margin:"5px" }}>
+                {breadCrumb[2]||null}
+              </Typography>
+              <Divider sx={{ marginBottom:"25px" }}/>
               {children}
             </Paper>
           </MainContent>
