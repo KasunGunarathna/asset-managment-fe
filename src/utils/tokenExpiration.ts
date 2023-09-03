@@ -7,7 +7,6 @@ export const setTokenExpiration = (tokenExpiry: number, dispatch: AppDispatch) =
 
   //const currentTime = Date.now();
   const timeUntilExpiration = tokenExpiry ;
-  console.log(timeUntilExpiration)
   timeoutId = setTimeout(() => {
    
     dispatch(clearToken());

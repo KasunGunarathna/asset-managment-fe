@@ -46,7 +46,6 @@ export const fetchUserDetails = async (nic: string | null) => {
 export const fetchUsers = async () => {
   try {
     const response = await instance.get(`/users`);
-    console.log(response.data.data);
     return response.data.data;
   } catch (error) {
     throw error;

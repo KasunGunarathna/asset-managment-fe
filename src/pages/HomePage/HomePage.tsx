@@ -1,15 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { fetchUserDetails } from "../../api/api";
 import { useDispatch, useSelector } from "react-redux";
 import { clearToken, selectAuth } from "../../store/authSlice";
 import { setTokenExpiration } from "../../utils/tokenExpiration";
 import MainTemplate from "../../templates/MainTemplate";
+import { selectUser, setUserDetails } from "../../store/userSlice";
 
 const HomePage = () => {
-  const dispatch = useDispatch();
   const nic = sessionStorage.getItem("userNic");
-  const [userDetails, setUserDetails] = useState<any>(null);
+
+  const dispatch = useDispatch();
+  const user = useSelector(selectUser);
   const auth = useSelector(selectAuth);
+
   const handleLogout = () => {
     // Dispatch the logout action
     dispatch(clearToken());
@@ -18,15 +21,14 @@ const HomePage = () => {
   useEffect(() => {
     fetchUserDetails(nic)
       .then((data) => {
-        setUserDetails(data);
+        dispatch(setUserDetails(data));
       })
       .catch((error) => {
         console.error("Error fetching user details:", error);
       });
-  }, [nic]);
+  });
 
   useEffect(() => {
-    console.log(auth.tokenExpiry);
     if (auth.token && auth.tokenExpiry) {
       setTokenExpiration(auth.tokenExpiry, dispatch);
     }
@@ -34,7 +36,7 @@ const HomePage = () => {
 
   return (
     <>
-      <MainTemplate userDetails={userDetails} handleLogout={handleLogout}>
+      <MainTemplate userDetails={user.userDetails} handleLogout={handleLogout}>
         <h1>Welcome to the Home Page</h1>
         {<p>You are authenticated!</p>}
       </MainTemplate>
