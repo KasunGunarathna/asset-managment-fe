@@ -6,7 +6,7 @@ interface MainContentProps {}
 
 const MainContent: React.FC<MainContentProps> = ({ children }) => {
   return (
-    <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default", paddingLeft: 4 }}>
+    <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default", paddingLeft: 2 }}>
       <Toolbar />
       {children}
     </Box>

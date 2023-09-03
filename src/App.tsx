@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import NotFoundPage from "./pages/PageNotFound/PageNotFound";
 import NavigationList from "./components/MenuList";
-import UsersPage from "./pages/UsersPage/HomePage";
+import UsersPage from "./pages/UsersPage/UsersPage";
 
 const App: React.FC = () => {
   return (
