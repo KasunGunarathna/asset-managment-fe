@@ -2,16 +2,10 @@ import React, { useEffect, useState } from "react";
 import { fetchUserDetails, fetchUsers } from "../../api/api";
 import { useDispatch } from "react-redux";
 import { clearToken } from "../../store/authSlice";
-import { Box, Container, Paper } from "@mui/material";
-import Header from "../../components/Header";
-import Sidebar from "../../components/Sidebar";
-import MainContent from "../../components/MainContent";
 import ReusableTable from "../../components/common/Table";
-import Copyright from "../../components/Copyright";
-import BreadcrumbTrail from "../../components/BreadcrumbTrail";
 import TableControls from "../../components/common/TableControls";
+import MainTemplate from "../../templates/MainTemplate";
 
-const drawerWidth = 240;
 
 const UsersPage = () => {
   const nic = sessionStorage.getItem("userNic");
@@ -72,24 +66,14 @@ const UsersPage = () => {
 
   return (
     <>
-      <Box sx={{ display: "flex" }}>
-        <Header userDetails={userDetails} onLogout={handleLogout} />
-        <Sidebar drawerWidth={drawerWidth} />
-        <Container sx={{ flexGrow: 1, paddingTop: "16px" }}>
-          <MainContent>
-            <Paper elevation={3} sx={{ padding: "10px" }}>
-              <BreadcrumbTrail items={["Home", "Users"]} />
-              <TableControls
-                searchQuery={searchQuery}
-                setSearchQuery={setSearchQuery}
-                onChange={nextPage}
-              />
-              <ReusableTable columns={columns} data={users} />
-            </Paper>
-          </MainContent>
-        </Container>
-      </Box>
-      <Copyright />
+      <MainTemplate userDetails={userDetails} handleLogout={handleLogout}>
+        <TableControls
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          onChange={nextPage}
+        />
+        <ReusableTable columns={columns} data={users} />
+      </MainTemplate>
     </>
   );
 };

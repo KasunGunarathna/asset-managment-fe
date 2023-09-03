@@ -3,11 +3,7 @@ import { fetchUserDetails } from "../../api/api";
 import { useDispatch, useSelector } from "react-redux";
 import { clearToken, selectAuth } from "../../store/authSlice";
 import { setTokenExpiration } from "../../utils/tokenExpiration";
-import { Box } from "@mui/material";
-import Header from "../../components/Header";
-import Sidebar from "../../components/Sidebar";
-import MainContent from "../../components/MainContent";
-const drawerWidth = 240;
+import MainTemplate from "../../templates/MainTemplate";
 
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -38,14 +34,10 @@ const HomePage = () => {
 
   return (
     <>
-      <Box sx={{ display: "flex" }}>
-        <Header userDetails={userDetails} onLogout={handleLogout} />
-        <Sidebar drawerWidth={drawerWidth} />
-        <MainContent>
-          <h1>Welcome to the Home Page</h1>
-          {<p>You are authenticated!</p>}
-        </MainContent>
-      </Box>
+      <MainTemplate userDetails={userDetails} handleLogout={handleLogout}>
+        <h1>Welcome to the Home Page</h1>
+        {<p>You are authenticated!</p>}
+      </MainTemplate>
     </>
   );
 };

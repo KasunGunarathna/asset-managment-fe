@@ -16,6 +16,12 @@ instance.interceptors.request.use(
     return config;
   },
   (error) => {
+    if (error.response?.status === 401) {
+      // Handle 401 error, for example, by logging out the user.
+      // Dispatch an action to clear the user's authentication state.
+      // You should replace 'logoutAction' with the actual action to clear the session.
+      // Example: dispatch(logoutAction());
+    }
     return Promise.reject(error);
   }
 );

@@ -4,11 +4,11 @@ import { Drawer, Avatar, Typography, Toolbar } from "@mui/material";
 import Logo from "../assets/logo.png";
 import NavigationList from "./MenuList";
 
-interface SidebarProps {
-  drawerWidth: number;
-}
+const drawerWidth = 240;
 
-const Sidebar: React.FC<SidebarProps> = ({ drawerWidth }) => {
+
+
+const Sidebar: React.FC = () => {
   return (
     <Drawer
       sx={{
