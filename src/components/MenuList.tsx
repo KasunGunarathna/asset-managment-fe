@@ -12,9 +12,9 @@ import { Link } from "react-router-dom";
 
 const itemsWithIcons = [
   { text: "Home", icon: <HomeIcon />, path: "/home" },
-  { text: "Users", icon: <StarIcon /> , path: "/users"},
-  { text: "Send email", icon: <EmailIcon /> , path: "/hello2"},
-  { text: "Drafts", icon: <DraftsIcon /> , path: "/hello3"},
+  { text: "Users", icon: <StarIcon />, path: "/users" },
+  { text: "Send email", icon: <EmailIcon />, path: "/hello2" },
+  { text: "Drafts", icon: <DraftsIcon />, path: "/hello3" },
 ];
 
 const NavigationList: React.FC<{}> = () => {

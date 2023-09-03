@@ -1,11 +1,6 @@
-// Header.tsx
 import React from "react";
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-} from "@mui/material";
-import Button from "./common/Buttton";
+import { AppBar, Toolbar, Typography } from "@mui/material";
+import Button from "./common/Button";
 
 interface HeaderProps {
   userDetails: any;
@@ -16,7 +11,14 @@ const drawerWidth = 240;
 
 const Header: React.FC<HeaderProps> = ({ userDetails, onLogout }) => {
   return (
-    <AppBar position="fixed"  sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` ,backgroundColor:'#1776d6'}}>
+    <AppBar
+      position="fixed"
+      sx={{
+        width: `calc(100% - ${drawerWidth}px)`,
+        ml: `${drawerWidth}px`,
+        backgroundColor: "#1776d6",
+      }}
+    >
       <Toolbar>
         <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
           Asset Management System

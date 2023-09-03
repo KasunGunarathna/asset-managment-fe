@@ -1,20 +1,7 @@
 // Sidebar.tsx
 import React from "react";
-import {
-  Drawer,
-  Avatar,
-  Typography,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Toolbar,
-  Menu,
-} from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
+import { Drawer, Avatar, Typography, Toolbar } from "@mui/material";
 import Logo from "../assets/logo.png";
-import MenuList from "./MenuList";
 import NavigationList from "./MenuList";
 
 interface SidebarProps {
@@ -31,18 +18,22 @@ const Sidebar: React.FC<SidebarProps> = ({ drawerWidth }) => {
           width: drawerWidth,
           boxSizing: "border-box",
         },
-        backgroundColor: '#1776d6',
+        backgroundColor: "#1776d6",
       }}
       variant="permanent"
       anchor="left"
     >
-      <Toolbar sx={{ backgroundColor: '#1776d6' }}>
-        <Avatar alt="Small Logo" src={Logo} sx={{ width: 40, height: 40, marginRight: 2 }} />
-        <Typography component="div" sx={{ flexGrow: 1, color: 'white' }}>
+      <Toolbar sx={{ backgroundColor: "#1776d6" }}>
+        <Avatar
+          alt="Small Logo"
+          src={Logo}
+          sx={{ width: 40, height: 40, marginRight: 2 }}
+        />
+        <Typography component="div" sx={{ flexGrow: 1, color: "white" }}>
           Kaduwela Municipal Council
         </Typography>
       </Toolbar>
-      <NavigationList/>
+      <NavigationList />
     </Drawer>
   );
 };

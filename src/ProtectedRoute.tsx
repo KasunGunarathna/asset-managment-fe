@@ -1,7 +1,7 @@
 import React from 'react';
-import { useNavigate, Route, Navigate } from 'react-router-dom';
-import { useSelector,useDispatch } from 'react-redux';
-import { clearToken, selectAuth } from './store/authSlice';
+import {  Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import {  selectAuth } from './store/authSlice';
 interface ProtectedRouteProps {
     children: React.ReactNode;
   }
