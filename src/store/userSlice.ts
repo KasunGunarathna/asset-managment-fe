@@ -1,17 +1,14 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AppDispatch, RootState } from "./store";
-import { getUserByNIC, getUsers } from "../api/userApis";
+import { getUserByNIC, getUsers, insertUser } from "../api/userApis";
+import { User } from "../types/types";
 
-interface User {
-  id: number;
-  name: string;
-  user_type: string;
-  nic: string;
-  password: string;
-}
+
+
 
 interface UserState {
   users: User[];
+  user:User|null;
   selectedUser: User | null;
   loading: boolean;
   error: string | null;
@@ -19,6 +16,7 @@ interface UserState {
 
 const initialState: UserState = {
   users: [],
+  user:null,
   selectedUser: null,
   loading: false,
   error: null,
@@ -40,21 +38,38 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    setSuccess(state) {
+      state.loading = false;
+      state.error = null;
+    },
   },
 });
 
-export const { getUsersStart, getUsersSuccess, getUsersFailure } =
+export const { getUsersStart, getUsersSuccess, getUsersFailure,setSuccess } =
   userSlice.actions;
 
 export const fetchUsers = () => async (dispatch: AppDispatch) => {
   dispatch(getUsersStart());
   try {
-    const response = await getUsers(); 
-    dispatch(getUsersSuccess(response));
+    const res = await getUsers(); 
+    dispatch(getUsersSuccess(res));
   } catch (error:any) {
     dispatch(getUsersFailure(error.message));
   }
 };
+
+export const addUser = (user:User|null) => async (dispatch: AppDispatch) => {
+  dispatch(getUsersStart());
+  try {
+    const res= await insertUser(user); 
+    console.log(res)
+    dispatch(setSuccess());
+  } catch (error:any) {
+    dispatch(getUsersFailure(error.message));
+  }
+};
+
+
 export default userSlice.reducer;
 
 export const selectUser = (state: RootState) => state.user;
