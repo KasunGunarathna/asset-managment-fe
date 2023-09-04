@@ -6,22 +6,14 @@ import { addUser, fetchUsers, selectUser } from "../../store/userSlice";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../store/store";
 import {
-  Alert,
   Box,
   Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
   FormControl,
   Grid,
   InputLabel,
   MenuItem,
   Select,
-  Snackbar,
   TextField,
-  Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -48,7 +40,7 @@ const AddUsersPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const {  loading, error } = useSelector(selectUser);
-  const auth = useSelector(selectAuth);
+  const {logUser} = useSelector(selectAuth);
 
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
@@ -85,7 +77,7 @@ const AddUsersPage = () => {
   const handleConfirm = () => {
     dispatch(addUser(formik.values));
     closeModal();
-    // formik.resetForm();
+    formik.resetForm();
     openSuccessMessage("User added successfully!");
   };
 
@@ -102,7 +94,7 @@ console.log(error)
     <>
     <PageLoader isLoading={loading}/>
       <MainTemplate
-        userDetails={auth.loginUser}
+        userDetails={logUser}
         handleLogout={handleLogout}
         breadCrumb={["Home", "Users", "Add User"]}
       >
@@ -157,7 +149,6 @@ console.log(error)
             </Grid>
             <Grid item xs={12} md={6}>
               <TextField
-                type="password"
                 name="password"
                 label="Password"
                 fullWidth

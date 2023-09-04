@@ -3,9 +3,10 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import NotFoundPage from "./pages/PageNotFound/PageNotFound";
 import { routes } from "./routes";
+import PageLoader from "./components/common/PageLoader";
 
 
-const LoadingFallback = <div>Loading...</div>;
+const LoadingFallback = <PageLoader isLoading/>;
 
 const App: React.FC = () => {
   return (
