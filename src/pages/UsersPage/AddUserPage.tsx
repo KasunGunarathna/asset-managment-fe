@@ -61,7 +61,6 @@ const AddUsersPage = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values: User) => {
-      console.log("values");
       openModal();
     },
   });
@@ -89,7 +88,6 @@ const AddUsersPage = () => {
   const goBack = () => {
     navigate("/users");
   };
-console.log(error)
   return (
     <>
     <PageLoader isLoading={loading}/>
