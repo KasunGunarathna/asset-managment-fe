@@ -3,12 +3,9 @@ import { AppDispatch, RootState } from "./store";
 import { getUserByNIC, getUsers, insertUser } from "../api/userApis";
 import { User } from "../types/types";
 
-
-
-
 interface UserState {
   users: User[];
-  user:User|null;
+  user: User | null;
   selectedUser: User | null;
   loading: boolean;
   error: string | null;
@@ -16,7 +13,7 @@ interface UserState {
 
 const initialState: UserState = {
   users: [],
-  user:null,
+  user: null,
   selectedUser: null,
   loading: false,
   error: null,
@@ -45,30 +42,29 @@ const userSlice = createSlice({
   },
 });
 
-export const { getUsersStart, getUsersSuccess, getUsersFailure,setSuccess } =
+export const { getUsersStart, getUsersSuccess, getUsersFailure, setSuccess } =
   userSlice.actions;
 
 export const fetchUsers = () => async (dispatch: AppDispatch) => {
   dispatch(getUsersStart());
   try {
-    const res = await getUsers(); 
+    const res = await getUsers();
     dispatch(getUsersSuccess(res));
-  } catch (error:any) {
+  } catch (error: any) {
     dispatch(getUsersFailure(error.message));
   }
 };
 
-export const addUser = (user:User|null) => async (dispatch: AppDispatch) => {
+export const addUser = (user: User | null) => async (dispatch: AppDispatch) => {
   dispatch(getUsersStart());
   try {
-    const res= await insertUser(user); 
-    console.log(res)
+    await insertUser(user);
     dispatch(setSuccess());
-  } catch (error:any) {
-    dispatch(getUsersFailure(error.message));
+  } catch (error: any) {
+    console.log(error)
+    dispatch(getUsersFailure(error.response?.data?.message || error.message));
   }
 };
-
 
 export default userSlice.reducer;
 
