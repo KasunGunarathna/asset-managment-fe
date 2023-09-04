@@ -1,6 +1,6 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { AppDispatch, RootState } from "./store";
-import { getUserByNIC, getUsers, insertUser } from "../api/userApis";
+import { getUsers, insertUser } from "../api/userApis";
 import { User } from "../types/types";
 
 interface UserState {
@@ -51,7 +51,7 @@ export const fetchUsers = () => async (dispatch: AppDispatch) => {
     const res = await getUsers();
     dispatch(getUsersSuccess(res));
   } catch (error: any) {
-    dispatch(getUsersFailure(error.message));
+    dispatch(getUsersFailure(error.response?.data?.message || error.message));
   }
 };
 
@@ -61,7 +61,6 @@ export const addUser = (user: User | null) => async (dispatch: AppDispatch) => {
     await insertUser(user);
     dispatch(setSuccess());
   } catch (error: any) {
-    console.log(error)
     dispatch(getUsersFailure(error.response?.data?.message || error.message));
   }
 };

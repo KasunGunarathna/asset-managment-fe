@@ -25,7 +25,7 @@ const UsersPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { users, loading, error } = useSelector(selectUser);
-  const auth = useSelector(selectAuth);
+  const {logUser} = useSelector(selectAuth);
 
   useEffect(() => {
     dispatch(fetchLoginUser(nic))
@@ -52,7 +52,7 @@ const UsersPage = () => {
     <>
     <PageLoader isLoading={loading}/>
       <MainTemplate
-        userDetails={auth.loginUser}
+        userDetails={logUser}
         handleLogout={handleLogout}
         breadCrumb={["Home", "Users"]}
       >
