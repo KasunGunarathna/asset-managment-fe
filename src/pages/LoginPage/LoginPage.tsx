@@ -78,54 +78,55 @@ const LoginPage = () => {
           <Typography variant="h4">Asset Management System</Typography>
           <Typography variant="h6">Kaduwela Municipal Council</Typography>
           <Typography variant="subtitle1">Sri Lanka</Typography>
-          <form onSubmit={formik.handleSubmit} style={{ padding: '0' }}>
-            <Grid
-              container
-              direction={"column"}
-              spacing={3}
-              sx={{ marginTop: "5px" }}
-            >
-              <Grid item  xs={12} md={6}> 
-                <TextField
-                  name="nic"
-                  label="NIC"
-                  fullWidth
-                  value={formik.values.nic}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.nic && Boolean(formik.errors.nic)}
-                  helperText={formik.touched.nic && formik.errors.nic}
-                />
-              </Grid>
-              <Grid item  xs={12} md={6}>
-                <TextField
-                  type="password"
-                  name="password"
-                  label="Password"
-                  fullWidth
-                  value={formik.values.password}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={
-                    formik.touched.password && Boolean(formik.errors.password)
-                  }
-                  helperText={formik.touched.password && formik.errors.password}
-                />
-              </Grid>
-              <Grid item  xs={12} md={6}>
-                <Button
-                  fullWidth
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                >
-                  Login
-                </Button>
-              </Grid>
-            </Grid>
-          </form>
-          {error && <p>{error}</p>}
         </Box>
+        <form onSubmit={formik.handleSubmit} style={{ padding: "5px" }}>
+          <Grid
+            container
+            direction={"column"}
+            spacing={3}
+            sx={{ marginTop: "5px" }}
+          >
+            <Grid item xs={12} md={6}>
+              <TextField
+                name="nic"
+                label="NIC"
+                fullWidth
+                value={formik.values.nic}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.nic && Boolean(formik.errors.nic)}
+                helperText={formik.touched.nic && formik.errors.nic}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                type="password"
+                name="password"
+                label="Password"
+                fullWidth
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={
+                  formik.touched.password && Boolean(formik.errors.password)
+                }
+                helperText={formik.touched.password && formik.errors.password}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Button
+                fullWidth
+                type="submit"
+                variant="contained"
+                color="primary"
+                sx={{ width: "100%" }}
+              >
+                Login
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
+        {error && <Typography color="red">{error}</Typography>}
       </Paper>
     </Container>
   );
