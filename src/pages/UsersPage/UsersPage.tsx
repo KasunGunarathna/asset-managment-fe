@@ -11,6 +11,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../store/store";
 import { setSearchQuery } from "../../store/searchSlice";
+import PageLoader from "../../components/common/PageLoader";
 
 const UsersPage = () => {
   const nic = sessionStorage.getItem("userNic");
@@ -42,9 +43,6 @@ const UsersPage = () => {
     navigate("/users/add");
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   if (error) {
     return <div>Error: {error}</div>;
@@ -52,6 +50,7 @@ const UsersPage = () => {
 
   return (
     <>
+    <PageLoader isLoading={loading}/>
       <MainTemplate
         userDetails={auth.loginUser}
         handleLogout={handleLogout}

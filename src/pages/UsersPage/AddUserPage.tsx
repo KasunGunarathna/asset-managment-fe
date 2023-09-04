@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearToken, fetchLoginUser, selectAuth } from "../../store/authSlice";
 import MainTemplate from "../../templates/MainTemplate";
@@ -6,18 +6,29 @@ import { addUser, fetchUsers, selectUser } from "../../store/userSlice";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../store/store";
 import {
+  Alert,
+  Box,
   Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   FormControl,
   Grid,
   InputLabel,
   MenuItem,
   Select,
+  Snackbar,
   TextField,
   Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { User } from "../../types/types";
+import CustomSnackbar from "../../components/common/Snackbar";
+import CustomDialog from "../../components/common/CustomDialog";
+import PageLoader from "../../components/common/PageLoader";
 
 const validationSchema = yup.object({
   name: yup.string().required("Name is required"),
@@ -31,10 +42,12 @@ const validationSchema = yup.object({
 
 const AddUsersPage = () => {
   const nic = sessionStorage.getItem("userNic");
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { user, users, loading, error } = useSelector(selectUser);
+  const {  loading, error } = useSelector(selectUser);
   const auth = useSelector(selectAuth);
 
   useEffect(() => {
@@ -57,13 +70,37 @@ const AddUsersPage = () => {
     validationSchema: validationSchema,
     onSubmit: (values: User) => {
       console.log("values");
-      dispatch(addUser(values));
-      formik.resetForm();
+      openModal();
     },
   });
 
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleConfirm = () => {
+    dispatch(addUser(formik.values));
+    closeModal();
+    // formik.resetForm();
+    openSuccessMessage("User added successfully!");
+  };
+
+  const openSuccessMessage = (message: string) => {
+    setSuccessMessage(message);
+    setIsSuccessOpen(true);
+  };
+
+  const goBack = () => {
+    navigate("/users");
+  };
+console.log(error)
   return (
     <>
+    <PageLoader isLoading={loading}/>
       <MainTemplate
         userDetails={auth.loginUser}
         handleLogout={handleLogout}
@@ -102,13 +139,16 @@ const AddUsersPage = () => {
                   name="user_type"
                   label="User Type"
                   fullWidth
-                  value={formik.values.user_type || "Viewer"}
+                  value={formik.values.user_type}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   error={
                     formik.touched.user_type && Boolean(formik.errors.user_type)
                   }
                 >
+                  <MenuItem value="" disabled>
+                    <em>Select User Type</em>
+                  </MenuItem>
                   <MenuItem value="Admin">Admin</MenuItem>
                   <MenuItem value="Collector">Collector</MenuItem>
                   <MenuItem value="Viewer">Viewer</MenuItem>
@@ -124,18 +164,39 @@ const AddUsersPage = () => {
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                error={formik.touched.password && Boolean(formik.errors.password)}
+                error={
+                  formik.touched.password && Boolean(formik.errors.password)
+                }
                 helperText={formik.touched.password && formik.errors.password}
               />
             </Grid>
             <Grid item xs={12}>
-              <Button type="submit" variant="contained" color="primary">
-                Add User
-              </Button>
+              <Box display="flex" justifyContent="space-between">
+                <Button onClick={goBack} variant="outlined" color="primary">
+                  Cancel
+                </Button>
+                <Button type="submit" variant="contained" color="primary">
+                  Add User
+                </Button>
+              </Box>
             </Grid>
           </Grid>
         </form>
       </MainTemplate>
+
+      <CustomDialog
+        open={isModalOpen}
+        title="Confirmation"
+        content="Are you sure you want to add this user?"
+        onCancel={closeModal}
+        onConfirm={handleConfirm}
+      />
+      <CustomSnackbar
+        open={isSuccessOpen}
+        onClose={() => setIsSuccessOpen(false)}
+        message={successMessage}
+        error={error}
+      />
     </>
   );
 };
