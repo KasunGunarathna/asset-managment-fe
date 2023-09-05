@@ -18,9 +18,29 @@ export const getUsers = async () => {
   }
 };
 
-export const insertUser = async (userData:any) => {
+export const getUserById = async (id: any) => {
   try {
-    const response = await instance.post(`/users`,userData);
+    const response = await instance.get(`/users/${id}`);
+    return response.data.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const insertUser = async (userData: any) => {
+  try {
+    const response = await instance.post(`/users`, userData);
+    return response.data.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+
+export const updateUser = async (id:any,userData: any) => {
+  try {
+    const response = await instance.patch(`/users/${id}`, userData);
     return response.data.data;
   } catch (error) {
     throw error;

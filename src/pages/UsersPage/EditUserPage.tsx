@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearToken, fetchLoginUser, selectAuth } from "../../store/authSlice";
 import MainTemplate from "../../templates/MainTemplate";
-import { addUser, selectUser } from "../../store/userSlice";
+import { editUser, fetchUserById, selectUser } from "../../store/userSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import { AppDispatch } from "../../store/store";
 import {
@@ -23,8 +23,10 @@ import { User } from "../../types/types";
 import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
 import PageLoader from "../../components/PageLoader";
+import { simpleDecrypt } from "../../utils/hash";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
+const encryptionKey = "mysecretkey";
 const validationSchema = yup.object({
   name: yup.string().required("Name is required"),
   nic: yup.string().required("NIC is required"),
@@ -42,14 +44,15 @@ const AddUsersPage = () => {
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const {  loading, error } = useSelector(selectUser);
-  const {logUser} = useSelector(selectAuth);
+  const { loading, error, user } = useSelector(selectUser);
+  const { logUser } = useSelector(selectAuth);
+  const { id } = useParams();
   const [showPassword, setShowPassword] = useState(false);
-  
 
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
-  }, [nic, dispatch]);
+    dispatch(fetchUserById(id));
+  }, [nic, id, dispatch]);
 
   const handleLogout = () => {
     dispatch(clearToken());
@@ -58,15 +61,16 @@ const AddUsersPage = () => {
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      nic: "",
-      user_type: "",
-      password: "",
+      name: user?.name,
+      nic: user?.nic,
+      user_type: user?.user_type,
+      password: simpleDecrypt(user?.password, encryptionKey) || "",
     },
     validationSchema: validationSchema,
     onSubmit: (values: User) => {
       openModal();
     },
+    enableReinitialize: true,
   });
 
   const openModal = () => {
@@ -78,10 +82,10 @@ const AddUsersPage = () => {
   };
 
   const handleConfirm = () => {
-    dispatch(addUser(formik.values));
+    dispatch(editUser(id, formik.values));
     closeModal();
     formik.resetForm();
-    openSuccessMessage("User added successfully!");
+    openSuccessMessage("User updated successfully!");
   };
 
   const openSuccessMessage = (message: string) => {
@@ -94,11 +98,11 @@ const AddUsersPage = () => {
   };
   return (
     <>
-    <PageLoader isLoading={loading}/>
+      <PageLoader isLoading={loading} />
       <MainTemplate
         userDetails={logUser}
         handleLogout={handleLogout}
-        breadCrumb={["Home", "Users", "Add User"]}
+        breadCrumb={["Home", "Users", "Edit User"]}
       >
         <form onSubmit={formik.handleSubmit}>
           <Grid container spacing={3}>
@@ -183,7 +187,7 @@ const AddUsersPage = () => {
                   Cancel
                 </Button>
                 <Button type="submit" variant="contained" color="primary">
-                  Add User
+                  Update User
                 </Button>
               </Box>
             </Grid>
@@ -194,7 +198,7 @@ const AddUsersPage = () => {
       <CustomDialog
         open={isModalOpen}
         title="Confirmation"
-        content="Are you sure you want to add this user?"
+        content="Are you sure you want to update this user?"
         onCancel={closeModal}
         onConfirm={handleConfirm}
       />

@@ -21,4 +21,9 @@ export const routes = [
     component: lazy(() => import("./pages/UsersPage/AddUserPage")),
     protected: true,
   },
+  {
+    path: "/users/edit/:id",
+    component: lazy(() => import("./pages/UsersPage/EditUserPage")),
+    protected: true,
+  },
 ];

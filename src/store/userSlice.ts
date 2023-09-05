@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { AppDispatch, RootState } from "./store";
-import { getUsers, insertUser } from "../api/userApis";
+import { getUserById, getUsers, insertUser, updateUser } from "../api/userApis";
 import { User } from "../types/types";
 
 interface UserState {
@@ -31,7 +31,11 @@ const userSlice = createSlice({
       state.loading = false;
       state.users = action.payload;
     },
-    getUsersFailure(state, action: PayloadAction<string>) {
+    getUserSuccess(state, action: PayloadAction<User>) {
+      state.loading = false;
+      state.user = action.payload;
+    },
+    getFailure(state, action: PayloadAction<string>) {
       state.loading = false;
       state.error = action.payload;
     },
@@ -42,8 +46,13 @@ const userSlice = createSlice({
   },
 });
 
-export const { getUsersStart, getUsersSuccess, getUsersFailure, setSuccess } =
-  userSlice.actions;
+export const {
+  getUsersStart,
+  getUsersSuccess,
+  setSuccess,
+  getUserSuccess,
+  getFailure,
+} = userSlice.actions;
 
 export const fetchUsers = () => async (dispatch: AppDispatch) => {
   dispatch(getUsersStart());
@@ -51,7 +60,17 @@ export const fetchUsers = () => async (dispatch: AppDispatch) => {
     const res = await getUsers();
     dispatch(getUsersSuccess(res));
   } catch (error: any) {
-    dispatch(getUsersFailure(error.response?.data?.message || error.message));
+    dispatch(getFailure(error.response?.data?.message || error.message));
+  }
+};
+
+export const fetchUserById = (id: any) => async (dispatch: AppDispatch) => {
+  dispatch(getUsersStart());
+  try {
+    const res = await getUserById(id);
+    dispatch(getUserSuccess(res));
+  } catch (error: any) {
+    dispatch(getFailure(error.response?.data?.message || error.message));
   }
 };
 
@@ -61,9 +80,20 @@ export const addUser = (user: User | null) => async (dispatch: AppDispatch) => {
     await insertUser(user);
     dispatch(setSuccess());
   } catch (error: any) {
-    dispatch(getUsersFailure(error.response?.data?.message || error.message));
+    dispatch(getFailure(error.response?.data?.message || error.message));
   }
 };
+
+export const editUser =
+  (id: any, user: User | null) => async (dispatch: AppDispatch) => {
+    dispatch(getUsersStart());
+    try {
+      await updateUser(id, user);
+      dispatch(setSuccess());
+    } catch (error: any) {
+      dispatch(getFailure(error.response?.data?.message || error.message));
+    }
+  };
 
 export default userSlice.reducer;
 
