@@ -11,7 +11,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../store/store";
 import { setSearchQuery } from "../../store/searchSlice";
-import PageLoader from "../../components/common/PageLoader";
+import PageLoader from "../../components/PageLoader";
 
 const UsersPage = () => {
   const nic = sessionStorage.getItem("userNic");
@@ -43,6 +43,16 @@ const UsersPage = () => {
     navigate("/users/add");
   };
 
+  const handleDelete = (id:any) => {
+    console.log("delete",id)
+  };
+  const handleEdit = (id:any) => {
+    navigate(`/users/edit/${id}`);
+  }
+  const handleView = (id:any) => {
+    console.log("view",id)
+  };
+
 
   if (error) {
     return <div>Error: {error}</div>;
@@ -61,7 +71,7 @@ const UsersPage = () => {
           setSearchQuery={setSearchQuery}
           onChange={nextPage}
         />
-        <ReusableTable columns={columns} data={users} />
+        <ReusableTable columns={columns} data={users} handleDelete={handleDelete} handleEdit={handleEdit} handleView={handleView}/>
       </MainTemplate>
     </>
   );

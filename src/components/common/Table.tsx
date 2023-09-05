@@ -7,20 +7,30 @@ import {
   TableHead,
   TableRow,
   TablePagination,
+  IconButton,
 } from "@mui/material";
+import { Delete, Edit, Visibility } from "@mui/icons-material";
 
 interface Column {
   id: string;
   label: string;
 }
 
-
 interface ReusableTableProps {
   columns: Column[];
   data: any[];
+  handleDelete: any;
+  handleEdit: any;
+  handleView: any;
 }
 
-const ReusableTable: React.FC<ReusableTableProps> = ({ columns, data }) => {
+const ReusableTable: React.FC<ReusableTableProps> = ({
+  columns,
+  data,
+  handleDelete,
+  handleEdit,
+  handleView,
+}) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -34,6 +44,7 @@ const ReusableTable: React.FC<ReusableTableProps> = ({ columns, data }) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
   return (
     <>
       <TableContainer sx={{ maxHeight: 380 }}>
@@ -45,22 +56,61 @@ const ReusableTable: React.FC<ReusableTableProps> = ({ columns, data }) => {
                   key={column.id}
                   sx={{
                     backgroundColor: "#9bcbea",
-                    fontWeight: "bold", 
+                    fontWeight: "bold",
                   }}
                 >
                   {column.label}
                 </TableCell>
               ))}
+              <TableCell
+                key="actions"
+                sx={{
+                  backgroundColor: "#9bcbea",
+                  fontWeight: "bold",
+                  textAlign: "right",
+                  paddingRight:"50px"
+                }}
+              >
+                Actions
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {data
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => (
+              .map((row, rowIndex) => (
                 <TableRow key={row.id}>
                   {columns.map((column) => (
                     <TableCell key={column.id}>{row[column.id]}</TableCell>
                   ))}
+                  <TableCell
+                    key={`actions-${rowIndex}`}
+                    sx={{
+                      textAlign: "right",
+                    }}
+                  >
+                    <IconButton
+                      sx={{ color: "#df4444" }}
+                      aria-label="Delete"
+                      onClick={() => handleDelete(row.id)} // Implement a delete handler function.
+                    >
+                      <Delete />
+                    </IconButton>
+                    <IconButton
+                      sx={{ color: "#00bec4" }}
+                      aria-label="Edit"
+                      onClick={() => handleEdit(row.id)} // Implement an edit handler function.
+                    >
+                      <Edit />
+                    </IconButton>
+                    <IconButton
+                      sx={{ color: "#2fce3b" }}
+                      aria-label="View"
+                      onClick={() => handleView(row.id)} // Implement a view handler function.
+                    >
+                      <Visibility />
+                    </IconButton>
+                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>

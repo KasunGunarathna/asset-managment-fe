@@ -37,7 +37,7 @@ const authSlice = createSlice({
       state.loading = false;
       state.logUser = action.payload;
     },
-    getLogUserFailure(state, action: PayloadAction<string>) {
+    getFailure(state, action: PayloadAction<string>) {
       state.loading = false;
       state.error = action.payload;
     },
@@ -45,10 +45,6 @@ const authSlice = createSlice({
       state.loading = false;
       state.isAuthenticated = true;
       state.authData = action.payload;
-    },
-    getLoginFailure(state, action: PayloadAction<string>) {
-      state.loading = false;
-      state.error = action.payload;
     },
     clearToken: (state) => {
       state.isAuthenticated = false;
@@ -61,9 +57,8 @@ export const {
   getAuthStart,
   clearToken,
   getLogUserSuccess,
-  getLogUserFailure,
+  getFailure,
   getLoginSuccess,
-  getLoginFailure,
 } = authSlice.actions;
 
 export const fetchLoginUser =
@@ -74,7 +69,7 @@ export const fetchLoginUser =
       dispatch(getLogUserSuccess(response));
     } catch (error: any) {
       dispatch(
-        getLogUserFailure(error.response?.data?.message || error.message)
+        getFailure(error.response?.data?.message || error.message)
       );
       dispatch(clearToken());
     }
@@ -95,7 +90,7 @@ export const userLogin =
       setTokenToLocalStorage(response.access_token);
       localStorage.setItem("isAuthenticated", "true");
     } catch (error: any) {
-      dispatch(getLoginFailure(error.response?.data?.message || error.message));
+      dispatch(getFailure(error.response?.data?.message || error.message));
       dispatch(clearToken());
     }
   };

@@ -9,10 +9,10 @@ export interface AuthData {
 }
 
 export interface User {
-  name: string;
-  user_type: string;
-  nic: string;
-  password: string;
+  name: string | undefined;
+  user_type: string| undefined;
+  nic: string| undefined;
+  password: string| undefined;
 }
 
 export interface UserInsert extends User {
