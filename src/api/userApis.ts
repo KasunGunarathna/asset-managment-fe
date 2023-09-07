@@ -18,6 +18,15 @@ export const getUsers = async () => {
   }
 };
 
+export const getSearchUsers = async (query:any) => {
+  try {
+    const response = await instance.get(`/users/query/${query}`);
+    return response.data.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getUserById = async (id: any) => {
   try {
     const response = await instance.get(`/users/${id}`);

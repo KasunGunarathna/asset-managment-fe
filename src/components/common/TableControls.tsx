@@ -5,13 +5,11 @@ import AddIcon from "@mui/icons-material/Add";
 import Button from "./Button";
 
 interface TableControlsProps {
-  searchQuery: string;
   setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
   onChange: () => void;
 }
 
 const TableControls: React.FC<TableControlsProps> = ({
-  searchQuery,
   setSearchQuery,
   onChange,
 }) => {
@@ -27,8 +25,7 @@ const TableControls: React.FC<TableControlsProps> = ({
       <TextField
         label="Search"
         variant="standard"
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
+        onChange={(e) => {setSearchQuery(e.target.value)}}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">

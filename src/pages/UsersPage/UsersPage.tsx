@@ -4,10 +4,14 @@ import { clearToken, fetchLoginUser, selectAuth } from "../../store/authSlice";
 import ReusableTable from "../../components/common/Table";
 import TableControls from "../../components/common/TableControls";
 import MainTemplate from "../../templates/MainTemplate";
-import { fetchUsers, removeUserById, selectUser } from "../../store/userSlice";
+import {
+  fetchSearchUsers,
+  fetchUsers,
+  removeUserById,
+  selectUser,
+} from "../../store/userSlice";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../store/store";
-import { setSearchQuery } from "../../store/searchSlice";
 import PageLoader from "../../components/PageLoader";
 import CustomDialog from "../../components/common/CustomDialog";
 import CustomSnackbar from "../../components/common/Snackbar";
@@ -41,7 +45,7 @@ const UsersPage = () => {
     localStorage.removeItem("isAuthenticated");
   };
 
-  const nextPage = () => {
+  const addNewPage = () => {
     navigate("/users/add");
   };
 
@@ -75,6 +79,11 @@ const UsersPage = () => {
     setIsSuccessOpen(true);
   };
 
+  const setSearchQuery = async (query: any) => {
+    if (query) await dispatch(fetchSearchUsers(query));
+    else await dispatch(fetchUsers());
+  };
+
   return (
     <>
       <PageLoader isLoading={loading} />
@@ -83,11 +92,7 @@ const UsersPage = () => {
         handleLogout={handleLogout}
         breadCrumb={["Home", "Users"]}
       >
-        <TableControls
-          searchQuery={""}
-          setSearchQuery={setSearchQuery}
-          onChange={nextPage}
-        />
+        <TableControls setSearchQuery={setSearchQuery} onChange={addNewPage} />
         <ReusableTable
           columns={columns}
           data={users}
