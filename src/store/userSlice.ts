@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { AppDispatch, RootState } from "./store";
-import { getUserById, getUsers, insertUser, updateUser } from "../api/userApis";
+import { deleteUserById, getUserById, getUsers, insertUser, updateUser } from "../api/userApis";
 import { User } from "../types/types";
 
 interface UserState {
@@ -89,6 +89,16 @@ export const editUser =
     dispatch(getUsersStart());
     try {
       await updateUser(id, user);
+      dispatch(setSuccess());
+    } catch (error: any) {
+      dispatch(getFailure(error.response?.data?.message || error.message));
+    }
+  };
+
+  export const removeUserById = (id: any) => async (dispatch: AppDispatch) => {
+    dispatch(getUsersStart());
+    try {
+      await deleteUserById(id);
       dispatch(setSuccess());
     } catch (error: any) {
       dispatch(getFailure(error.response?.data?.message || error.message));
