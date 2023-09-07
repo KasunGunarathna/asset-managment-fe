@@ -46,3 +46,13 @@ export const updateUser = async (id:any,userData: any) => {
     throw error;
   }
 };
+
+
+export const deleteUserById = async (id: any) => {
+  try {
+    const response = await instance.delete(`/users/${id}`);
+    return response.data.data;
+  } catch (error) {
+    throw error;
+  }
+};

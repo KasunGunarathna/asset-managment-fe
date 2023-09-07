@@ -46,7 +46,7 @@ const AddUsersPage = () => {
   const navigate = useNavigate();
   const { loading, error, user } = useSelector(selectUser);
   const { logUser } = useSelector(selectAuth);
-  const { id } = useParams();
+  const { id, view } = useParams();
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
@@ -102,12 +102,13 @@ const AddUsersPage = () => {
       <MainTemplate
         userDetails={logUser}
         handleLogout={handleLogout}
-        breadCrumb={["Home", "Users", "Edit User"]}
+        breadCrumb={["Home", "Users", view ? "View User" : "Edit User"]}
       >
         <form onSubmit={formik.handleSubmit}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
               <TextField
+                disabled={view ? true : false}
                 name="name"
                 label="Name"
                 fullWidth
@@ -120,6 +121,7 @@ const AddUsersPage = () => {
             </Grid>
             <Grid item xs={12} md={6}>
               <TextField
+                disabled={view ? true : false}
                 name="nic"
                 label="NIC"
                 fullWidth
@@ -134,6 +136,7 @@ const AddUsersPage = () => {
               <FormControl fullWidth>
                 <InputLabel htmlFor="user_type">User Type</InputLabel>
                 <Select
+                  disabled={view ? true : false}
                   name="user_type"
                   label="User Type"
                   fullWidth
@@ -155,10 +158,11 @@ const AddUsersPage = () => {
             </Grid>
             <Grid item xs={12} md={6}>
               <TextField
+                disabled={view ? true : false}
                 name="password"
                 label="Password"
                 fullWidth
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -186,9 +190,13 @@ const AddUsersPage = () => {
                 <Button onClick={goBack} variant="outlined" color="primary">
                   Cancel
                 </Button>
-                <Button type="submit" variant="contained" color="primary">
-                  Update User
-                </Button>
+                {view ? (
+                  <></>
+                ) : (
+                  <Button type="submit" variant="contained" color="primary">
+                    Update User
+                  </Button>
+                )}
               </Box>
             </Grid>
           </Grid>

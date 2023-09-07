@@ -42,10 +42,9 @@ const AddUsersPage = () => {
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const {  loading, error } = useSelector(selectUser);
-  const {logUser} = useSelector(selectAuth);
+  const { loading, error } = useSelector(selectUser);
+  const { logUser } = useSelector(selectAuth);
   const [showPassword, setShowPassword] = useState(false);
-  
 
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
@@ -77,8 +76,8 @@ const AddUsersPage = () => {
     setIsModalOpen(false);
   };
 
-  const handleConfirm = () => {
-    dispatch(addUser(formik.values));
+  const handleConfirm = async () => {
+    await dispatch(addUser(formik.values));
     closeModal();
     formik.resetForm();
     openSuccessMessage("User added successfully!");
@@ -94,7 +93,7 @@ const AddUsersPage = () => {
   };
   return (
     <>
-    <PageLoader isLoading={loading}/>
+      <PageLoader isLoading={loading} />
       <MainTemplate
         userDetails={logUser}
         handleLogout={handleLogout}
@@ -154,7 +153,7 @@ const AddUsersPage = () => {
                 name="password"
                 label="Password"
                 fullWidth
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
