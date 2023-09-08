@@ -84,6 +84,7 @@ const AddUsersPage = () => {
   const handleConfirm = () => {
     dispatch(editUser(id, formik.values));
     closeModal();
+    dispatch(fetchUserById(id));
     formik.resetForm();
     openSuccessMessage("User updated successfully!");
   };
@@ -112,7 +113,7 @@ const AddUsersPage = () => {
                 name="name"
                 label="Name"
                 fullWidth
-                value={formik.values.name}
+                value={view ? user?.name || '' : formik.values.name}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 error={formik.touched.name && Boolean(formik.errors.name)}
@@ -125,7 +126,7 @@ const AddUsersPage = () => {
                 name="nic"
                 label="NIC"
                 fullWidth
-                value={formik.values.nic}
+                value={view ? user?.nic || '' : formik.values.nic}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 error={formik.touched.nic && Boolean(formik.errors.nic)}
@@ -140,7 +141,7 @@ const AddUsersPage = () => {
                   name="user_type"
                   label="User Type"
                   fullWidth
-                  value={formik.values.user_type}
+                  value={view ? user?.user_type || '' : formik.values.user_type || ''}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   error={
@@ -163,7 +164,7 @@ const AddUsersPage = () => {
                 label="Password"
                 fullWidth
                 type={showPassword ? "text" : "password"}
-                value={formik.values.password}
+                value={view ? simpleDecrypt(user?.password, encryptionKey) || '' : formik.values.password}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 error={

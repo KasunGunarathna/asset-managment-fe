@@ -47,6 +47,7 @@ const ReusableTable: React.FC<ReusableTableProps> = ({
 
   return (
     <>
+    <div style={{ width: '100%',overflowX: 'auto' }}>
       <TableContainer sx={{ maxHeight: 380 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -68,7 +69,9 @@ const ReusableTable: React.FC<ReusableTableProps> = ({
                   backgroundColor: "#9bcbea",
                   fontWeight: "bold",
                   textAlign: "right",
+                  width: "100px",
                   paddingRight:"50px"
+                  
                 }}
               >
                 Actions
@@ -125,6 +128,7 @@ const ReusableTable: React.FC<ReusableTableProps> = ({
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
+      </div>
     </>
   );
 };

@@ -14,8 +14,7 @@ import {
 } from "@mui/material";
 import { AppDispatch } from "../../store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { selectAuth } from "../../store/searchSlice";
-import { userLogin } from "../../store/authSlice";
+import { selectAuth, userLogin } from "../../store/authSlice";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { UserCredentials } from "../../types/types";
