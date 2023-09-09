@@ -3,6 +3,15 @@ export interface UserCredentials {
   password: string;
 }
 
+export interface FormField {
+  name: string;
+  label: string;
+  type?: string;
+  select?: boolean;
+  password?: boolean;
+  setShowPassword?: boolean;
+  options?: string[];
+}
 export interface AuthData {
   access_token: string;
   expires_in: string;

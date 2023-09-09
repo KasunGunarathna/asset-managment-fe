@@ -5,35 +5,16 @@ import MainTemplate from "../../templates/MainTemplate";
 import { addUser, selectUser } from "../../store/userSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import { AppDispatch } from "../../store/store";
-import {
-  Box,
-  Button,
-  FormControl,
-  Grid,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
 import { useFormik } from "formik";
-import * as yup from "yup";
 import { User } from "../../types/types";
 import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
 import PageLoader from "../../components/PageLoader";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { validationSchema } from "./validationSchema";
+import FormGenerator from "../../components/common/FormGenerator";
+import { fields } from "./formFields";
 
-const validationSchema = yup.object({
-  name: yup.string().required("Name is required"),
-  nic: yup.string().required("NIC is required"),
-  user_type: yup.string().required("User Type is required"),
-  password: yup
-    .string()
-    .min(8, "Password must be at least 8 characters")
-    .required("Password is required"),
-});
+
 
 const AddUsersPage = () => {
   const nic = sessionStorage.getItem("userNic");
@@ -99,95 +80,15 @@ const AddUsersPage = () => {
         handleLogout={handleLogout}
         breadCrumb={["Home", "Users", "Add User"]}
       >
-        <form onSubmit={formik.handleSubmit}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
-              <TextField
-                name="name"
-                label="Name"
-                fullWidth
-                value={formik.values.name}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={formik.touched.name && Boolean(formik.errors.name)}
-                helperText={formik.touched.name && formik.errors.name}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField
-                name="nic"
-                label="NIC"
-                fullWidth
-                value={formik.values.nic}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={formik.touched.nic && Boolean(formik.errors.nic)}
-                helperText={formik.touched.nic && formik.errors.nic}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <FormControl fullWidth>
-                <InputLabel htmlFor="user_type">User Type</InputLabel>
-                <Select
-                  name="user_type"
-                  label="User Type"
-                  fullWidth
-                  value={formik.values.user_type}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={
-                    formik.touched.user_type && Boolean(formik.errors.user_type)
-                  }
-                >
-                  <MenuItem value="" disabled>
-                    <em>Select User Type</em>
-                  </MenuItem>
-                  <MenuItem value="Admin">Admin</MenuItem>
-                  <MenuItem value="Collector">Collector</MenuItem>
-                  <MenuItem value="Viewer">Viewer</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField
-                name="password"
-                label="Password"
-                fullWidth
-                type={showPassword ? "text" : "password"}
-                value={formik.values.password}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={
-                  formik.touched.password && Boolean(formik.errors.password)
-                }
-                helperText={formik.touched.password && formik.errors.password}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={() => setShowPassword(!showPassword)}
-                        edge="end"
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Box display="flex" justifyContent="space-between">
-                <Button onClick={goBack} variant="outlined" color="primary">
-                  Cancel
-                </Button>
-                <Button type="submit" variant="contained" color="primary">
-                  Add User
-                </Button>
-              </Box>
-            </Grid>
-          </Grid>
-        </form>
+       <FormGenerator
+          fields={fields}
+          formik={formik}
+          onSubmit={formik.handleSubmit}
+          goBack={goBack}
+          name={"Add User"}
+          password={showPassword}
+          setShowPassword={setShowPassword}
+        />
       </MainTemplate>
 
       <CustomDialog
