@@ -50,4 +50,25 @@ export const routes = [
     component: lazy(() => import("./pages/BridgesPage/EditBridgePage")),
     protected: true,
   },
+  {
+    path: "/roads",
+    component: lazy(() => import("./pages/RoadsPage/RoadsPage")),
+    protected: true,
+  },
+  {
+    path: "/roads/add",
+    component: lazy(() => import("./pages/RoadsPage/AddRoadPage")),
+    protected: true,
+  },
+  {
+    path: "/roads/edit/:id",
+    component: lazy(() => import("./pages/RoadsPage/EditRoadPage")),
+    protected: true,
+  },
+  {
+    path: "/roads/view/:id/:view",
+    component: lazy(() => import("./pages/RoadsPage/EditRoadPage")),
+    protected: true,
+  },
+  
 ];
