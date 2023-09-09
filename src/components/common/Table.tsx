@@ -69,10 +69,10 @@ const ReusableTable: React.FC<ReusableTableProps> = ({
                   backgroundColor: "#9bcbea",
                   fontWeight: "bold",
                   textAlign: "right",
-                  width: "100px",
-                  paddingRight:"50px"
-                  
+                  paddingRight:"50px",
+                  paddingLeft:"50px",
                 }}
+                
               >
                 Actions
               </TableCell>
@@ -89,7 +89,7 @@ const ReusableTable: React.FC<ReusableTableProps> = ({
                   <TableCell
                     key={`actions-${rowIndex}`}
                     sx={{
-                      textAlign: "right",
+                      textAlign: "center",
                     }}
                   >
                     <IconButton

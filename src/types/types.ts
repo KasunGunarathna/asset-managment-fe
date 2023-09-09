@@ -29,3 +29,20 @@ export interface Bridge {
   road_surface_condition: string| undefined;
   remarks: string| undefined;
 }
+
+export interface Road {
+  road_name: string | undefined;
+  length: number | undefined;
+  width: number | undefined;
+  gazetted_detail: string | undefined;
+  survey_plan: string | undefined;
+  surface_condition: string | undefined;
+  pavement_type: string | undefined;
+  starting_point_latitude: number | undefined;
+  starting_point_longitude: number | undefined;
+  starting_point_photo: string | undefined;
+  end_point_latitude: number | undefined;
+  end_point_longitude: number | undefined;
+  end_point_photo: string | undefined;
+  drainage_availability: string | undefined;
+}
