@@ -1,46 +1,93 @@
-# Getting Started with Create React App
+# Asset Management Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is the frontend of the Asset Management system, which allows users to manage street lights and drainage information.
 
-## Available Scripts
+## Prerequisites
 
-In the project directory, you can run:
+Before you begin, ensure you have met the following requirements:
 
-### `yarn start`
+- Node.js and npm (Node Package Manager) installed.
+- Backend server: Ensure the backend server is up and running.
+- `.env` file: Create a `.env` file in the project root directory and define the necessary environment variables (see Environment Variables).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Installation
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+To install the project dependencies, follow these steps:
 
-### `yarn test`
+1. Clone the repository:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+   ```bash
+   git clone https://github.com/your-username/asset-managment-fe.git
 
-### `yarn build`
+2. Change your directory to the project folder:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   ```bash
+   cd asset-managment-fe
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+3. Install the project dependencies:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+   ```bash
+   npm install
 
-### `yarn eject`
+## Environment Variables
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Create a .env file in the root directory of the project and add the following environment variables
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Usage
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+    ```bash
+    npm start
 
-## Learn More
+The application will be available at http://localhost:3000.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Folder Structure
+
+The project is organized into the following main folders:
+
+- `src/components`: Contains reusable components used throughout the application.
+- `src/pages`: Contains individual pages/routes of the application.
+- `src/store`: Contains Redux store configuration and slices.
+- `src/templates`: Contains page templates for consistent layout.
+- `src/types`: Contains TypeScript type definitions used in the application.
+- `src/utils`: Contains utility functions.
+
+### Features
+
+The Asset Management Frontend offers the following features:
+
+- View a list of street lights and drainage information.
+- Add, edit, and delete street lights and drainage data.
+- Search for street lights and drainage data.
+- User authentication and login/logout functionality.
+
+### Built With
+
+This project is built using the following technologies:
+
+- [React](https://reactjs.org/) - A JavaScript library for building user interfaces.
+- [Redux Toolkit](https://redux-toolkit.js.org/) - A library for efficient Redux development.
+- [Axios](https://axios-http.com/) - A promise-based HTTP client for making requests.
+- [Formik](https://formik.org/) - A library for building forms in React.
+- [Yup](https://github.com/jquense/yup) - A JavaScript schema builder for form validation.
+- [Google Maps API](https://developers.google.com/maps/documentation) - For displaying maps and location data.
+- [Material-UI](https://material-ui.com/) - A popular React UI framework.
+- [TypeScript](https://www.typescriptlang.org/) - A statically typed superset of JavaScript.
+- [Styled-components](https://styled-components.com/) - For styling React components.
+
+### License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+### Acknowledgments
+
+We would like to acknowledge the following technologies and tools that have contributed to the development of this project:
+
+- [Create React App](https://reactjs.org/docs/create-a-new-react-app.html) - The foundation for bootstrapping the React application.
+- [Redux Toolkit](https://redux-toolkit.js.org/) - For state management.
+- [Material-UI](https://material-ui.com/) - For UI components.
+- [Formik](https://formik.org/) - For form handling.
+- [Yup](https://github.com/jquense/yup) - For form validation.
+- [Axios](https://axios-http.com/) - For HTTP requests.
+- [Google Maps API](https://developers.google.com/maps/documentation) - For maps and location services.
