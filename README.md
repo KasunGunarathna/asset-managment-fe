@@ -36,7 +36,6 @@ Create a .env file in the root directory of the project and add the following en
 
 ## Usage
 
-    ```bash
     npm start
 
 The application will be available at http://localhost:3000.
