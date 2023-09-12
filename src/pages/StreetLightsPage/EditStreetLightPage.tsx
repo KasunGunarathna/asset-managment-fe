@@ -1,35 +1,34 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearToken, fetchLoginUser, selectAuth } from "../../store/authSlice";
-import MainTemplate from "../../templates/MainTemplate";
-import { addUser, selectUser } from "../../store/userSlice";
-import { useNavigate, useParams } from "react-router-dom";
-import { AppDispatch } from "../../store/store";
+import { useParams, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import { User } from "../../types/types";
+import { editStreetLight, fetchStreetLightById, selectStreetLights } from "../../store/streetLightSlice"; // Import street light-related actions and selectors
+import { StreetLight } from "../../types/types"; // Import the StreetLight type
 import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
 import PageLoader from "../../components/PageLoader";
+import MainTemplate from "../../templates/MainTemplate";
+import { clearToken, fetchLoginUser, selectAuth } from "../../store/authSlice";
+import { AppDispatch } from "../../store/store";
 import { validationSchema } from "./validationSchema";
 import FormGenerator from "../../components/common/FormGenerator";
 import { fields } from "./formFields";
 
-
-
-const AddUsersPage = () => {
+const EditStreetLightPage = () => {
   const nic = sessionStorage.getItem("userNic");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { loading, error } = useSelector(selectUser);
+  const { loading, error, streetLight } = useSelector(selectStreetLights); // Use the appropriate selector for street lights
   const { logUser } = useSelector(selectAuth);
-  const [showPassword, setShowPassword] = useState(false);
+  const { id, view } = useParams();
 
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
-  }, [nic, dispatch]);
+    dispatch(fetchStreetLightById(id)); // Fetch street light data by ID
+  }, [nic, id, dispatch]);
 
   const handleLogout = () => {
     dispatch(clearToken());
@@ -38,15 +37,20 @@ const AddUsersPage = () => {
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      nic: "",
-      user_type: "",
-      password: "",
+      // Initialize with your StreetLight field names and default values
+      pole_number: streetLight?.pole_number || "",
+      road_name: streetLight?.road_name || "",
+      wire_condition: streetLight?.wire_condition || "",
+      switch_condition: streetLight?.switch_condition || "",
+      pole_type: streetLight?.pole_type || "",
+      lamp_type: streetLight?.lamp_type || "",
+      photo: streetLight?.photo || "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values: User) => {
+    onSubmit: (values: StreetLight) => {
       openModal();
     },
+    enableReinitialize: true,
   });
 
   const openModal = () => {
@@ -57,11 +61,12 @@ const AddUsersPage = () => {
     setIsModalOpen(false);
   };
 
-  const handleConfirm = async () => {
-    await dispatch(addUser(formik.values));
+  const handleConfirm = () => {
+    dispatch(editStreetLight(id, formik.values));
     closeModal();
+    dispatch(fetchStreetLightById(id));
     formik.resetForm();
-    openSuccessMessage("User added successfully!");
+    openSuccessMessage("Street light updated successfully!");
   };
 
   const openSuccessMessage = (message: string) => {
@@ -70,31 +75,30 @@ const AddUsersPage = () => {
   };
 
   const goBack = () => {
-    navigate("/users");
+    navigate("/street_lights");
   };
+
   return (
     <>
       <PageLoader isLoading={loading} />
       <MainTemplate
         userDetails={logUser}
         handleLogout={handleLogout}
-        breadCrumb={["Home", "Users", "Add User"]}
+        breadCrumb={["Home", "Street Lights", "Edit Street Light"]}
       >
-       <FormGenerator
-          fields={fields}
+        <FormGenerator
+          fields={fields} // Use your street light form fields here
           formik={formik}
           onSubmit={formik.handleSubmit}
           goBack={goBack}
-          name={"Add User"}
-          showPassword={showPassword}
-          setShowPassword={setShowPassword}
+          name={"Update Street Light"}
+          view={view}
         />
       </MainTemplate>
-
       <CustomDialog
         open={isModalOpen}
         title="Confirmation"
-        content="Are you sure you want to add this user?"
+        content="Are you sure you want to update this street light?"
         onCancel={closeModal}
         onConfirm={handleConfirm}
       />
@@ -108,4 +112,4 @@ const AddUsersPage = () => {
   );
 };
 
-export default AddUsersPage;
+export default EditStreetLightPage;

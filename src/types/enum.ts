@@ -21,3 +21,15 @@ export enum DrainageAvailability {
   NoDrain = "No drain",
   DrainageProblems = "Drainage problems",
 }
+
+export enum LampType {
+  LED = "LED",
+  CFL = "CFL",
+  Incandescent = "Incandescent",
+  Halogen = "Halogen",
+}
+
+export enum PoleType {
+  Concrete = "Concrete",
+  Steel = "Steel",
+}

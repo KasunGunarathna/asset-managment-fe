@@ -69,7 +69,7 @@ const FormField: React.FC<FormFieldProps> = ({
           name={name}
           label={label}
           fullWidth
-          type={showPassword ? "password" : type}
+          type={(showPassword && password) ? "password" : type}
           value={value}
           onChange={onChange}
           onBlur={onBlur}

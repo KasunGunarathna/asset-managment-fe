@@ -55,3 +55,14 @@ export interface Road {
   end_point_photo: string | undefined;
   drainage_availability: string | undefined;
 }
+
+export interface StreetLight {
+  pole_number: string | undefined;
+  road_name: string | undefined;
+  wire_condition: string | undefined;
+  switch_condition: string | undefined;
+  pole_type: string | undefined;
+  lamp_type: string | undefined;
+  photo: string | undefined;
+}
+
