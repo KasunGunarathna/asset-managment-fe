@@ -2,30 +2,27 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearToken, fetchLoginUser, selectAuth } from "../../store/authSlice";
 import MainTemplate from "../../templates/MainTemplate";
-import { addUser, selectUser } from "../../store/userSlice";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../store/store";
 import { useFormik } from "formik";
-import { User } from "../../types/types";
+import { StreetLight } from "../../types/types"; // Import the StreetLight type
 import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
 import PageLoader from "../../components/PageLoader";
-import { validationSchema } from "./validationSchema";
+import { addStreetLight, selectStreetLights } from "../../store/streetLightSlice"; // Import relevant actions and selectors
 import FormGenerator from "../../components/common/FormGenerator";
-import { fields } from "./formFields";
+import { validationSchema } from "./validationSchema";
+import { fields } from "./formFields"; // Define your street lights form fields here
 
-
-
-const AddUsersPage = () => {
+const AddStreetLightPage = () => {
   const nic = sessionStorage.getItem("userNic");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { loading, error } = useSelector(selectUser);
+  const { loading, error } = useSelector(selectStreetLights); // Use the appropriate selector for street lights
   const { logUser } = useSelector(selectAuth);
-  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
@@ -38,13 +35,17 @@ const AddUsersPage = () => {
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      nic: "",
-      user_type: "",
-      password: "",
+      // Initialize with your StreetLight field names and default values
+      pole_number: "",
+      road_name: "",
+      wire_condition: "",
+      switch_condition: "",
+      pole_type: "",
+      lamp_type: "",
+      photo: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values: User) => {
+    onSubmit: (values: StreetLight) => {
       openModal();
     },
   });
@@ -58,10 +59,10 @@ const AddUsersPage = () => {
   };
 
   const handleConfirm = async () => {
-    await dispatch(addUser(formik.values));
+    await dispatch(addStreetLight(formik.values));
     closeModal();
     formik.resetForm();
-    openSuccessMessage("User added successfully!");
+    openSuccessMessage("Street light added successfully!");
   };
 
   const openSuccessMessage = (message: string) => {
@@ -70,31 +71,30 @@ const AddUsersPage = () => {
   };
 
   const goBack = () => {
-    navigate("/users");
+    navigate("/street_lights");
   };
+
   return (
     <>
       <PageLoader isLoading={loading} />
       <MainTemplate
         userDetails={logUser}
         handleLogout={handleLogout}
-        breadCrumb={["Home", "Users", "Add User"]}
+        breadCrumb={["Home", "Street Lights", "Add Street Light"]}
       >
-       <FormGenerator
-          fields={fields}
+        <FormGenerator
+          fields={fields} // Use your street light form fields here
           formik={formik}
           onSubmit={formik.handleSubmit}
           goBack={goBack}
-          name={"Add User"}
-          showPassword={showPassword}
-          setShowPassword={setShowPassword}
+          name={"Add Street Light"}
         />
       </MainTemplate>
 
       <CustomDialog
         open={isModalOpen}
         title="Confirmation"
-        content="Are you sure you want to add this user?"
+        content="Are you sure you want to add this street light?"
         onCancel={closeModal}
         onConfirm={handleConfirm}
       />
@@ -108,4 +108,4 @@ const AddUsersPage = () => {
   );
 };
 
-export default AddUsersPage;
+export default AddStreetLightPage;

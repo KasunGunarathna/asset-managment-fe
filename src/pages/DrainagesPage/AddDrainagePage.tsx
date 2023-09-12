@@ -1,31 +1,28 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearToken, fetchLoginUser, selectAuth } from "../../store/authSlice";
 import MainTemplate from "../../templates/MainTemplate";
-import { addUser, selectUser } from "../../store/userSlice";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../store/store";
 import { useFormik } from "formik";
-import { User } from "../../types/types";
+import { Drainage } from "../../types/types"; // Import the Drainage type
 import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
 import PageLoader from "../../components/PageLoader";
-import { validationSchema } from "./validationSchema";
+import { addDrainage, selectDrainages } from "../../store/drainageSlice"; // Import relevant actions and selectors
 import FormGenerator from "../../components/common/FormGenerator";
-import { fields } from "./formFields";
+import { validationSchema } from "./validationSchema";
+import { fields } from "./formFields"; // Define your drainage form fields here
 
-
-
-const AddUsersPage = () => {
+const AddDrainagePage = () => {
   const nic = sessionStorage.getItem("userNic");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { loading, error } = useSelector(selectUser);
+  const { loading, error } = useSelector(selectDrainages); // Use the appropriate selector for drainages
   const { logUser } = useSelector(selectAuth);
-  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
@@ -38,13 +35,20 @@ const AddUsersPage = () => {
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      nic: "",
-      user_type: "",
-      password: "",
+      // Initialize with your Drainage field names and default values
+      road_name: "",
+      drainage_type: "",
+      side_of_drain: "",
+      starting_point_latitude: 0,
+      starting_point_longitude: 0,
+      end_point_latitude: 0,
+      end_point_longitude: 0,
+      condition: "",
+      length: 0,
+      width: 0,
     },
     validationSchema: validationSchema,
-    onSubmit: (values: User) => {
+    onSubmit: (values: Drainage) => {
       openModal();
     },
   });
@@ -58,10 +62,10 @@ const AddUsersPage = () => {
   };
 
   const handleConfirm = async () => {
-    await dispatch(addUser(formik.values));
+    await dispatch(addDrainage(formik.values));
     closeModal();
     formik.resetForm();
-    openSuccessMessage("User added successfully!");
+    openSuccessMessage("Drainage added successfully!");
   };
 
   const openSuccessMessage = (message: string) => {
@@ -70,31 +74,30 @@ const AddUsersPage = () => {
   };
 
   const goBack = () => {
-    navigate("/users");
+    navigate("/drainages");
   };
+
   return (
     <>
       <PageLoader isLoading={loading} />
       <MainTemplate
         userDetails={logUser}
         handleLogout={handleLogout}
-        breadCrumb={["Home", "Users", "Add User"]}
+        breadCrumb={["Home", "Drainages", "Add Drainage"]}
       >
-       <FormGenerator
-          fields={fields}
+        <FormGenerator
+          fields={fields} // Use your drainage form fields here
           formik={formik}
           onSubmit={formik.handleSubmit}
           goBack={goBack}
-          name={"Add User"}
-          showPassword={showPassword}
-          setShowPassword={setShowPassword}
+          name={"Add Drainage"}
         />
       </MainTemplate>
 
       <CustomDialog
         open={isModalOpen}
         title="Confirmation"
-        content="Are you sure you want to add this user?"
+        content="Are you sure you want to add this drainage?"
         onCancel={closeModal}
         onConfirm={handleConfirm}
       />
@@ -108,4 +111,4 @@ const AddUsersPage = () => {
   );
 };
 
-export default AddUsersPage;
+export default AddDrainagePage;
