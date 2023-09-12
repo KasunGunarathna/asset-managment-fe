@@ -88,6 +88,26 @@ export const routes = [
     path: "/street_lights/view/:id/:view",
     component: lazy(() => import("./pages/StreetLightsPage/EditStreetLightPage")),
     protected: true,
+  },
+  {
+    path: "/drainages",
+    component: lazy(() => import("./pages/DrainagesPage/DrainagesPage")),
+    protected: true,
+  },
+  {
+    path: "/drainages/add",
+    component: lazy(() => import("./pages/DrainagesPage/AddDrainagePage")),
+    protected: true,
+  },
+  {
+    path: "/drainages/edit/:id",
+    component: lazy(() => import("./pages/DrainagesPage/EditDrainagePage")),
+    protected: true,
+  },
+  {
+    path: "/drainages/view/:id/:view",
+    component: lazy(() => import("./pages/DrainagesPage/EditDrainagePage")),
+    protected: true,
   }
   
 ];

@@ -33,3 +33,17 @@ export enum PoleType {
   Concrete = "Concrete",
   Steel = "Steel",
 }
+
+// Enum for Type of Drain
+export enum DrainageType {
+  OpenUDrain = "Open U drain",
+  CloseUDrain = "Close U drain",
+  ShoeDrain = "Shoe drain",
+  EarthDrain = "Earth Drain",
+}
+
+// Enum for Side of the Drain
+export enum SideOfDrain {
+  Left = "Left",
+  Right = "Right",
+}

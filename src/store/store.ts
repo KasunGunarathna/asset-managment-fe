@@ -4,6 +4,7 @@ import userReducer from "./userSlice";
 import bridgeReducer from "./bridgeSlice";
 import roadReducer from "./roadSlice";
 import streetLightsReducer from "./streetLightSlice";
+import drainagesReducer from "./drainageSlice";
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     bridge:bridgeReducer,
     road:roadReducer,
     streetLights:streetLightsReducer,
+    drainages:drainagesReducer,
   },
 });
 

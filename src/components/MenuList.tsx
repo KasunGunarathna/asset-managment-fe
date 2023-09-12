@@ -10,13 +10,15 @@ import AlignVerticalTopIcon from '@mui/icons-material/AlignVerticalTop';
 import AltRouteIcon from '@mui/icons-material/AltRoute';
 import { Link } from "react-router-dom";
 import LightIcon from '@mui/icons-material/Light';
+import AirIcon from '@mui/icons-material/Air';
 
 const itemsWithIcons = [
   { text: "Home", icon: <HomeIcon />, path: "/home" },
   { text: "Users", icon: <PersonIcon />, path: "/users" },
   { text: "Bridge and Culverts", icon: <AlignVerticalTopIcon />, path: "/bridges" },
   { text: "Roads", icon: <AltRouteIcon />, path: "/roads" },
-  { text: "Street Light", icon: <LightIcon />, path: "/street_lights" },
+  { text: "Street Lights", icon: <LightIcon />, path: "/street_lights" },
+  { text: "Drainages", icon: <AirIcon />, path: "/drainages" },
 ];
 
 const NavigationList: React.FC<{}> = () => {
