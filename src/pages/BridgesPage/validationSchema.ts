@@ -2,7 +2,7 @@
 
 import * as yup from "yup";
 
-export const bridgeValidationSchema = yup.object({
+export const validationSchema = yup.object({
   bridge_name: yup.string().required("Bridge Name is required"),
   road_name: yup.string().required("Road Name is required"),
   latitude: yup

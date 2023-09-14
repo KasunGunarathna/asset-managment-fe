@@ -45,6 +45,18 @@ export const updateStreetLights = async (id: any, streetLightsData: any) => {
   }
 };
 
+export const uploadStreetLight = async (id: any, imageData: any) => {
+  try {
+    console.log(id,imageData)
+    const response = await instance.post(`/street_lights/upload-road-image/${id}`, imageData);
+    console.log(response.data.data)
+    return response.data.data;
+  } catch (error) {
+    console.log(error)
+    throw error;
+  }
+};
+
 export const deleteStreetLightsById = async (id: any) => {
   try {
     const response = await instance.delete(`/street_lights/${id}`);

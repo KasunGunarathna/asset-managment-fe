@@ -15,6 +15,7 @@ interface FormFieldProps {
   label: string;
   type?: string;
   select?: boolean;
+  photo?: boolean;
   options?: string[];
   value: any;
   onChange: any;

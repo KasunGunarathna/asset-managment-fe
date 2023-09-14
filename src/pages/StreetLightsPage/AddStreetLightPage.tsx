@@ -9,7 +9,11 @@ import { StreetLight } from "../../types/types"; // Import the StreetLight type
 import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
 import PageLoader from "../../components/PageLoader";
-import { addStreetLight, selectStreetLights } from "../../store/streetLightSlice"; // Import relevant actions and selectors
+import {
+  addStreetLight,
+  imageUploadStreetLight,
+  selectStreetLights,
+} from "../../store/streetLightSlice"; // Import relevant actions and selectors
 import FormGenerator from "../../components/common/FormGenerator";
 import { validationSchema } from "./validationSchema";
 import { fields } from "./formFields"; // Define your street lights form fields here
@@ -59,7 +63,15 @@ const AddStreetLightPage = () => {
   };
 
   const handleConfirm = async () => {
-    await dispatch(addStreetLight(formik.values));
+    const photo: any = formik.values.photo;
+    let data: StreetLight = formik.values;
+    delete data.photo;
+    const res = await dispatch(addStreetLight(data));
+    const formData = new FormData();
+    if (photo !== undefined) {
+      formData.append("file", photo);
+      await dispatch(imageUploadStreetLight(res.id, formData));
+    }
     closeModal();
     formik.resetForm();
     openSuccessMessage("Street light added successfully!");

@@ -14,9 +14,9 @@ import PageLoader from "../../components/PageLoader";
 import MainTemplate from "../../templates/MainTemplate";
 import { clearToken, fetchLoginUser, selectAuth } from "../../store/authSlice";
 import { AppDispatch } from "../../store/store";
-import FormGenerator from "../../components/common/FormGenerator";
 import { fields } from "./formFields";
-import { validationSchema } from "../RoadsPage/validationSchema";
+import FormGenerator from "../../components/common/FormGenerator";
+import { validationSchema } from "./validationSchema";
 
 const EditBridgePage = () => {
   const nic = sessionStorage.getItem("userNic");
@@ -53,16 +53,19 @@ const EditBridgePage = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values: Bridge) => {
+      console.log("bbb")
       openModal();
     },
     enableReinitialize: true,
   });
 
   const openModal = () => {
+    console.log("bbb")
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
+    console.log("bbb")
     setIsModalOpen(false);
   };
 
@@ -89,14 +92,14 @@ const EditBridgePage = () => {
       <MainTemplate
         userDetails={logUser}
         handleLogout={handleLogout}
-        breadCrumb={["Home", "Bridges", "Add Bridge"]}
+        breadCrumb={["Home", "Bridges", "Edit Bridge"]}
       >
         <FormGenerator
           fields={fields}
           formik={formik}
           onSubmit={formik.handleSubmit}
           goBack={goBack}
-          name={"Add Bridge"}
+          name={"Update Bridge"}
           view={view}
         />
       </MainTemplate>

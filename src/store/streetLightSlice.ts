@@ -8,6 +8,7 @@ import {
   getSearchStreetLights,
   insertStreetLights,
   updateStreetLights,
+  uploadStreetLight,
 } from "../api/streetLightApis"; // Adjust the import path for street lights APIs
 
 interface StreetLightsState {
@@ -94,7 +95,19 @@ export const addStreetLight =
   (streetLight: StreetLight | null) => async (dispatch: AppDispatch) => {
     dispatch(getStreetLightsStart());
     try {
-      await insertStreetLights(streetLight);
+      const res =await insertStreetLights(streetLight);
+      dispatch(setSuccess());
+      return res;
+    } catch (error: any) {
+      dispatch(getFailure(error.response?.data?.message || error.message));
+    }
+  };
+
+  export const imageUploadStreetLight =
+  (id:any,imageData: any) => async (dispatch: AppDispatch) => {
+    dispatch(getStreetLightsStart());
+    try {
+      await uploadStreetLight(id,imageData);
       dispatch(setSuccess());
     } catch (error: any) {
       dispatch(getFailure(error.response?.data?.message || error.message));

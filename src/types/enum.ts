@@ -25,7 +25,7 @@ export enum DrainageAvailability {
 export enum LampType {
   LED = "LED",
   CFL = "CFL",
-  Incandescent = "Incandescent",
+  Filament = "Filament",
   Halogen = "Halogen",
 }
 
