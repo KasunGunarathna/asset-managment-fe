@@ -12,6 +12,7 @@ export const getStreetLights = async () => {
 export const getSearchStreetLights = async (query: any) => {
   try {
     const response = await instance.get(`/street_lights/query/${query}`);
+   
     return response.data.data;
   } catch (error) {
     throw error;
@@ -45,14 +46,20 @@ export const updateStreetLights = async (id: any, streetLightsData: any) => {
   }
 };
 
+export const getStreetLight = async (id: any) => {
+  try {
+    const response = await instance.get(`/street_lights/road-image/${id}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const uploadStreetLight = async (id: any, imageData: any) => {
   try {
-    console.log(id,imageData)
     const response = await instance.post(`/street_lights/upload-road-image/${id}`, imageData);
-    console.log(response.data.data)
     return response.data.data;
   } catch (error) {
-    console.log(error)
     throw error;
   }
 };

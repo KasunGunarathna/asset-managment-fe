@@ -1,6 +1,6 @@
 import React from "react";
 import Grid from "@mui/material/Grid";
-import { Box, Button, InputLabel } from "@mui/material";
+import { Box, Button, FormHelperText, InputLabel } from "@mui/material";
 import { FormField as FormFields } from "../../types/types";
 import FormField from "./FormField";
 
@@ -14,6 +14,7 @@ interface FormGeneratorProps {
   password?: any;
   showPassword?: any;
   setShowPassword?: any;
+  onPhoto?: any;
 }
 
 const FormGenerator: React.FC<FormGeneratorProps> = ({
@@ -25,6 +26,7 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
   password,
   showPassword,
   setShowPassword,
+  onPhoto
 }) => {
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -63,10 +65,13 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
                 name={field.name}
                 accept="image/*"
                 onChange={(event) => {
-                  const selectedFile = event.currentTarget.files?.[0];
-                  formik.setFieldValue(`${field.name}`, selectedFile);
+                  const selectedFile =  event.currentTarget.files?.[0] || formik.values[field.name] ;
+                  onPhoto(field.name,selectedFile)
                 }}
               />
+              {formik.touched[field.name] && formik.errors[field.name] && ( // Display error helper text
+    <FormHelperText error>{formik.errors[field.name]}</FormHelperText>
+  )}
             </Grid>
           )
         )}

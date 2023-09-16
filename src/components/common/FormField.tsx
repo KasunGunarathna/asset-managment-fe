@@ -7,6 +7,7 @@ import {
   Select,
   InputAdornment,
   IconButton,
+  FormHelperText,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
@@ -63,6 +64,9 @@ const FormField: React.FC<FormFieldProps> = ({
               </MenuItem>
             ))}
           </Select>
+          {error && (
+            <FormHelperText sx={{ color: "#d32f2f" }}>{helperText}</FormHelperText>
+          )}
         </>
       ) : (
         <TextField
@@ -70,7 +74,7 @@ const FormField: React.FC<FormFieldProps> = ({
           name={name}
           label={label}
           fullWidth
-          type={(showPassword && password) ? "password" : type}
+          type={showPassword && password ? "password" : type}
           value={value}
           onChange={onChange}
           onBlur={onBlur}

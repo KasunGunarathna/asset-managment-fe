@@ -46,7 +46,7 @@ const AddStreetLightPage = () => {
       switch_condition: "",
       pole_type: "",
       lamp_type: "",
-      photo: "",
+      photo: undefined,
     },
     validationSchema: validationSchema,
     onSubmit: (values: StreetLight) => {
@@ -74,6 +74,7 @@ const AddStreetLightPage = () => {
     }
     closeModal();
     formik.resetForm();
+    formik.setFieldValue("photo", null);
     openSuccessMessage("Street light added successfully!");
   };
 
@@ -84,6 +85,11 @@ const AddStreetLightPage = () => {
 
   const goBack = () => {
     navigate("/street_lights");
+  };
+
+  const onPhotoHandle = (name: any, selectedFile: any) => {
+   
+    formik.setFieldValue(`${name}`, selectedFile);
   };
 
   return (
@@ -100,6 +106,7 @@ const AddStreetLightPage = () => {
           onSubmit={formik.handleSubmit}
           goBack={goBack}
           name={"Add Street Light"}
+          onPhoto={onPhotoHandle}
         />
       </MainTemplate>
 

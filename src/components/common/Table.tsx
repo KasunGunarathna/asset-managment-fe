@@ -8,12 +8,15 @@ import {
   TableRow,
   TablePagination,
   IconButton,
+  Avatar,
 } from "@mui/material";
 import { Delete, Edit, Visibility } from "@mui/icons-material";
 
 interface Column {
   id: string;
   label: string;
+  photo?:boolean;
+  url?:string;
 }
 
 interface ReusableTableProps {
@@ -84,7 +87,17 @@ const ReusableTable: React.FC<ReusableTableProps> = ({
               .map((row, rowIndex) => (
                 <TableRow key={row.id}>
                   {columns.map((column) => (
-                    <TableCell key={column.id}>{row[column.id]}</TableCell>
+                    <TableCell key={column.id}>  {column.photo && row[column.id] ? (
+                      // Render the photo as an Avatar if 'photo' column is present
+                      <Avatar
+                        alt={column.label}
+                        src={row[column.url || column.id]}
+                        sx={{ width: 50, height: 50 }}
+                      />
+                    ) : (
+                      // Otherwise, render regular text
+                      row[column.id]
+                    )}</TableCell>
                   ))}
                   <TableCell
                     key={`actions-${rowIndex}`}
