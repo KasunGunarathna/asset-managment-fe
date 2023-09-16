@@ -1,6 +1,6 @@
 import React from "react";
 import Grid from "@mui/material/Grid";
-import { Box, Button } from "@mui/material";
+import { Box, Button, FormHelperText, InputLabel } from "@mui/material";
 import { FormField as FormFields } from "../../types/types";
 import FormField from "./FormField";
 
@@ -12,8 +12,9 @@ interface FormGeneratorProps {
   name: any;
   onSubmit: any;
   password?: any;
-  showPassword?:any;
+  showPassword?: any;
   setShowPassword?: any;
+  onPhoto?: any;
 }
 
 const FormGenerator: React.FC<FormGeneratorProps> = ({
@@ -25,34 +26,55 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
   password,
   showPassword,
   setShowPassword,
+  onPhoto
 }) => {
   return (
     <form onSubmit={formik.handleSubmit}>
       <Grid container spacing={3}>
-        {fields.map((field) => (
-          <Grid item xs={12} md={6} key={field.name}>
-            <FormField
-              name={field.name}
-              view={view}
-              label={field.label}
-              type={field.type}
-              select={field.select}
-              options={field.options}
-              value={formik.values[field.name]}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={
-                formik.touched[field.name] && Boolean(formik.errors[field.name])
-              }
-              helperText={
-                formik.touched[field.name] && formik.errors[field.name]
-              }
-              password={field.password}
-              showPassword={showPassword}
-              setShowPassword={setShowPassword}
-            />
-          </Grid>
-        ))}
+        {fields.map((field) =>
+          !field.photo ? (
+            <Grid item xs={12} md={6} key={field.name}>
+              <FormField
+                name={field.name}
+                view={view}
+                label={field.label}
+                type={field.type}
+                select={field.select}
+                options={field.options}
+                value={formik.values[field.name]}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={
+                  formik.touched[field.name] &&
+                  Boolean(formik.errors[field.name])
+                }
+                helperText={
+                  formik.touched[field.name] && formik.errors[field.name]
+                }
+                password={field.password}
+                showPassword={showPassword}
+                setShowPassword={setShowPassword}
+              />
+            </Grid>
+          ) : (
+            <Grid item xs={12} md={6}>
+              <InputLabel>{field.label}</InputLabel>
+              <input
+                type="file"
+                id={field.name}
+                name={field.name}
+                accept="image/*"
+                onChange={(event) => {
+                  const selectedFile =  event.currentTarget.files?.[0] || formik.values[field.name] ;
+                  onPhoto(field.name,selectedFile)
+                }}
+              />
+              {formik.touched[field.name] && formik.errors[field.name] && ( // Display error helper text
+    <FormHelperText error>{formik.errors[field.name]}</FormHelperText>
+  )}
+            </Grid>
+          )
+        )}
 
         <Grid item xs={12}>
           <Box display="flex" justifyContent="space-between">

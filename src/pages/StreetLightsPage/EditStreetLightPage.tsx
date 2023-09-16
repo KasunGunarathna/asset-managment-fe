@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import { editStreetLight, fetchStreetLightById, selectStreetLights } from "../../store/streetLightSlice"; // Import street light-related actions and selectors
+import { editStreetLight, fetchStreetLightById, imageGetStreetLight, imageUploadStreetLight, selectStreetLights } from "../../store/streetLightSlice"; // Import street light-related actions and selectors
 import { StreetLight } from "../../types/types"; // Import the StreetLight type
 import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
@@ -21,13 +21,14 @@ const EditStreetLightPage = () => {
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { loading, error, streetLight } = useSelector(selectStreetLights); // Use the appropriate selector for street lights
+  const { loading, error, streetLight ,photo} = useSelector(selectStreetLights); // Use the appropriate selector for street lights
   const { logUser } = useSelector(selectAuth);
   const { id, view } = useParams();
 
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
     dispatch(fetchStreetLightById(id)); // Fetch street light data by ID
+    dispatch(imageGetStreetLight(id))
   }, [nic, id, dispatch]);
 
   const handleLogout = () => {
@@ -44,7 +45,7 @@ const EditStreetLightPage = () => {
       switch_condition: streetLight?.switch_condition || "",
       pole_type: streetLight?.pole_type || "",
       lamp_type: streetLight?.lamp_type || "",
-      photo: streetLight?.photo || "",
+      photo: photo || "",
     },
     validationSchema: validationSchema,
     onSubmit: (values: StreetLight) => {
@@ -61,11 +62,23 @@ const EditStreetLightPage = () => {
     setIsModalOpen(false);
   };
 
-  const handleConfirm = () => {
-    dispatch(editStreetLight(id, formik.values));
+  const handleConfirm = async () => {
+    console.log(formik.values)
+    const image: any = formik.values.photo || photo;
+    let data: StreetLight = formik.values;
+    delete data.photo;
+    console.log(data)
+    
+     await dispatch(editStreetLight(id, data));
+    const formData = new FormData();
+    if (image !== undefined) {
+      formData.append("file", image);
+      console.log(formData)
+      await dispatch(imageUploadStreetLight(id, formData));
+    }
     closeModal();
     dispatch(fetchStreetLightById(id));
-    formik.resetForm();
+    formik.setFieldValue("photo", streetLight?.photo);
     openSuccessMessage("Street light updated successfully!");
   };
 
@@ -77,7 +90,10 @@ const EditStreetLightPage = () => {
   const goBack = () => {
     navigate("/street_lights");
   };
-
+  const onPhotoHandle = (name: any, selectedFile: any) => {
+    formik.setFieldValue(`${name}`, selectedFile);
+    console.log(formik)
+  };
   return (
     <>
       <PageLoader isLoading={loading} />
@@ -93,6 +109,7 @@ const EditStreetLightPage = () => {
           goBack={goBack}
           name={"Update Street Light"}
           view={view}
+          onPhoto={onPhotoHandle}
         />
       </MainTemplate>
       <CustomDialog

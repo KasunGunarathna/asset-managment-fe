@@ -27,7 +27,7 @@ const StreetLightsPage = () => {
     { id: "switch_condition", label: "Switch Condition" },
     { id: "pole_type", label: "Pole Type" },
     { id: "lamp_type", label: "Lamp Type" },
-    { id: "photo", label: "Photo" },
+    { id: "photo", label: "Photo", photo:true,url:"photoUrl" },
   ];
 
   const dispatch = useDispatch<AppDispatch>();
@@ -38,6 +38,7 @@ const StreetLightsPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+  
   const [id, setId] = useState(0);
 
   useEffect(() => {

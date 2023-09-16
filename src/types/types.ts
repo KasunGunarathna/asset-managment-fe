@@ -8,6 +8,7 @@ export interface FormField {
   label: string;
   type?: string;
   select?: boolean;
+  photo?: boolean;
   password?: boolean;
   setShowPassword?: boolean;
   options?: string[];
@@ -63,7 +64,7 @@ export interface StreetLight {
   switch_condition: string | undefined;
   pole_type: string | undefined;
   lamp_type: string | undefined;
-  photo: string | undefined;
+  photo?: string | undefined;
 }
 
 export interface Drainage {
