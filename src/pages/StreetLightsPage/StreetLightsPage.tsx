@@ -100,16 +100,18 @@ const StreetLightsPage = () => {
   };
 
   const handleUpload = async () => {
-    if (selectedFile) {
-      const formData = new FormData();
-      formData.append("file", selectedFile);
-      await dispatch(bulkUploadStreetLight(formData));
-      if (!error) {
+    try {
+      if (selectedFile) {
+        const formData = new FormData();
+        formData.append("file", selectedFile);
+        await dispatch(bulkUploadStreetLight(formData));
         closeFileModal();
         openSuccessMessage("Street lights Bulk Upload successfully!");
-      } else {
         await dispatch(fetchStreetLights());
       }
+    } catch (err: any) {
+      closeFileModal();
+      openSuccessMessage(err.message);
     }
   };
 

@@ -53,3 +53,12 @@ export const deleteDrainagesById = async (id: any) => {
     throw error;
   }
 };
+
+export const uploadBulkDrainage = async (data: any) => {
+  try {
+    const response = await instance.post(`/drainages/bulk-upload`, data);
+    return response.data.data;
+  } catch (error) {
+    throw error;
+  }
+};

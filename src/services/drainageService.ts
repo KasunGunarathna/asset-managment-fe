@@ -5,6 +5,7 @@ import {
   getSearchDrainages,
   insertDrainages,
   updateDrainages,
+  uploadBulkDrainage,
 } from "../api/drainagesApis";
 import {
   getDrainageSuccess,
@@ -77,5 +78,17 @@ export const removeDrainageById =
       dispatch(setSuccess());
     } catch (error: any) {
       dispatch(getFailure(error.response?.data?.message || error.message));
+    }
+  };
+
+export const bulkUploadDrainage =
+  (data: any) => async (dispatch: AppDispatch) => {
+    dispatch(getDrainagesStart());
+    try {
+      await uploadBulkDrainage(data);
+      dispatch(setSuccess());
+    } catch (error: any) {
+      dispatch(getFailure(error.response?.data?.message || error.message));
+      throw error;
     }
   };

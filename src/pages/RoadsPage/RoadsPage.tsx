@@ -13,10 +13,15 @@ import CustomSnackbar from "../../components/common/Snackbar";
 import { selectRoad } from "../../store/roadSlice";
 import { fetchLoginUser } from "../../services/authService";
 import {
+  bulkUploadRoad,
   fetchRoads,
   fetchSearchRoads,
   removeRoadById,
 } from "../../services/roadService";
+import FileUploadModal from "../../components/common/FileUploadModal";
+import { useModal } from "../../hooks/useModal";
+import { useSuccessMessage } from "../../hooks/useSuccessMessage";
+import { useFileModal } from "../../hooks/useFileModal";
 
 const RoadsPage = () => {
   const nic = sessionStorage.getItem("userNic");
@@ -43,9 +48,21 @@ const RoadsPage = () => {
   const { roads, loading, error } = useSelector(selectRoad);
   const { logUser } = useSelector(selectAuth);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+  const { isModalOpen, openModal, closeModal } = useModal();
+  const {
+    successMessage,
+    isSuccessOpen,
+    openSuccessMessage,
+    closeSuccessMessage,
+  } = useSuccessMessage();
+
+  const {
+    fileModal,
+    openFileModal,
+    closeFileModal,
+    selectedFile,
+    handleFileChange,
+  } = useFileModal();
   const [id, setId] = useState(0);
 
   useEffect(() => {
@@ -72,13 +89,6 @@ const RoadsPage = () => {
   const handleView = (id: any) => {
     navigate(`/roads/view/${id}/${true}`);
   };
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
 
   const handleConfirm = async () => {
     await dispatch(removeRoadById(id));
@@ -87,14 +97,25 @@ const RoadsPage = () => {
     openSuccessMessage("Road deleted successfully!");
   };
 
-  const openSuccessMessage = (message: string) => {
-    setSuccessMessage(message);
-    setIsSuccessOpen(true);
-  };
-
   const setSearchQuery = async (query: any) => {
     if (query) await dispatch(fetchSearchRoads(query));
     else await dispatch(fetchRoads());
+  };
+
+  const handleUpload = async () => {
+    try {
+      if (selectedFile) {
+        const formData = new FormData();
+        formData.append("file", selectedFile);
+        await dispatch(bulkUploadRoad(formData));
+        closeFileModal();
+        openSuccessMessage("Drainages Bulk Upload successfully!");
+        await dispatch(fetchRoads());
+      }
+    } catch (err: any) {
+      closeFileModal();
+      openSuccessMessage(err.message);
+    }
   };
 
   return (
@@ -105,7 +126,11 @@ const RoadsPage = () => {
         handleLogout={handleLogout}
         breadCrumb={["Home", "Roads"]}
       >
-        <TableControls setSearchQuery={setSearchQuery} onChange={addNewPage} />
+        <TableControls
+          setSearchQuery={setSearchQuery}
+          onChange={addNewPage}
+          onBulk={openFileModal}
+        />
         <ReusableTable
           columns={columns}
           data={roads}
@@ -122,8 +147,19 @@ const RoadsPage = () => {
         />
         <CustomSnackbar
           open={isSuccessOpen}
-          onClose={() => setIsSuccessOpen(false)}
+          onClose={() => closeSuccessMessage()}
           message={successMessage}
+          error={error}
+        />
+        <FileUploadModal
+          open={fileModal}
+          onClose={() => {
+            closeFileModal();
+          }}
+          handleFileChange={handleFileChange}
+          handleUpload={handleUpload}
+          selectedFile={selectedFile}
+          uploading={loading}
           error={error}
         />
       </MainTemplate>

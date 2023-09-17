@@ -5,6 +5,7 @@ import {
   getSearchBridges,
   insertBridges,
   updateBridges,
+  uploadBulkBridge,
 } from "../api/bridgeApis";
 import {
   getBridgeSuccess,
@@ -78,3 +79,15 @@ export const removeBridgeById = (id: any) => async (dispatch: AppDispatch) => {
     dispatch(getFailure(error.response?.data?.message || error.message));
   }
 };
+
+export const bulkUploadBridge =
+  (data: any) => async (dispatch: AppDispatch) => {
+    dispatch(getBridgesStart());
+    try {
+      await uploadBulkBridge(data);
+      dispatch(setSuccess());
+    } catch (error: any) {
+      dispatch(getFailure(error.response?.data?.message || error.message));
+      throw error;
+    }
+  };

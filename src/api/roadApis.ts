@@ -53,3 +53,12 @@ export const deleteRoadsById = async (id: any) => {
     throw error;
   }
 };
+
+export const uploadBulkRoad = async (data: any) => {
+  try {
+    const response = await instance.post(`/roads/bulk-upload`, data);
+    return response.data.data;
+  } catch (error) {
+    throw error;
+  }
+};

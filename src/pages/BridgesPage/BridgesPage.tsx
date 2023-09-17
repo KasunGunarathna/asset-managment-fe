@@ -13,10 +13,15 @@ import CustomSnackbar from "../../components/common/Snackbar";
 import { selectBridge } from "../../store/bridgeSlice";
 import { fetchLoginUser } from "../../services/authService";
 import {
+  bulkUploadBridge,
   fetchBridges,
   fetchSearchBridges,
   removeBridgeById,
 } from "../../services/bridgeService";
+import { useFileModal } from "../../hooks/useFileModal";
+import { useModal } from "../../hooks/useModal";
+import { useSuccessMessage } from "../../hooks/useSuccessMessage";
+import FileUploadModal from "../../components/common/FileUploadModal";
 
 const BridgesPage = () => {
   const nic = sessionStorage.getItem("userNic");
@@ -35,12 +40,24 @@ const BridgesPage = () => {
 
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { bridges, loading, error } = useSelector(selectBridge);
+  const { bridges, loading, error } = useSelector(selectBridge, undefined);
   const { logUser } = useSelector(selectAuth);
+  const { isModalOpen, openModal, closeModal } = useModal();
+  const {
+    successMessage,
+    isSuccessOpen,
+    openSuccessMessage,
+    closeSuccessMessage,
+  } = useSuccessMessage();
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+  const {
+    fileModal,
+    openFileModal,
+    closeFileModal,
+    selectedFile,
+    handleFileChange,
+  } = useFileModal();
+
   const [id, setId] = useState(0);
 
   useEffect(() => {
@@ -67,13 +84,6 @@ const BridgesPage = () => {
   const handleView = (id: any) => {
     navigate(`/bridges/view/${id}/${true}`);
   };
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
 
   const handleConfirm = async () => {
     await dispatch(removeBridgeById(id));
@@ -82,14 +92,25 @@ const BridgesPage = () => {
     openSuccessMessage("Bridge deleted successfully!");
   };
 
-  const openSuccessMessage = (message: string) => {
-    setSuccessMessage(message);
-    setIsSuccessOpen(true);
-  };
-
   const setSearchQuery = async (query: any) => {
     if (query) await dispatch(fetchSearchBridges(query));
     else await dispatch(fetchBridges());
+  };
+
+  const handleUpload = async () => {
+    try {
+      if (selectedFile) {
+        const formData = new FormData();
+        formData.append("file", selectedFile);
+        await dispatch(bulkUploadBridge(formData));
+        closeFileModal();
+        openSuccessMessage("Bridges Bulk Upload successfully!");
+        await dispatch(fetchBridges());
+      }
+    } catch (err:any) {
+      closeFileModal();
+      openSuccessMessage(err.message);
+    }
   };
 
   return (
@@ -100,7 +121,11 @@ const BridgesPage = () => {
         handleLogout={handleLogout}
         breadCrumb={["Home", "Bridges"]}
       >
-        <TableControls setSearchQuery={setSearchQuery} onChange={addNewPage} />
+        <TableControls
+          setSearchQuery={setSearchQuery}
+          onChange={addNewPage}
+          onBulk={openFileModal}
+        />
         <ReusableTable
           columns={columns}
           data={bridges}
@@ -117,8 +142,19 @@ const BridgesPage = () => {
         />
         <CustomSnackbar
           open={isSuccessOpen}
-          onClose={() => setIsSuccessOpen(false)}
+          onClose={() => closeSuccessMessage()}
           message={successMessage}
+          error={error}
+        />
+        <FileUploadModal
+          open={fileModal}
+          onClose={() => {
+            closeFileModal();
+          }}
+          handleFileChange={handleFileChange}
+          handleUpload={handleUpload}
+          selectedFile={selectedFile}
+          uploading={loading}
           error={error}
         />
       </MainTemplate>

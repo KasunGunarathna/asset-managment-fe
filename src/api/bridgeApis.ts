@@ -53,3 +53,12 @@ export const deleteBridgesById = async (id: any) => {
     throw error;
   }
 };
+
+export const uploadBulkBridge = async (data: any) => {
+  try {
+    const response = await instance.post(`/bridges/bulk-upload`, data);
+    return response.data.data;
+  } catch (error) {
+    throw error;
+  }
+};
