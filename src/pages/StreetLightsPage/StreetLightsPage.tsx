@@ -16,6 +16,7 @@ import {
   removeStreetLightById,
   selectStreetLights,
 } from "../../store/streetLightSlice"; // Import corresponding actions and selectors
+import ImageViewModal from "../../components/common/ImageViewModal";
 
 const StreetLightsPage = () => {
   const nic = sessionStorage.getItem("userNic");
@@ -27,19 +28,31 @@ const StreetLightsPage = () => {
     { id: "switch_condition", label: "Switch Condition" },
     { id: "pole_type", label: "Pole Type" },
     { id: "lamp_type", label: "Lamp Type" },
-    { id: "photo", label: "Photo", photo:true,url:"photoUrl" },
+    { id: "photo", label: "Photo", photo: true, url: "photoUrl" },
   ];
 
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { streetLights, loading, error } = useSelector(selectStreetLights);
   const { logUser } = useSelector(selectAuth);
+  const [openImageModal, setOpenImageModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
-  
+
   const [id, setId] = useState(0);
+
+  const handleOpenModal = (imageURL: string) => {
+    setSelectedImage(imageURL);
+    setOpenImageModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedImage(null);
+    setOpenImageModal(false);
+  };
 
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
@@ -85,6 +98,8 @@ const StreetLightsPage = () => {
     setIsSuccessOpen(true);
   };
 
+  
+
   const setSearchQuery = async (query: any) => {
     if (query) await dispatch(fetchSearchStreetLights(query));
     else await dispatch(fetchStreetLights());
@@ -105,6 +120,7 @@ const StreetLightsPage = () => {
           handleDelete={handleDelete}
           handleEdit={handleEdit}
           handleView={handleView}
+          handleOpenModal={handleOpenModal}
         />
         <CustomDialog
           open={isModalOpen}
@@ -118,6 +134,12 @@ const StreetLightsPage = () => {
           onClose={() => setIsSuccessOpen(false)}
           message={successMessage}
           error={error}
+        />
+
+        <ImageViewModal
+          open={openImageModal}
+          onClose={handleCloseModal}
+          imageURL={selectedImage}
         />
       </MainTemplate>
     </>
