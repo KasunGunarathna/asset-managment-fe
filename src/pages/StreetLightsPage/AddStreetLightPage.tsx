@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearToken, selectAuth } from "../../store/authSlice";
 import MainTemplate from "../../templates/MainTemplate";
@@ -18,16 +18,23 @@ import {
   imageUploadStreetLight,
 } from "../../services/StreetLightService";
 import { fetchLoginUser } from "../../services/authService";
+import { useSuccessMessage } from "../../hooks/useSuccessMessage";
+import { useModal } from "../../hooks/useModal";
 
 const AddStreetLightPage = () => {
   const nic = sessionStorage.getItem("userNic");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { loading, error } = useSelector(selectStreetLights); // Use the appropriate selector for street lights
+  const { loading, error } = useSelector(selectStreetLights);
   const { logUser } = useSelector(selectAuth);
+
+  const { isModalOpen, openModal, closeModal } = useModal();
+  const {
+    successMessage,
+    isSuccessOpen,
+    openSuccessMessage,
+    closeSuccessMessage,
+  } = useSuccessMessage();
 
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
@@ -55,14 +62,6 @@ const AddStreetLightPage = () => {
     },
   });
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
   const handleConfirm = async () => {
     const photo: any = formik.values.photo;
     let data: StreetLight = formik.values;
@@ -77,11 +76,6 @@ const AddStreetLightPage = () => {
     formik.resetForm();
     formik.setFieldValue("photo", null);
     openSuccessMessage("Street light added successfully!");
-  };
-
-  const openSuccessMessage = (message: string) => {
-    setSuccessMessage(message);
-    setIsSuccessOpen(true);
   };
 
   const goBack = () => {
@@ -119,7 +113,7 @@ const AddStreetLightPage = () => {
       />
       <CustomSnackbar
         open={isSuccessOpen}
-        onClose={() => setIsSuccessOpen(false)}
+        onClose={() => closeSuccessMessage()}
         message={successMessage}
         error={error}
       />

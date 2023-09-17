@@ -20,6 +20,10 @@ import ImageViewModal from "../../components/common/ImageViewModal";
 import FileUploadModal from "../../components/common/FileUploadModal";
 import { selectStreetLights } from "../../store/streetLightSlice";
 import { fetchLoginUser } from "../../services/authService";
+import { useModal } from "../../hooks/useModal";
+import { useImageModal } from "../../hooks/useImageModal";
+import { useSuccessMessage } from "../../hooks/useSuccessMessage";
+import { useFileModal } from "../../hooks/useFileModal";
 
 const StreetLightsPage = () => {
   const nic = sessionStorage.getItem("userNic");
@@ -38,27 +42,25 @@ const StreetLightsPage = () => {
   const navigate = useNavigate();
   const { streetLights, loading, error } = useSelector(selectStreetLights);
   const { logUser } = useSelector(selectAuth);
-  const [openImageModal, setOpenImageModal] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const { isModalOpen, openModal, closeModal } = useModal();
+  const {
+    successMessage,
+    isSuccessOpen,
+    openSuccessMessage,
+    closeSuccessMessage,
+  } = useSuccessMessage();
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
-
-  const [openFileModal, setFileOpenModal] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const { openImageModal, selectedImage, handleOpenModal, handleCloseModal } =
+    useImageModal();
+  const {
+    fileModal,
+    openFileModal,
+    closeFileModal,
+    selectedFile,
+    handleFileChange,
+  } = useFileModal();
 
   const [id, setId] = useState(0);
-
-  const handleOpenModal = (imageURL: string) => {
-    setSelectedImage(imageURL);
-    setOpenImageModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setSelectedImage(null);
-    setOpenImageModal(false);
-  };
 
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
@@ -84,13 +86,6 @@ const StreetLightsPage = () => {
   const handleView = (id: any) => {
     navigate(`/street_lights/view/${id}/${true}`);
   };
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
 
   const handleConfirm = async () => {
     await dispatch(removeStreetLightById(id));
@@ -99,25 +94,9 @@ const StreetLightsPage = () => {
     openSuccessMessage("Street light deleted successfully!");
   };
 
-  const openSuccessMessage = (message: string) => {
-    setSuccessMessage(message);
-    setIsSuccessOpen(true);
-  };
-
-  const onBulk = () => {
-    setFileOpenModal(true);
-  };
-
   const setSearchQuery = async (query: any) => {
     if (query) await dispatch(fetchSearchStreetLights(query));
     else await dispatch(fetchStreetLights());
-  };
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (files && files.length > 0) {
-      setSelectedFile(files[0]);
-    }
   };
 
   const handleUpload = async () => {
@@ -126,11 +105,11 @@ const StreetLightsPage = () => {
       formData.append("file", selectedFile);
       await dispatch(bulkUploadStreetLight(formData));
       if (!error) {
-        setFileOpenModal(false);
+        closeFileModal();
         openSuccessMessage("Street lights Bulk Upload successfully!");
+      } else {
+        await dispatch(fetchStreetLights());
       }
-      await dispatch(fetchStreetLights());
-      setSelectedFile(null);
     }
   };
 
@@ -145,7 +124,7 @@ const StreetLightsPage = () => {
         <TableControls
           setSearchQuery={setSearchQuery}
           onChange={addNewPage}
-          onBulk={onBulk}
+          onBulk={openFileModal}
         />
         <ReusableTable
           columns={columns}
@@ -164,7 +143,7 @@ const StreetLightsPage = () => {
         />
         <CustomSnackbar
           open={isSuccessOpen}
-          onClose={() => setIsSuccessOpen(false)}
+          onClose={() => closeSuccessMessage()}
           message={successMessage}
           error={error}
         />
@@ -176,10 +155,9 @@ const StreetLightsPage = () => {
         />
 
         <FileUploadModal
-          open={openFileModal}
+          open={fileModal}
           onClose={() => {
-            setFileOpenModal(false);
-            setSelectedFile(null);
+            closeFileModal();
           }}
           handleFileChange={handleFileChange}
           handleUpload={handleUpload}

@@ -80,17 +80,19 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
                     {formik.errors[field.name]}
                   </FormHelperText>
                 )}
-              <Avatar
-                alt={field.name}
-                src={formik.values[field.name]}
-                sx={{
-                  width: 50,
-                  height: 50,
-                  cursor: "pointer",
-                  margin: "10px",
-                }}
-                onClick={() => handleOpenModal(formik.values[field.name])}
-              />
+              {formik.values[field.name] && (
+                <Avatar
+                  alt={field.name}
+                  src={formik.values[field.name]}
+                  sx={{
+                    width: 50,
+                    height: 50,
+                    cursor: "pointer",
+                    margin: "10px",
+                  }}
+                  onClick={() => handleOpenModal(formik.values[field.name])}
+                />
+              )}
             </Grid>
           ),
         )}
