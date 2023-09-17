@@ -12,7 +12,7 @@ export const getStreetLights = async () => {
 export const getSearchStreetLights = async (query: any) => {
   try {
     const response = await instance.get(`/street_lights/query/${query}`);
-   
+
     return response.data.data;
   } catch (error) {
     throw error;
@@ -39,7 +39,10 @@ export const insertStreetLights = async (streetLightsData: any) => {
 
 export const updateStreetLights = async (id: any, streetLightsData: any) => {
   try {
-    const response = await instance.patch(`/street_lights/${id}`, streetLightsData);
+    const response = await instance.patch(
+      `/street_lights/${id}`,
+      streetLightsData,
+    );
     return response.data.data;
   } catch (error) {
     throw error;
@@ -57,7 +60,10 @@ export const getStreetLight = async (id: any) => {
 
 export const uploadStreetLight = async (id: any, imageData: any) => {
   try {
-    const response = await instance.post(`/street_lights/upload-road-image/${id}`, imageData);
+    const response = await instance.post(
+      `/street_lights/upload-road-image/${id}`,
+      imageData,
+    );
     return response.data.data;
   } catch (error) {
     throw error;
@@ -73,7 +79,7 @@ export const deleteStreetLightsById = async (id: any) => {
   }
 };
 
-export const uploadBulkStreetLight = async ( data: any) => {
+export const uploadBulkStreetLight = async (data: any) => {
   try {
     const response = await instance.post(`/street_lights/bulk-upload`, data);
     return response.data.data;

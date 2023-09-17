@@ -12,7 +12,7 @@ export function simpleEncrypt(text: string | undefined, key: string): string {
 
 export function simpleDecrypt(
   encryptedText: string | undefined,
-  key: string
+  key: string,
 ): string {
   if (encryptedText) {
     let result = "";

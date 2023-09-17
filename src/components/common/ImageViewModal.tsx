@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Modal,
   Backdrop,
@@ -7,8 +7,8 @@ import {
   Container,
   Paper,
   Box,
-} from '@mui/material';
-import { Close as CloseIcon } from '@mui/icons-material';
+} from "@mui/material";
+import { Close as CloseIcon } from "@mui/icons-material";
 
 interface ImageViewModalProps {
   open: boolean;
@@ -16,16 +16,20 @@ interface ImageViewModalProps {
   imageURL: string | null;
 }
 
-const ImageViewModal: React.FC<ImageViewModalProps> = ({ open, onClose, imageURL }) => {
+const ImageViewModal: React.FC<ImageViewModalProps> = ({
+  open,
+  onClose,
+  imageURL,
+}) => {
   return (
     <Modal
       open={open}
       onClose={onClose}
       closeAfterTransition
       sx={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
       }}
       BackdropComponent={Backdrop}
       BackdropProps={{
@@ -36,12 +40,12 @@ const ImageViewModal: React.FC<ImageViewModalProps> = ({ open, onClose, imageURL
         <Container component="main" maxWidth="md">
           <Paper
             sx={{
-              backgroundColor: 'white',
-              padding: '26px',
-              position: 'relative',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
+              backgroundColor: "white",
+              padding: "26px",
+              position: "relative",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
             }}
           >
             <IconButton
@@ -50,21 +54,27 @@ const ImageViewModal: React.FC<ImageViewModalProps> = ({ open, onClose, imageURL
               onClick={onClose}
               aria-label="close"
               sx={{
-                position: 'absolute',
-                top: '10px',
-                right: '10px',
+                position: "absolute",
+                top: "10px",
+                right: "10px",
               }}
             >
               <CloseIcon />
             </IconButton>
             {imageURL && (
-              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
                 <img
                   src={imageURL}
                   alt="Enlarged"
                   style={{
-                    maxWidth: '100%',
-                    maxHeight: '100%',
+                    maxWidth: "100%",
+                    maxHeight: "100%",
                   }}
                 />
               </Box>

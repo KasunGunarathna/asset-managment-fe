@@ -2,21 +2,19 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import {
-  editBridge,
-  fetchBridgeById,
-  selectBridge,
-} from "../../store/bridgeSlice";
+import { selectBridge } from "../../store/bridgeSlice";
 import { Bridge } from "../../types/types";
 import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
 import PageLoader from "../../components/PageLoader";
 import MainTemplate from "../../templates/MainTemplate";
-import { clearToken, fetchLoginUser, selectAuth } from "../../store/authSlice";
+import { clearToken, selectAuth } from "../../store/authSlice";
 import { AppDispatch } from "../../store/store";
 import { fields } from "./formFields";
 import FormGenerator from "../../components/common/FormGenerator";
 import { validationSchema } from "./validationSchema";
+import { fetchLoginUser } from "../../services/authService";
+import { editBridge, fetchBridgeById } from "../../services/bridgeService";
 
 const EditBridgePage = () => {
   const nic = sessionStorage.getItem("userNic");
@@ -53,19 +51,16 @@ const EditBridgePage = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values: Bridge) => {
-      console.log("bbb")
       openModal();
     },
     enableReinitialize: true,
   });
 
   const openModal = () => {
-    console.log("bbb")
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
-    console.log("bbb")
     setIsModalOpen(false);
   };
 

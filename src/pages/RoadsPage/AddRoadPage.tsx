@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearToken, fetchLoginUser, selectAuth } from "../../store/authSlice";
+import { clearToken, selectAuth } from "../../store/authSlice";
 import MainTemplate from "../../templates/MainTemplate";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../store/store";
@@ -9,10 +9,12 @@ import { Road } from "../../types/types"; // Import the Road type
 import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
 import PageLoader from "../../components/PageLoader";
-import { addRoad, selectRoad } from "../../store/roadSlice";
+import { selectRoad } from "../../store/roadSlice";
 import FormGenerator from "../../components/common/FormGenerator";
 import { validationSchema } from "./validationSchema";
 import { fields } from "./formFields";
+import { fetchLoginUser } from "../../services/authService";
+import { addRoad } from "../../services/roadService";
 
 const AddRoadPage = () => {
   const nic = sessionStorage.getItem("userNic");
@@ -77,7 +79,7 @@ const AddRoadPage = () => {
   };
 
   const goBack = () => {
-    navigate("/roads"); 
+    navigate("/roads");
   };
 
   return (

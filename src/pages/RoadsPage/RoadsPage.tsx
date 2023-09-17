@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearToken, fetchLoginUser, selectAuth } from "../../store/authSlice";
+import { clearToken, selectAuth } from "../../store/authSlice";
 import ReusableTable from "../../components/common/Table";
 import TableControls from "../../components/common/TableControls";
 import MainTemplate from "../../templates/MainTemplate";
@@ -10,12 +10,13 @@ import { AppDispatch } from "../../store/store";
 import PageLoader from "../../components/PageLoader";
 import CustomDialog from "../../components/common/CustomDialog";
 import CustomSnackbar from "../../components/common/Snackbar";
+import { selectRoad } from "../../store/roadSlice";
+import { fetchLoginUser } from "../../services/authService";
 import {
   fetchRoads,
   fetchSearchRoads,
   removeRoadById,
-  selectRoad,
-} from "../../store/roadSlice";
+} from "../../services/roadService";
 
 const RoadsPage = () => {
   const nic = sessionStorage.getItem("userNic");

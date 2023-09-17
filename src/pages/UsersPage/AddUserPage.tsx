@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearToken, fetchLoginUser, selectAuth } from "../../store/authSlice";
+import { clearToken, selectAuth } from "../../store/authSlice";
 import MainTemplate from "../../templates/MainTemplate";
-import { addUser, selectUser } from "../../store/userSlice";
-import { useNavigate, useParams } from "react-router-dom";
+import { selectUser } from "../../store/userSlice";
+import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../store/store";
 import { useFormik } from "formik";
 import { User } from "../../types/types";
@@ -13,8 +13,8 @@ import PageLoader from "../../components/PageLoader";
 import { validationSchema } from "./validationSchema";
 import FormGenerator from "../../components/common/FormGenerator";
 import { fields } from "./formFields";
-
-
+import { fetchLoginUser } from "../../services/authService";
+import { addUser } from "../../services/userService";
 
 const AddUsersPage = () => {
   const nic = sessionStorage.getItem("userNic");
@@ -80,7 +80,7 @@ const AddUsersPage = () => {
         handleLogout={handleLogout}
         breadCrumb={["Home", "Users", "Add User"]}
       >
-       <FormGenerator
+        <FormGenerator
           fields={fields}
           formik={formik}
           onSubmit={formik.handleSubmit}

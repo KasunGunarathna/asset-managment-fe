@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearToken, fetchLoginUser, selectAuth } from "../../store/authSlice";
+import { clearToken, selectAuth } from "../../store/authSlice";
 import MainTemplate from "../../templates/MainTemplate";
 import { AppDispatch } from "../../store/store";
+import { fetchLoginUser } from "../../services/authService";
 
 const HomePage = () => {
   const nic = sessionStorage.getItem("userNic");
@@ -12,14 +13,13 @@ const HomePage = () => {
 
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
-  }, [nic,dispatch]);
+  }, [nic, dispatch]);
 
   const handleLogout = () => {
     // Dispatch the logout action
     dispatch(clearToken());
     localStorage.removeItem("isAuthenticated");
   };
-  
 
   return (
     <>

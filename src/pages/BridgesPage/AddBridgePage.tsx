@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearToken, fetchLoginUser, selectAuth } from "../../store/authSlice";
+import { clearToken, selectAuth } from "../../store/authSlice";
 import MainTemplate from "../../templates/MainTemplate";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../store/store";
@@ -9,10 +9,12 @@ import { Bridge } from "../../types/types";
 import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
 import PageLoader from "../../components/PageLoader";
-import { addBridge, selectBridge } from "../../store/bridgeSlice";
+import { selectBridge } from "../../store/bridgeSlice";
 import { validationSchema } from "../RoadsPage/validationSchema";
 import FormGenerator from "../../components/common/FormGenerator";
 import { fields } from "./formFields";
+import { fetchLoginUser } from "../../services/authService";
+import { addBridge } from "../../services/bridgeService";
 
 const AddBridgePage = () => {
   const nic = sessionStorage.getItem("userNic");

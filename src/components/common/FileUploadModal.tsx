@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Button,
   Dialog,
@@ -15,8 +15,8 @@ interface FileUploadModalProps {
   handleUpload?: any;
   handleFileChange?: any;
   selectedFile?: any;
-  uploading?:any;
-  error?:any;
+  uploading?: any;
+  error?: any;
 }
 
 const FileUploadModal: React.FC<FileUploadModalProps> = ({
@@ -28,7 +28,6 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({
   uploading,
   error,
 }) => {
-
   return (
     <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
       <DialogTitle sx={{ textAlign: "center" }}>Upload a File</DialogTitle>

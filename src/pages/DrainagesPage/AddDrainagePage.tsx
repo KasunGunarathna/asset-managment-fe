@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearToken, fetchLoginUser, selectAuth } from "../../store/authSlice";
+import { clearToken, selectAuth } from "../../store/authSlice";
 import MainTemplate from "../../templates/MainTemplate";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../store/store";
@@ -9,10 +9,12 @@ import { Drainage } from "../../types/types"; // Import the Drainage type
 import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
 import PageLoader from "../../components/PageLoader";
-import { addDrainage, selectDrainages } from "../../store/drainageSlice"; // Import relevant actions and selectors
+import { selectDrainages } from "../../store/drainageSlice"; // Import relevant actions and selectors
 import FormGenerator from "../../components/common/FormGenerator";
 import { validationSchema } from "./validationSchema";
 import { fields } from "./formFields"; // Define your drainage form fields here
+import { fetchLoginUser } from "../../services/authService";
+import { addDrainage } from "../../services/drainageService";
 
 const AddDrainagePage = () => {
   const nic = sessionStorage.getItem("userNic");

@@ -9,11 +9,11 @@ import drainagesReducer from "./drainageSlice";
 export const store = configureStore({
   reducer: {
     auth: authReducer,
-    user:userReducer,
-    bridge:bridgeReducer,
-    road:roadReducer,
-    streetLights:streetLightsReducer,
-    drainages:drainagesReducer,
+    user: userReducer,
+    bridge: bridgeReducer,
+    road: roadReducer,
+    streetLights: streetLightsReducer,
+    drainages: drainagesReducer,
   },
 });
 

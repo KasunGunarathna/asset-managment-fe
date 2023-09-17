@@ -5,7 +5,7 @@ import Alert from "@mui/material/Alert";
 interface SnackbarProps {
   open: boolean;
   message: string;
-  error: string |null;
+  error: string | null;
   onClose: () => void;
 }
 

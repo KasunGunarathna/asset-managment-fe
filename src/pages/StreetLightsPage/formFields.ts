@@ -1,4 +1,3 @@
-
 import { LampType, PoleType } from "../../types/enum";
 import { FormField } from "../../types/types";
 
@@ -19,6 +18,6 @@ export const fields: FormField[] = [
     select: true,
     options: Object.values(LampType), // Use the LampType enum
   },
-  { name: "photo", label: "Photo" ,photo:true },
+  { name: "photo", label: "Photo", photo: true },
   // You can add more fields as needed
 ];

@@ -1,20 +1,21 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearToken, fetchLoginUser, selectAuth } from "../../store/authSlice";
+import { clearToken, selectAuth } from "../../store/authSlice";
 import ReusableTable from "../../components/common/Table";
 import TableControls from "../../components/common/TableControls";
 import MainTemplate from "../../templates/MainTemplate";
-import {
-  fetchSearchUsers,
-  fetchUsers,
-  removeUserById,
-  selectUser,
-} from "../../store/userSlice";
+import { selectUser } from "../../store/userSlice";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../store/store";
 import PageLoader from "../../components/PageLoader";
 import CustomDialog from "../../components/common/CustomDialog";
 import CustomSnackbar from "../../components/common/Snackbar";
+import { fetchLoginUser } from "../../services/authService";
+import {
+  fetchSearchUsers,
+  fetchUsers,
+  removeUserById,
+} from "../../services/userService";
 
 const UsersPage = () => {
   const nic = sessionStorage.getItem("userNic");

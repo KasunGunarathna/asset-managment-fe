@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getTokenFromLocalStorage } from "../utils/utils"; 
+import { getTokenFromLocalStorage } from "../utils/utils";
 import { useDispatch } from "react-redux";
 import { clearToken } from "../store/authSlice";
 const API_BASE_URL = "http://localhost:3000";
@@ -7,8 +7,6 @@ const API_BASE_URL = "http://localhost:3000";
 const instance = axios.create({
   baseURL: API_BASE_URL,
 });
-
-
 
 // Request interceptor
 instance.interceptors.request.use(
@@ -25,7 +23,7 @@ instance.interceptors.request.use(
       dispatch(clearToken());
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 instance.interceptors.response.use(
@@ -33,7 +31,7 @@ instance.interceptors.response.use(
   (error) => {
     // Handle error globally
     return Promise.reject(error);
-  }
+  },
 );
 
 export default instance;

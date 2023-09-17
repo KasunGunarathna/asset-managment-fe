@@ -19,27 +19,30 @@ To install the project dependencies, follow these steps:
    ```bash
    git clone https://github.com/your-username/asset-managment-fe.git
 
+   ```
+
 2. Change your directory to the project folder:
 
    ```bash
    cd asset-managment-fe
 
+   ```
+
 3. Install the project dependencies:
 
    ```bash
    npm install
+   ```
 
 ## Environment Variables
 
 Create a .env file in the root directory of the project and add the following environment variables
-
 
 ## Usage
 
     npm start
 
 The application will be available at http://localhost:3000.
-
 
 ### Folder Structure
 

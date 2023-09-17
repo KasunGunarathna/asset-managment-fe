@@ -15,8 +15,8 @@ import { Delete, Edit, Visibility } from "@mui/icons-material";
 interface Column {
   id: string;
   label: string;
-  photo?:boolean;
-  url?:string;
+  photo?: boolean;
+  url?: string;
 }
 
 interface ReusableTableProps {
@@ -25,7 +25,7 @@ interface ReusableTableProps {
   handleDelete: any;
   handleEdit: any;
   handleView: any;
-  handleOpenModal?:any;
+  handleOpenModal?: any;
 }
 
 const ReusableTable: React.FC<ReusableTableProps> = ({
@@ -44,7 +44,7 @@ const ReusableTable: React.FC<ReusableTableProps> = ({
   };
 
   const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
@@ -52,98 +52,102 @@ const ReusableTable: React.FC<ReusableTableProps> = ({
 
   return (
     <>
-    <div style={{ width: '100%',overflowX: 'auto' }}>
-      <TableContainer sx={{ maxHeight: 380 }}>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
+      <div style={{ width: "100%", overflowX: "auto" }}>
+        <TableContainer sx={{ maxHeight: 380 }}>
+          <Table stickyHeader aria-label="sticky table">
+            <TableHead>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell
+                    key={column.id}
+                    sx={{
+                      backgroundColor: "#9bcbea",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {column.label}
+                  </TableCell>
+                ))}
                 <TableCell
-                  key={column.id}
+                  key="actions"
                   sx={{
                     backgroundColor: "#9bcbea",
                     fontWeight: "bold",
+                    textAlign: "right",
+                    paddingRight: "50px",
+                    paddingLeft: "50px",
                   }}
                 >
-                  {column.label}
+                  Actions
                 </TableCell>
-              ))}
-              <TableCell
-                key="actions"
-                sx={{
-                  backgroundColor: "#9bcbea",
-                  fontWeight: "bold",
-                  textAlign: "right",
-                  paddingRight:"50px",
-                  paddingLeft:"50px",
-                }}
-                
-              >
-                Actions
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row, rowIndex) => (
-                <TableRow key={row.id}>
-                  {columns.map((column) => (
-                    <TableCell key={column.id}>  {column.photo && row[column.id] ? (
-                      // Render the photo as an Avatar if 'photo' column is present
-                      <Avatar
-                        alt={column.label}
-                        src={row[column.url || column.id]}
-                        sx={{ width: 50, height: 50, cursor: 'pointer' }}
-                        onClick={() => handleOpenModal(row[column.url || column.id])}
-                      />
-                    ) : (
-                      // Otherwise, render regular text
-                      row[column.id]
-                    )}</TableCell>
-                  ))}
-                  <TableCell
-                    key={`actions-${rowIndex}`}
-                    sx={{
-                      textAlign: "right",
-                    }}
-                  >
-                    <IconButton
-                      sx={{ color: "#df4444" }}
-                      aria-label="Delete"
-                      onClick={() => handleDelete(row.id)} // Implement a delete handler function.
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {data
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row, rowIndex) => (
+                  <TableRow key={row.id}>
+                    {columns.map((column) => (
+                      <TableCell key={column.id}>
+                        {" "}
+                        {column.photo && row[column.id] ? (
+                          // Render the photo as an Avatar if 'photo' column is present
+                          <Avatar
+                            alt={column.label}
+                            src={row[column.url || column.id]}
+                            sx={{ width: 50, height: 50, cursor: "pointer" }}
+                            onClick={() =>
+                              handleOpenModal(row[column.url || column.id])
+                            }
+                          />
+                        ) : (
+                          // Otherwise, render regular text
+                          row[column.id]
+                        )}
+                      </TableCell>
+                    ))}
+                    <TableCell
+                      key={`actions-${rowIndex}`}
+                      sx={{
+                        textAlign: "right",
+                      }}
                     >
-                      <Delete />
-                    </IconButton>
-                    <IconButton
-                      sx={{ color: "#00bec4" }}
-                      aria-label="Edit"
-                      onClick={() => handleEdit(row.id)} // Implement an edit handler function.
-                    >
-                      <Edit />
-                    </IconButton>
-                    <IconButton
-                      sx={{ color: "#2fce3b" }}
-                      aria-label="View"
-                      onClick={() => handleView(row.id)} // Implement a view handler function.
-                    >
-                      <Visibility />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[5, 10]}
-        component="div"
-        count={data.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+                      <IconButton
+                        sx={{ color: "#df4444" }}
+                        aria-label="Delete"
+                        onClick={() => handleDelete(row.id)} // Implement a delete handler function.
+                      >
+                        <Delete />
+                      </IconButton>
+                      <IconButton
+                        sx={{ color: "#00bec4" }}
+                        aria-label="Edit"
+                        onClick={() => handleEdit(row.id)} // Implement an edit handler function.
+                      >
+                        <Edit />
+                      </IconButton>
+                      <IconButton
+                        sx={{ color: "#2fce3b" }}
+                        aria-label="View"
+                        onClick={() => handleView(row.id)} // Implement a view handler function.
+                      >
+                        <Visibility />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10]}
+          component="div"
+          count={data.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </div>
     </>
   );

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
@@ -7,33 +7,44 @@ import {
   fetchStreetLightById,
   imageGetStreetLight,
   imageUploadStreetLight,
-  selectStreetLights,
-} from "../../store/streetLightSlice"; // Import street light-related actions and selectors
+} from "../../services/StreetLightService"; // Import street light-related actions and selectors
 import { StreetLight } from "../../types/types"; // Import the StreetLight type
 import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
 import PageLoader from "../../components/PageLoader";
 import MainTemplate from "../../templates/MainTemplate";
-import { clearToken, fetchLoginUser, selectAuth } from "../../store/authSlice";
+import { clearToken, selectAuth } from "../../store/authSlice";
 import { AppDispatch } from "../../store/store";
 import { validationSchema } from "./validationSchema";
 import FormGenerator from "../../components/common/FormGenerator";
 import { fields } from "./formFields";
 import ImageViewModal from "../../components/common/ImageViewModal";
+import { selectStreetLights } from "../../store/streetLightSlice";
+import { fetchLoginUser } from "../../services/authService";
+import { useModal } from "../../hooks/useModal";
+import { useSuccessMessage } from "../../hooks/useSuccessMessage";
+import { useImageModal } from "../../hooks/useImageModal";
 
 const EditStreetLightPage = () => {
   const nic = sessionStorage.getItem("userNic");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { loading, error, streetLight, photo } =
-    useSelector(selectStreetLights); // Use the appropriate selector for street lights
+    useSelector(selectStreetLights);
   const { logUser } = useSelector(selectAuth);
   const { id, view } = useParams();
-  const [openImageModal, setOpenImageModal] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  const { isModalOpen, openModal, closeModal } = useModal();
+  const {
+    successMessage,
+    isSuccessOpen,
+    openSuccessMessage,
+    closeSuccessMessage,
+  } = useSuccessMessage();
+
+  const { openImageModal, selectedImage, handleOpenModal, handleCloseModal } =
+    useImageModal();
 
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
@@ -63,26 +74,15 @@ const EditStreetLightPage = () => {
     enableReinitialize: true,
   });
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
   const handleConfirm = async () => {
-    console.log(formik.values);
     const image: any = formik.values.photo || photo;
     let data: StreetLight = formik.values;
     delete data.photo;
-    console.log(data);
 
     await dispatch(editStreetLight(id, data));
     const formData = new FormData();
     if (image !== undefined) {
       formData.append("file", image);
-      console.log(formData);
       await dispatch(imageUploadStreetLight(id, formData));
     }
     closeModal();
@@ -91,29 +91,13 @@ const EditStreetLightPage = () => {
     openSuccessMessage("Street light updated successfully!");
   };
 
-  const openSuccessMessage = (message: string) => {
-    setSuccessMessage(message);
-    setIsSuccessOpen(true);
-  };
-
   const goBack = () => {
     navigate("/street_lights");
   };
   const onPhotoHandle = (name: any, selectedFile: any) => {
     formik.setFieldValue(`${name}`, selectedFile);
-    console.log(formik);
   };
 
-  const handleOpenModal = (imageURL: string) => {
-    console.log(imageURL)
-    setSelectedImage(imageURL);
-    setOpenImageModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setSelectedImage(null);
-    setOpenImageModal(false);
-  };
   return (
     <>
       <PageLoader isLoading={loading} />
@@ -142,7 +126,7 @@ const EditStreetLightPage = () => {
       />
       <CustomSnackbar
         open={isSuccessOpen}
-        onClose={() => setIsSuccessOpen(false)}
+        onClose={() => closeSuccessMessage()}
         message={successMessage}
         error={error}
       />

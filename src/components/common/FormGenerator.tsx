@@ -35,7 +35,7 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
       <Grid container spacing={3}>
         {fields.map((field) =>
           !field.photo ? (
-            <Grid item xs={12} md={6} key={field.name}>
+            <Grid item xs={12} md={6}>
               <FormField
                 name={field.name}
                 view={view}
@@ -80,19 +80,21 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
                     {formik.errors[field.name]}
                   </FormHelperText>
                 )}
-              <Avatar
-                alt={field.name}
-                src={formik.values[field.name]}
-                sx={{
-                  width: 50,
-                  height: 50,
-                  cursor: "pointer",
-                  margin: "10px",
-                }}
-                onClick={() => handleOpenModal(formik.values[field.name])}
-              />
+              {formik.values[field.name] && (
+                <Avatar
+                  alt={field.name}
+                  src={formik.values[field.name]}
+                  sx={{
+                    width: 50,
+                    height: 50,
+                    cursor: "pointer",
+                    margin: "10px",
+                  }}
+                  onClick={() => handleOpenModal(formik.values[field.name])}
+                />
+              )}
             </Grid>
-          )
+          ),
         )}
 
         <Grid item xs={12}>
