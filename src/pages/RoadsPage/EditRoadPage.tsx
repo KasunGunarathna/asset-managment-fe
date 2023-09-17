@@ -2,17 +2,19 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import { editRoad, fetchRoadById, selectRoad } from "../../store/roadSlice"; // Import road-related actions and selectors
+import { selectRoad } from "../../store/roadSlice"; // Import road-related actions and selectors
 import { Road } from "../../types/types"; // Import the Road type
 import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
 import PageLoader from "../../components/PageLoader";
 import MainTemplate from "../../templates/MainTemplate";
-import { clearToken, fetchLoginUser, selectAuth } from "../../store/authSlice";
+import { clearToken, selectAuth } from "../../store/authSlice";
 import { AppDispatch } from "../../store/store";
 import { validationSchema } from "./validationSchema";
 import FormGenerator from "../../components/common/FormGenerator";
 import { fields } from "./formFields";
+import { fetchLoginUser } from "../../services/authService";
+import { editRoad, fetchRoadById } from "../../services/roadService";
 
 const EditRoadPage = () => {
   const nic = sessionStorage.getItem("userNic");

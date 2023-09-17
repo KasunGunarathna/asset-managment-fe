@@ -35,7 +35,7 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
       <Grid container spacing={3}>
         {fields.map((field) =>
           !field.photo ? (
-            <Grid item xs={12} md={6} key={field.name}>
+            <Grid item xs={12} md={6}>
               <FormField
                 name={field.name}
                 view={view}

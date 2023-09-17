@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearToken, fetchLoginUser, selectAuth } from "../../store/authSlice";
+import { clearToken, selectAuth } from "../../store/authSlice";
 import ReusableTable from "../../components/common/Table";
 import TableControls from "../../components/common/TableControls";
 import MainTemplate from "../../templates/MainTemplate";
@@ -10,12 +10,13 @@ import { AppDispatch } from "../../store/store";
 import PageLoader from "../../components/PageLoader";
 import CustomDialog from "../../components/common/CustomDialog";
 import CustomSnackbar from "../../components/common/Snackbar";
+import { selectDrainages } from "../../store/drainageSlice"; // Import corresponding actions and selectors
+import { fetchLoginUser } from "../../services/authService";
 import {
-  fetchDrainages, // Replace with relevant actions
-  fetchSearchDrainages, // Replace with relevant actions
-  removeDrainageById, // Replace with relevant actions
-  selectDrainages, // Replace with relevant selectors
-} from "../../store/drainageSlice"; // Import corresponding actions and selectors
+  fetchDrainages,
+  fetchSearchDrainages,
+  removeDrainageById,
+} from "../../services/drainageService";
 
 const DrainagesPage = () => {
   const nic = sessionStorage.getItem("userNic");

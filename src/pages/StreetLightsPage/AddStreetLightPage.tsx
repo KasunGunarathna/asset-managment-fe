@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearToken, fetchLoginUser, selectAuth } from "../../store/authSlice";
+import { clearToken, selectAuth } from "../../store/authSlice";
 import MainTemplate from "../../templates/MainTemplate";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../store/store";
@@ -9,14 +9,15 @@ import { StreetLight } from "../../types/types"; // Import the StreetLight type
 import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
 import PageLoader from "../../components/PageLoader";
-import {
-  addStreetLight,
-  imageUploadStreetLight,
-  selectStreetLights,
-} from "../../store/streetLightSlice"; // Import relevant actions and selectors
+import { selectStreetLights } from "../../store/streetLightSlice"; // Import relevant actions and selectors
 import FormGenerator from "../../components/common/FormGenerator";
 import { validationSchema } from "./validationSchema";
 import { fields } from "./formFields"; // Define your street lights form fields here
+import {
+  addStreetLight,
+  imageUploadStreetLight,
+} from "../../services/StreetLightService";
+import { fetchLoginUser } from "../../services/authService";
 
 const AddStreetLightPage = () => {
   const nic = sessionStorage.getItem("userNic");

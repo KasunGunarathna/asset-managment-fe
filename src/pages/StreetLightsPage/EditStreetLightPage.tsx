@@ -7,19 +7,20 @@ import {
   fetchStreetLightById,
   imageGetStreetLight,
   imageUploadStreetLight,
-  selectStreetLights,
-} from "../../store/streetLightSlice"; // Import street light-related actions and selectors
+} from "../../services/StreetLightService"; // Import street light-related actions and selectors
 import { StreetLight } from "../../types/types"; // Import the StreetLight type
 import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
 import PageLoader from "../../components/PageLoader";
 import MainTemplate from "../../templates/MainTemplate";
-import { clearToken, fetchLoginUser, selectAuth } from "../../store/authSlice";
+import { clearToken, selectAuth } from "../../store/authSlice";
 import { AppDispatch } from "../../store/store";
 import { validationSchema } from "./validationSchema";
 import FormGenerator from "../../components/common/FormGenerator";
 import { fields } from "./formFields";
 import ImageViewModal from "../../components/common/ImageViewModal";
+import { selectStreetLights } from "../../store/streetLightSlice";
+import { fetchLoginUser } from "../../services/authService";
 
 const EditStreetLightPage = () => {
   const nic = sessionStorage.getItem("userNic");

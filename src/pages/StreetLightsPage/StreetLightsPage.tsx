@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearToken, fetchLoginUser, selectAuth } from "../../store/authSlice";
+import { clearToken, selectAuth } from "../../store/authSlice";
 import ReusableTable from "../../components/common/Table";
 import TableControls from "../../components/common/TableControls";
 import MainTemplate from "../../templates/MainTemplate";
@@ -14,11 +14,12 @@ import {
   fetchStreetLights,
   fetchSearchStreetLights,
   removeStreetLightById,
-  selectStreetLights,
   bulkUploadStreetLight,
-} from "../../store/streetLightSlice"; // Import corresponding actions and selectors
+} from "../../services/StreetLightService"; // Import corresponding actions and selectors
 import ImageViewModal from "../../components/common/ImageViewModal";
 import FileUploadModal from "../../components/common/FileUploadModal";
+import { selectStreetLights } from "../../store/streetLightSlice";
+import { fetchLoginUser } from "../../services/authService";
 
 const StreetLightsPage = () => {
   const nic = sessionStorage.getItem("userNic");

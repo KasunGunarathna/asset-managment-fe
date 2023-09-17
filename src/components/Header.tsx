@@ -25,7 +25,7 @@ const Header: React.FC<HeaderProps> = ({ userDetails, onLogout }) => {
         <Typography component="div" sx={{ marginRight: 2 }}>
           {userDetails && userDetails.name}
         </Typography>
-        <Button type="button" onClick={onLogout}>
+        <Button type="button" variant="contained" onClick={onLogout}>
           Logout
         </Button>
       </Toolbar>

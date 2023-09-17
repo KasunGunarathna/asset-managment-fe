@@ -14,10 +14,11 @@ import {
 } from "@mui/material";
 import { AppDispatch } from "../../store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { selectAuth, userLogin } from "../../store/authSlice";
+import { selectAuth } from "../../store/authSlice";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { UserCredentials } from "../../types/types";
+import { userLogin } from "../../services/authService";
 
 const validationSchema = yup.object({
   nic: yup.string().required("NIC is required"),
