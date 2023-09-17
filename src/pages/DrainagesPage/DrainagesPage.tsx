@@ -13,10 +13,15 @@ import CustomSnackbar from "../../components/common/Snackbar";
 import { selectDrainages } from "../../store/drainageSlice"; // Import corresponding actions and selectors
 import { fetchLoginUser } from "../../services/authService";
 import {
+  bulkUploadDrainage,
   fetchDrainages,
   fetchSearchDrainages,
   removeDrainageById,
 } from "../../services/drainageService";
+import { useModal } from "../../hooks/useModal";
+import { useSuccessMessage } from "../../hooks/useSuccessMessage";
+import { useFileModal } from "../../hooks/useFileModal";
+import FileUploadModal from "../../components/common/FileUploadModal";
 
 const DrainagesPage = () => {
   const nic = sessionStorage.getItem("userNic");
@@ -39,9 +44,22 @@ const DrainagesPage = () => {
   const { drainages, loading, error } = useSelector(selectDrainages); // Use the appropriate selector for drainages
   const { logUser } = useSelector(selectAuth);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+  const { isModalOpen, openModal, closeModal } = useModal();
+  const {
+    successMessage,
+    isSuccessOpen,
+    openSuccessMessage,
+    closeSuccessMessage,
+  } = useSuccessMessage();
+
+  const {
+    fileModal,
+    openFileModal,
+    closeFileModal,
+    selectedFile,
+    handleFileChange,
+  } = useFileModal();
+
   const [id, setId] = useState(0);
 
   useEffect(() => {
@@ -68,13 +86,6 @@ const DrainagesPage = () => {
   const handleView = (id: any) => {
     navigate(`/drainages/view/${id}/${true}`); // Adjust the route to match your drainage view page
   };
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
 
   const handleConfirm = async () => {
     await dispatch(removeDrainageById(id)); // Replace with the relevant action for removing drainage
@@ -83,15 +94,26 @@ const DrainagesPage = () => {
     openSuccessMessage("Drainage deleted successfully!");
   };
 
-  const openSuccessMessage = (message: string) => {
-    setSuccessMessage(message);
-    setIsSuccessOpen(true);
-  };
-
   const setSearchQuery = async (query: any) => {
     if (query) await dispatch(fetchSearchDrainages(query));
     // Replace with the relevant action for searching drainages
     else await dispatch(fetchDrainages()); // Replace with the relevant action for fetching drainages
+  };
+
+  const handleUpload = async () => {
+    try {
+      if (selectedFile) {
+        const formData = new FormData();
+        formData.append("file", selectedFile);
+        await dispatch(bulkUploadDrainage(formData));
+        closeFileModal();
+        openSuccessMessage("Drainages Bulk Upload successfully!");
+        await dispatch(fetchDrainages());
+      }
+    } catch (err: any) {
+      closeFileModal();
+      openSuccessMessage(err.message);
+    }
   };
 
   return (
@@ -102,7 +124,11 @@ const DrainagesPage = () => {
         handleLogout={handleLogout}
         breadCrumb={["Home", "Drainages"]} // Update breadcrumb
       >
-        <TableControls setSearchQuery={setSearchQuery} onChange={addNewPage} />
+        <TableControls
+          setSearchQuery={setSearchQuery}
+          onChange={addNewPage}
+          onBulk={openFileModal}
+        />
         <ReusableTable
           columns={columns}
           data={drainages}
@@ -119,8 +145,19 @@ const DrainagesPage = () => {
         />
         <CustomSnackbar
           open={isSuccessOpen}
-          onClose={() => setIsSuccessOpen(false)}
+          onClose={() => closeSuccessMessage()}
           message={successMessage}
+          error={error}
+        />
+        <FileUploadModal
+          open={fileModal}
+          onClose={() => {
+            closeFileModal();
+          }}
+          handleFileChange={handleFileChange}
+          handleUpload={handleUpload}
+          selectedFile={selectedFile}
+          uploading={loading}
           error={error}
         />
       </MainTemplate>

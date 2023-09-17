@@ -83,6 +83,7 @@ export const bulkUploadStreetLight =
       dispatch(setSuccess());
     } catch (error: any) {
       dispatch(getFailure(error.response?.data?.message || error.message));
+      throw error;
     }
   };
 

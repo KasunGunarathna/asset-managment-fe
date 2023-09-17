@@ -54,7 +54,7 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({
             Selected File: {selectedFile.name}
           </Typography>
         )}
-        {error && <Typography color="red">{error}</Typography>}
+        {/* {selectedFile?.name && error && <Typography color="red">{error}</Typography>} */}
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="secondary">
