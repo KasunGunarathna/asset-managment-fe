@@ -32,11 +32,13 @@ const drainagesSlice = createSlice({
       state.loading = true;
       state.error = null;
     },
-    getDrainagesSuccess(state, action: PayloadAction<Drainage[]>) { // Replace Bridge with Drainage
+    getDrainagesSuccess(state, action: PayloadAction<Drainage[]>) {
+      // Replace Bridge with Drainage
       state.loading = false;
       state.drainages = action.payload; // Replace Bridge with Drainage
     },
-    getDrainageSuccess(state, action: PayloadAction<Drainage>) { // Replace Bridge with Drainage
+    getDrainageSuccess(state, action: PayloadAction<Drainage>) {
+      // Replace Bridge with Drainage
       state.loading = false;
       state.drainage = action.payload; // Replace Bridge with Drainage
     },
@@ -112,15 +114,16 @@ export const editDrainage =
     }
   };
 
-export const removeDrainageById = (id: any) => async (dispatch: AppDispatch) => {
-  dispatch(getDrainagesStart());
-  try {
-    await deleteDrainagesById(id);
-    dispatch(setSuccess());
-  } catch (error: any) {
-    dispatch(getFailure(error.response?.data?.message || error.message));
-  }
-};
+export const removeDrainageById =
+  (id: any) => async (dispatch: AppDispatch) => {
+    dispatch(getDrainagesStart());
+    try {
+      await deleteDrainagesById(id);
+      dispatch(setSuccess());
+    } catch (error: any) {
+      dispatch(getFailure(error.response?.data?.message || error.message));
+    }
+  };
 
 export default drainagesSlice.reducer;
 

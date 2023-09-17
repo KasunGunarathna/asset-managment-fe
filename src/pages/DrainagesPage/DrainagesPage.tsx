@@ -88,7 +88,8 @@ const DrainagesPage = () => {
   };
 
   const setSearchQuery = async (query: any) => {
-    if (query) await dispatch(fetchSearchDrainages(query)); // Replace with the relevant action for searching drainages
+    if (query) await dispatch(fetchSearchDrainages(query));
+    // Replace with the relevant action for searching drainages
     else await dispatch(fetchDrainages()); // Replace with the relevant action for fetching drainages
   };
 

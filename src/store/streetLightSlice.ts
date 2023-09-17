@@ -16,7 +16,7 @@ import {
 interface StreetLightsState {
   streetLights: StreetLight[]; // Replace Bridge with StreetLight
   streetLight: StreetLight | null; // Replace Bridge with StreetLight
-  photo:any;
+  photo: any;
   loading: boolean;
   error: string | null;
 }
@@ -24,7 +24,7 @@ interface StreetLightsState {
 const initialState: StreetLightsState = {
   streetLights: [],
   streetLight: null,
-  photo:null,
+  photo: null,
   loading: false,
   error: null,
 };
@@ -37,11 +37,13 @@ const streetLightsSlice = createSlice({
       state.loading = true;
       state.error = null;
     },
-    getStreetLightsSuccess(state, action: PayloadAction<StreetLight[]>) { // Replace Bridge with StreetLight
+    getStreetLightsSuccess(state, action: PayloadAction<StreetLight[]>) {
+      // Replace Bridge with StreetLight
       state.loading = false;
       state.streetLights = action.payload; // Replace Bridge with StreetLight
     },
-    getStreetLightSuccess(state, action: PayloadAction<StreetLight>) { // Replace Bridge with StreetLight
+    getStreetLightSuccess(state, action: PayloadAction<StreetLight>) {
+      // Replace Bridge with StreetLight
       state.loading = false;
       state.streetLight = action.payload; // Replace Bridge with StreetLight
     },
@@ -54,7 +56,7 @@ const streetLightsSlice = createSlice({
       state.error = null;
     },
     setImageSuccess(state, action: PayloadAction<any>) {
-      state.photo=action.payload;
+      state.photo = action.payload;
       state.loading = false;
       state.error = null;
     },
@@ -91,21 +93,22 @@ export const fetchSearchStreetLights =
     }
   };
 
-export const fetchStreetLightById = (id: any) => async (dispatch: AppDispatch) => {
-  dispatch(getStreetLightsStart());
-  try {
-    const res = await getStreetLightsById(id);
-    dispatch(getStreetLightSuccess(res));
-  } catch (error: any) {
-    dispatch(getFailure(error.response?.data?.message || error.message));
-  }
-};
+export const fetchStreetLightById =
+  (id: any) => async (dispatch: AppDispatch) => {
+    dispatch(getStreetLightsStart());
+    try {
+      const res = await getStreetLightsById(id);
+      dispatch(getStreetLightSuccess(res));
+    } catch (error: any) {
+      dispatch(getFailure(error.response?.data?.message || error.message));
+    }
+  };
 
 export const addStreetLight =
   (streetLight: StreetLight | null) => async (dispatch: AppDispatch) => {
     dispatch(getStreetLightsStart());
     try {
-      const res =await insertStreetLights(streetLight);
+      const res = await insertStreetLights(streetLight);
       dispatch(setSuccess());
       return res;
     } catch (error: any) {
@@ -113,18 +116,18 @@ export const addStreetLight =
     }
   };
 
-  export const imageUploadStreetLight =
-  (id:any,imageData: any) => async (dispatch: AppDispatch) => {
+export const imageUploadStreetLight =
+  (id: any, imageData: any) => async (dispatch: AppDispatch) => {
     dispatch(getStreetLightsStart());
     try {
-      await uploadStreetLight(id,imageData);
+      await uploadStreetLight(id, imageData);
       dispatch(setSuccess());
     } catch (error: any) {
       dispatch(getFailure(error.response?.data?.message || error.message));
     }
   };
 
-  export const bulkUploadStreetLight =
+export const bulkUploadStreetLight =
   (data: any) => async (dispatch: AppDispatch) => {
     dispatch(getStreetLightsStart());
     try {
@@ -135,18 +138,19 @@ export const addStreetLight =
     }
   };
 
-  export const imageGetStreetLight =
-  (id:any) => async (dispatch: AppDispatch) => {
+export const imageGetStreetLight =
+  (id: any) => async (dispatch: AppDispatch) => {
     dispatch(getStreetLightsStart());
     try {
-      const res =await getStreetLight(id);
+      const res = await getStreetLight(id);
       dispatch(setImageSuccess(res));
     } catch (error: any) {
       dispatch(getFailure(error.response?.data?.message || error.message));
     }
   };
 export const editStreetLight =
-  (id: any, streetLight: StreetLight | null) => async (dispatch: AppDispatch) => {
+  (id: any, streetLight: StreetLight | null) =>
+  async (dispatch: AppDispatch) => {
     dispatch(getStreetLightsStart());
     try {
       await updateStreetLights(id, streetLight);
@@ -156,15 +160,16 @@ export const editStreetLight =
     }
   };
 
-export const removeStreetLightById = (id: any) => async (dispatch: AppDispatch) => {
-  dispatch(getStreetLightsStart());
-  try {
-    await deleteStreetLightsById(id);
-    dispatch(setSuccess());
-  } catch (error: any) {
-    dispatch(getFailure(error.response?.data?.message || error.message));
-  }
-};
+export const removeStreetLightById =
+  (id: any) => async (dispatch: AppDispatch) => {
+    dispatch(getStreetLightsStart());
+    try {
+      await deleteStreetLightsById(id);
+      dispatch(setSuccess());
+    } catch (error: any) {
+      dispatch(getFailure(error.response?.data?.message || error.message));
+    }
+  };
 
 export default streetLightsSlice.reducer;
 

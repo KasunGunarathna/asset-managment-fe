@@ -24,14 +24,25 @@ const MainTemplate: React.FC<YourReusableTemplateProps> = ({
       <Box sx={{ display: "flex" }}>
         <Header userDetails={userDetails} onLogout={handleLogout} />
         <Sidebar />
-        <Container sx={{ flexGrow: 1, paddingTop: "16px" ,overflowY: 'auto',paddingBottom:"50px"}}>
+        <Container
+          sx={{
+            flexGrow: 1,
+            paddingTop: "16px",
+            overflowY: "auto",
+            paddingBottom: "50px",
+          }}
+        >
           <MainContent>
             <Paper elevation={3} sx={{ padding: "15px" }}>
               <BreadcrumbTrail items={breadCrumb} />
-              <Typography variant="h5" component="div" sx={{ flexGrow: 1,margin:"5px" }}>
-                {breadCrumb[2]||null}
+              <Typography
+                variant="h5"
+                component="div"
+                sx={{ flexGrow: 1, margin: "5px" }}
+              >
+                {breadCrumb[2] || null}
               </Typography>
-              <Divider sx={{ marginBottom:"25px" }}/>
+              <Divider sx={{ marginBottom: "25px" }} />
               {children}
             </Paper>
           </MainContent>

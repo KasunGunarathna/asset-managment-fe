@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import { editDrainage, fetchDrainageById, selectDrainages } from "../../store/drainageSlice"; // Import drainage-related actions and selectors
+import {
+  editDrainage,
+  fetchDrainageById,
+  selectDrainages,
+} from "../../store/drainageSlice"; // Import drainage-related actions and selectors
 import { Drainage } from "../../types/types"; // Import the Drainage type
 import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
@@ -87,7 +91,11 @@ const EditDrainagePage = () => {
       <MainTemplate
         userDetails={logUser}
         handleLogout={handleLogout}
-        breadCrumb={["Home", "Drainages", view === "true" ? "View Drainage" : "Edit Drainage"]}
+        breadCrumb={[
+          "Home",
+          "Drainages",
+          view === "true" ? "View Drainage" : "Edit Drainage",
+        ]}
       >
         <FormGenerator
           fields={fields} // Use your drainage form fields here
@@ -101,7 +109,9 @@ const EditDrainagePage = () => {
       <CustomDialog
         open={isModalOpen}
         title="Confirmation"
-        content={`Are you sure you want to ${view === "true" ? "view" : "update"} this drainage?`}
+        content={`Are you sure you want to ${
+          view === "true" ? "view" : "update"
+        } this drainage?`}
         onCancel={closeModal}
         onConfirm={handleConfirm}
       />

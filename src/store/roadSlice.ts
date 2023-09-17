@@ -32,11 +32,13 @@ const roadSlice = createSlice({
       state.loading = true;
       state.error = null;
     },
-    getRoadsSuccess(state, action: PayloadAction<Road[]>) { // Replace Bridge with Road
+    getRoadsSuccess(state, action: PayloadAction<Road[]>) {
+      // Replace Bridge with Road
       state.loading = false;
       state.roads = action.payload; // Replace Bridge with Road
     },
-    getRoadSuccess(state, action: PayloadAction<Road>) { // Replace Bridge with Road
+    getRoadSuccess(state, action: PayloadAction<Road>) {
+      // Replace Bridge with Road
       state.loading = false;
       state.road = action.payload; // Replace Bridge with Road
     },
@@ -90,16 +92,15 @@ export const fetchRoadById = (id: any) => async (dispatch: AppDispatch) => {
   }
 };
 
-export const addRoad =
-  (road: Road | null) => async (dispatch: AppDispatch) => {
-    dispatch(getRoadsStart());
-    try {
-      await insertRoads(road);
-      dispatch(setSuccess());
-    } catch (error: any) {
-      dispatch(getFailure(error.response?.data?.message || error.message));
-    }
-  };
+export const addRoad = (road: Road | null) => async (dispatch: AppDispatch) => {
+  dispatch(getRoadsStart());
+  try {
+    await insertRoads(road);
+    dispatch(setSuccess());
+  } catch (error: any) {
+    dispatch(getFailure(error.response?.data?.message || error.message));
+  }
+};
 
 export const editRoad =
   (id: any, road: Road | null) => async (dispatch: AppDispatch) => {

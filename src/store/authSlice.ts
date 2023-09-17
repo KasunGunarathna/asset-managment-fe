@@ -68,9 +68,7 @@ export const fetchLoginUser =
       const response = await getUserByNIC(nic);
       dispatch(getLogUserSuccess(response));
     } catch (error: any) {
-      dispatch(
-        getFailure(error.response?.data?.message || error.message)
-      );
+      dispatch(getFailure(error.response?.data?.message || error.message));
       dispatch(clearToken());
     }
   };
@@ -84,7 +82,7 @@ export const userLogin =
         getLoginSuccess({
           access_token: response.access_token,
           expires_in: Date.now() / 1000 + response.expires_in,
-        })
+        }),
       );
       sessionStorage.setItem("userNic", loginDetails.nic);
       setTokenToLocalStorage(response.access_token);

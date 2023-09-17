@@ -5,21 +5,22 @@ import NotFoundPage from "./pages/PageNotFound/PageNotFound";
 import { routes } from "./routes";
 import PageLoader from "./components/PageLoader";
 
-
-const LoadingFallback = <PageLoader isLoading/>;
+const LoadingFallback = <PageLoader isLoading />;
 
 const App: React.FC = () => {
   return (
     <Router>
       <Routes>
-      {routes.map((route, index) => (
+        {routes.map((route, index) => (
           <Route
             key={index}
             path={route.path}
             element={
               <Suspense fallback={LoadingFallback}>
                 {route.protected ? (
-                  <ProtectedRoute>{React.createElement(route.component)}</ProtectedRoute>
+                  <ProtectedRoute>
+                    {React.createElement(route.component)}
+                  </ProtectedRoute>
                 ) : (
                   React.createElement(route.component)
                 )}

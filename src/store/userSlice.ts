@@ -1,6 +1,13 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { AppDispatch, RootState } from "./store";
-import { deleteUserById, getSearchUsers, getUserById, getUsers, insertUser, updateUser } from "../api/userApis";
+import {
+  deleteUserById,
+  getSearchUsers,
+  getUserById,
+  getUsers,
+  insertUser,
+  updateUser,
+} from "../api/userApis";
 import { User } from "../types/types";
 
 interface UserState {
@@ -64,15 +71,16 @@ export const fetchUsers = () => async (dispatch: AppDispatch) => {
   }
 };
 
-export const fetchSearchUsers = (query:any) => async (dispatch: AppDispatch) => {
-  dispatch(getUsersStart());
-  try {
-    const res = await getSearchUsers(query);
-    dispatch(getUsersSuccess(res));
-  } catch (error: any) {
-    dispatch(getFailure(error.response?.data?.message || error.message));
-  }
-};
+export const fetchSearchUsers =
+  (query: any) => async (dispatch: AppDispatch) => {
+    dispatch(getUsersStart());
+    try {
+      const res = await getSearchUsers(query);
+      dispatch(getUsersSuccess(res));
+    } catch (error: any) {
+      dispatch(getFailure(error.response?.data?.message || error.message));
+    }
+  };
 
 export const fetchUserById = (id: any) => async (dispatch: AppDispatch) => {
   dispatch(getUsersStart());
@@ -105,15 +113,15 @@ export const editUser =
     }
   };
 
-  export const removeUserById = (id: any) => async (dispatch: AppDispatch) => {
-    dispatch(getUsersStart());
-    try {
-      await deleteUserById(id);
-      dispatch(setSuccess());
-    } catch (error: any) {
-      dispatch(getFailure(error.response?.data?.message || error.message));
-    }
-  };
+export const removeUserById = (id: any) => async (dispatch: AppDispatch) => {
+  dispatch(getUsersStart());
+  try {
+    await deleteUserById(id);
+    dispatch(setSuccess());
+  } catch (error: any) {
+    dispatch(getFailure(error.response?.data?.message || error.message));
+  }
+};
 
 export default userSlice.reducer;
 

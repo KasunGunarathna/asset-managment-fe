@@ -38,9 +38,15 @@ const TableControls: React.FC<TableControlsProps> = ({
           ),
         }}
       />
-      <Box >
+      <Box>
         {onBulk && (
-          <Button onClick={onBulk} type="button" color="warning" variant="contained" sx={{marginRight:'10px'}}>
+          <Button
+            onClick={onBulk}
+            type="button"
+            color="warning"
+            variant="contained"
+            sx={{ marginRight: "10px" }}
+          >
             <FileUploadIcon />
             Bulk Upload
           </Button>

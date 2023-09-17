@@ -65,7 +65,9 @@ const FormField: React.FC<FormFieldProps> = ({
             ))}
           </Select>
           {error && (
-            <FormHelperText sx={{ color: "#d32f2f" }}>{helperText}</FormHelperText>
+            <FormHelperText sx={{ color: "#d32f2f" }}>
+              {helperText}
+            </FormHelperText>
           )}
         </>
       ) : (

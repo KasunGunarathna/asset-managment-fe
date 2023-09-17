@@ -12,14 +12,13 @@ const HomePage = () => {
 
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
-  }, [nic,dispatch]);
+  }, [nic, dispatch]);
 
   const handleLogout = () => {
     // Dispatch the logout action
     dispatch(clearToken());
     localStorage.removeItem("isAuthenticated");
   };
-  
 
   return (
     <>

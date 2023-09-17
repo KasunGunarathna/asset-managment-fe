@@ -92,7 +92,7 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
                 onClick={() => handleOpenModal(formik.values[field.name])}
               />
             </Grid>
-          )
+          ),
         )}
 
         <Grid item xs={12}>

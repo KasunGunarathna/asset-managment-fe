@@ -18,7 +18,7 @@ export const getUsers = async () => {
   }
 };
 
-export const getSearchUsers = async (query:any) => {
+export const getSearchUsers = async (query: any) => {
   try {
     const response = await instance.get(`/users/query/${query}`);
     return response.data.data;
@@ -45,9 +45,7 @@ export const insertUser = async (userData: any) => {
   }
 };
 
-
-
-export const updateUser = async (id:any,userData: any) => {
+export const updateUser = async (id: any, userData: any) => {
   try {
     const response = await instance.patch(`/users/${id}`, userData);
     return response.data.data;
@@ -55,7 +53,6 @@ export const updateUser = async (id:any,userData: any) => {
     throw error;
   }
 };
-
 
 export const deleteUserById = async (id: any) => {
   try {

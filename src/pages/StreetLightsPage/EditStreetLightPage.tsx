@@ -105,7 +105,7 @@ const EditStreetLightPage = () => {
   };
 
   const handleOpenModal = (imageURL: string) => {
-    console.log(imageURL)
+    console.log(imageURL);
     setSelectedImage(imageURL);
     setOpenImageModal(true);
   };

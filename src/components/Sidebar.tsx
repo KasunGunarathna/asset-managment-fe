@@ -6,8 +6,6 @@ import NavigationList from "./MenuList";
 
 const drawerWidth = 240;
 
-
-
 const Sidebar: React.FC = () => {
   return (
     <Drawer

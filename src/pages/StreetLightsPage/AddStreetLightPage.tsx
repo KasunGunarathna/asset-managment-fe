@@ -88,7 +88,6 @@ const AddStreetLightPage = () => {
   };
 
   const onPhotoHandle = (name: any, selectedFile: any) => {
-   
     formik.setFieldValue(`${name}`, selectedFile);
   };
 

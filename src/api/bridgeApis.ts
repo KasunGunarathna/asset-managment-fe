@@ -1,6 +1,5 @@
 import instance from "../interceptors/axiosInterceptor";
 
-
 export const getBridges = async () => {
   try {
     const response = await instance.get(`/bridges`);
@@ -10,7 +9,7 @@ export const getBridges = async () => {
   }
 };
 
-export const getSearchBridges = async (query:any) => {
+export const getSearchBridges = async (query: any) => {
   try {
     const response = await instance.get(`/bridges/query/${query}`);
     return response.data.data;
@@ -37,9 +36,7 @@ export const insertBridges = async (bridgesData: any) => {
   }
 };
 
-
-
-export const updateBridges = async (id:any,bridgesData: any) => {
+export const updateBridges = async (id: any, bridgesData: any) => {
   try {
     const response = await instance.patch(`/bridges/${id}`, bridgesData);
     return response.data.data;
@@ -47,7 +44,6 @@ export const updateBridges = async (id:any,bridgesData: any) => {
     throw error;
   }
 };
-
 
 export const deleteBridgesById = async (id: any) => {
   try {

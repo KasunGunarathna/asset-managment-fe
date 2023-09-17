@@ -53,19 +53,19 @@ const EditBridgePage = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values: Bridge) => {
-      console.log("bbb")
+      console.log("bbb");
       openModal();
     },
     enableReinitialize: true,
   });
 
   const openModal = () => {
-    console.log("bbb")
+    console.log("bbb");
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
-    console.log("bbb")
+    console.log("bbb");
     setIsModalOpen(false);
   };
 

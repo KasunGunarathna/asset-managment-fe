@@ -30,7 +30,8 @@ export const routes = [
     path: "/users/view/:id/:view",
     component: lazy(() => import("./pages/UsersPage/EditUserPage")),
     protected: true,
-  },{
+  },
+  {
     path: "/bridges",
     component: lazy(() => import("./pages/BridgesPage/BridgesPage")),
     protected: true,
@@ -69,24 +70,31 @@ export const routes = [
     path: "/roads/view/:id/:view",
     component: lazy(() => import("./pages/RoadsPage/EditRoadPage")),
     protected: true,
-  },{
+  },
+  {
     path: "/street_lights",
     component: lazy(() => import("./pages/StreetLightsPage/StreetLightsPage")),
     protected: true,
   },
   {
     path: "/street_lights/add",
-    component: lazy(() => import("./pages/StreetLightsPage/AddStreetLightPage")),
+    component: lazy(
+      () => import("./pages/StreetLightsPage/AddStreetLightPage"),
+    ),
     protected: true,
   },
   {
     path: "/street_lights/edit/:id",
-    component: lazy(() => import("./pages/StreetLightsPage/EditStreetLightPage")),
+    component: lazy(
+      () => import("./pages/StreetLightsPage/EditStreetLightPage"),
+    ),
     protected: true,
   },
   {
     path: "/street_lights/view/:id/:view",
-    component: lazy(() => import("./pages/StreetLightsPage/EditStreetLightPage")),
+    component: lazy(
+      () => import("./pages/StreetLightsPage/EditStreetLightPage"),
+    ),
     protected: true,
   },
   {
@@ -108,6 +116,5 @@ export const routes = [
     path: "/drainages/view/:id/:view",
     component: lazy(() => import("./pages/DrainagesPage/EditDrainagePage")),
     protected: true,
-  }
-  
+  },
 ];

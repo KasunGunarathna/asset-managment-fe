@@ -77,7 +77,7 @@ const AddRoadPage = () => {
   };
 
   const goBack = () => {
-    navigate("/roads"); 
+    navigate("/roads");
   };
 
   return (
