@@ -65,6 +65,7 @@ export interface StreetLight {
   pole_type: string | undefined;
   lamp_type: string | undefined;
   photo?: string | undefined;
+  photoUrl?: string | undefined;
 }
 
 export interface Drainage {

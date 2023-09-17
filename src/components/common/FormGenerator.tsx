@@ -1,6 +1,6 @@
 import React from "react";
 import Grid from "@mui/material/Grid";
-import { Box, Button, FormHelperText, InputLabel } from "@mui/material";
+import { Avatar, Box, Button, FormHelperText, InputLabel } from "@mui/material";
 import { FormField as FormFields } from "../../types/types";
 import FormField from "./FormField";
 
@@ -15,6 +15,7 @@ interface FormGeneratorProps {
   showPassword?: any;
   setShowPassword?: any;
   onPhoto?: any;
+  handleOpenModal?:any;
 }
 
 const FormGenerator: React.FC<FormGeneratorProps> = ({
@@ -26,7 +27,8 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
   password,
   showPassword,
   setShowPassword,
-  onPhoto
+  onPhoto,
+  handleOpenModal,
 }) => {
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -62,16 +64,27 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
               <input
                 type="file"
                 id={field.name}
+                disabled={view ? true : false}
                 name={field.name}
                 accept="image/*"
                 onChange={(event) => {
-                  const selectedFile =  event.currentTarget.files?.[0] || formik.values[field.name] ;
-                  onPhoto(field.name,selectedFile)
+                  const selectedFile =
+                    event.currentTarget.files?.[0] || formik.values[field.name];
+                  onPhoto(field.name, selectedFile);
                 }}
               />
-              {formik.touched[field.name] && formik.errors[field.name] && ( // Display error helper text
-    <FormHelperText error>{formik.errors[field.name]}</FormHelperText>
-  )}
+              {formik.touched[field.name] &&
+                formik.errors[field.name] && ( // Display error helper text
+                  <FormHelperText error>
+                    {formik.errors[field.name]}
+                  </FormHelperText>
+                )}
+                  <Avatar
+                        alt={field.name}
+                        src={formik.values[field.name]}
+                        sx={{ width: 50, height: 50, cursor: 'pointer', padding:'10px' }}
+                        onClick={() => handleOpenModal(formik.values[field.name])}
+                      />
             </Grid>
           )
         )}

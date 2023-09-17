@@ -25,6 +25,7 @@ interface ReusableTableProps {
   handleDelete: any;
   handleEdit: any;
   handleView: any;
+  handleOpenModal?:any;
 }
 
 const ReusableTable: React.FC<ReusableTableProps> = ({
@@ -33,6 +34,7 @@ const ReusableTable: React.FC<ReusableTableProps> = ({
   handleDelete,
   handleEdit,
   handleView,
+  handleOpenModal,
 }) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -92,7 +94,8 @@ const ReusableTable: React.FC<ReusableTableProps> = ({
                       <Avatar
                         alt={column.label}
                         src={row[column.url || column.id]}
-                        sx={{ width: 50, height: 50 }}
+                        sx={{ width: 50, height: 50, cursor: 'pointer' }}
+                        onClick={() => handleOpenModal(row[column.url || column.id])}
                       />
                     ) : (
                       // Otherwise, render regular text
