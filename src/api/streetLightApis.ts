@@ -72,3 +72,12 @@ export const deleteStreetLightsById = async (id: any) => {
     throw error;
   }
 };
+
+export const uploadBulkStreetLight = async ( data: any) => {
+  try {
+    const response = await instance.post(`/street_lights/bulk-upload`, data);
+    return response.data.data;
+  } catch (error) {
+    throw error;
+  }
+};

@@ -1,6 +1,5 @@
 import React from "react";
-import { AppBar, Toolbar, Typography } from "@mui/material";
-import Button from "./common/Button";
+import { AppBar, Button, Toolbar, Typography } from "@mui/material";
 
 interface HeaderProps {
   userDetails: any;

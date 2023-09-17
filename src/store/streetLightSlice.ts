@@ -10,6 +10,7 @@ import {
   updateStreetLights,
   uploadStreetLight,
   getStreetLight,
+  uploadBulkStreetLight,
 } from "../api/streetLightApis"; // Adjust the import path for street lights APIs
 
 interface StreetLightsState {
@@ -122,6 +123,18 @@ export const addStreetLight =
       dispatch(getFailure(error.response?.data?.message || error.message));
     }
   };
+
+  export const bulkUploadStreetLight =
+  (data: any) => async (dispatch: AppDispatch) => {
+    dispatch(getStreetLightsStart());
+    try {
+      await uploadBulkStreetLight(data);
+      dispatch(setSuccess());
+    } catch (error: any) {
+      dispatch(getFailure(error.response?.data?.message || error.message));
+    }
+  };
+
   export const imageGetStreetLight =
   (id:any) => async (dispatch: AppDispatch) => {
     dispatch(getStreetLightsStart());
