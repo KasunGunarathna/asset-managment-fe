@@ -15,8 +15,10 @@ import {
   fetchSearchStreetLights,
   removeStreetLightById,
   selectStreetLights,
+  bulkUploadStreetLight,
 } from "../../store/streetLightSlice"; // Import corresponding actions and selectors
 import ImageViewModal from "../../components/common/ImageViewModal";
+import FileUploadModal from "../../components/common/FileUploadModal";
 
 const StreetLightsPage = () => {
   const nic = sessionStorage.getItem("userNic");
@@ -41,6 +43,9 @@ const StreetLightsPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+
+  const [openFileModal, setFileOpenModal] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const [id, setId] = useState(0);
 
@@ -98,11 +103,34 @@ const StreetLightsPage = () => {
     setIsSuccessOpen(true);
   };
 
-  
+  const onBulk = () => {
+    setFileOpenModal(true);
+  };
 
   const setSearchQuery = async (query: any) => {
     if (query) await dispatch(fetchSearchStreetLights(query));
     else await dispatch(fetchStreetLights());
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      setSelectedFile(files[0]);
+    }
+  };
+
+  const handleUpload = async () => {
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+      await dispatch(bulkUploadStreetLight(formData));
+      if (!error) {
+        setFileOpenModal(false);
+        openSuccessMessage("Street lights Bulk Upload successfully!");
+      }
+      await dispatch(fetchStreetLights());
+      setSelectedFile(null);
+    }
   };
 
   return (
@@ -113,7 +141,11 @@ const StreetLightsPage = () => {
         handleLogout={handleLogout}
         breadCrumb={["Home", "Street Lights"]}
       >
-        <TableControls setSearchQuery={setSearchQuery} onChange={addNewPage} />
+        <TableControls
+          setSearchQuery={setSearchQuery}
+          onChange={addNewPage}
+          onBulk={onBulk}
+        />
         <ReusableTable
           columns={columns}
           data={streetLights}
@@ -140,6 +172,19 @@ const StreetLightsPage = () => {
           open={openImageModal}
           onClose={handleCloseModal}
           imageURL={selectedImage}
+        />
+
+        <FileUploadModal
+          open={openFileModal}
+          onClose={() => {
+            setFileOpenModal(false);
+            setSelectedFile(null);
+          }}
+          handleFileChange={handleFileChange}
+          handleUpload={handleUpload}
+          selectedFile={selectedFile}
+          uploading={loading}
+          error={error}
         />
       </MainTemplate>
     </>

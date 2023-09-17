@@ -15,7 +15,7 @@ interface FormGeneratorProps {
   showPassword?: any;
   setShowPassword?: any;
   onPhoto?: any;
-  handleOpenModal?:any;
+  handleOpenModal?: any;
 }
 
 const FormGenerator: React.FC<FormGeneratorProps> = ({
@@ -67,6 +67,7 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
                 disabled={view ? true : false}
                 name={field.name}
                 accept="image/*"
+                style={{ margin: "10px" }}
                 onChange={(event) => {
                   const selectedFile =
                     event.currentTarget.files?.[0] || formik.values[field.name];
@@ -79,12 +80,17 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
                     {formik.errors[field.name]}
                   </FormHelperText>
                 )}
-                  <Avatar
-                        alt={field.name}
-                        src={formik.values[field.name]}
-                        sx={{ width: 50, height: 50, cursor: 'pointer', padding:'10px' }}
-                        onClick={() => handleOpenModal(formik.values[field.name])}
-                      />
+              <Avatar
+                alt={field.name}
+                src={formik.values[field.name]}
+                sx={{
+                  width: 50,
+                  height: 50,
+                  cursor: "pointer",
+                  margin: "10px",
+                }}
+                onClick={() => handleOpenModal(formik.values[field.name])}
+              />
             </Grid>
           )
         )}
