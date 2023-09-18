@@ -70,7 +70,8 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
                 style={{ margin: "10px" }}
                 onChange={(event) => {
                   const selectedFile =
-                    event.currentTarget.files?.[0] || formik.values[field.name];
+                    event?.currentTarget?.files?.[0] ||
+                    formik.values[field.name];
                   onPhoto(field.name, selectedFile);
                 }}
               />

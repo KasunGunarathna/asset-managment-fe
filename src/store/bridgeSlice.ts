@@ -53,5 +53,4 @@ export const {
 
 export default bridgeSlice.reducer;
 
-
 export const selectBridge = (state: RootState) => state.bridge;

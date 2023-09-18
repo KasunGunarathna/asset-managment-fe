@@ -22,6 +22,8 @@ import FileUploadModal from "../../components/common/FileUploadModal";
 import { useModal } from "../../hooks/useModal";
 import { useSuccessMessage } from "../../hooks/useSuccessMessage";
 import { useFileModal } from "../../hooks/useFileModal";
+import ImageViewModal from "../../components/common/ImageViewModal";
+import { useImageModal } from "../../hooks/useImageModal";
 
 const RoadsPage = () => {
   const nic = sessionStorage.getItem("userNic");
@@ -34,10 +36,20 @@ const RoadsPage = () => {
     { id: "survey_plan", label: "Survey Plan" },
     { id: "surface_condition", label: "Surface Condition" },
     { id: "pavement_type", label: "Pavement Type" },
-    { id: "starting_point_photo", label: "Starting Photo" },
+    {
+      id: "starting_point_photo",
+      label: "Starting Photo",
+      photo: true,
+      url: "startingPhotoUrl",
+    },
     { id: "starting_point_latitude", label: "Starting Point Latitude" },
     { id: "starting_point_longitude", label: "Starting Point Longitude" },
-    { id: "end_point_photo", label: "End Photo" },
+    {
+      id: "end_point_photo",
+      label: "End Photo",
+      photo: true,
+      url: "endPhotoUrl",
+    },
     { id: "end_point_latitude", label: "End Point Latitude" },
     { id: "end_point_longitude", label: "End Point Longitude" },
     { id: "drainage_availability", label: "Drainage Availability" },
@@ -55,6 +67,9 @@ const RoadsPage = () => {
     openSuccessMessage,
     closeSuccessMessage,
   } = useSuccessMessage();
+
+  const { openImageModal, selectedImage, handleOpenModal, handleCloseModal } =
+    useImageModal();
 
   const {
     fileModal,
@@ -137,6 +152,7 @@ const RoadsPage = () => {
           handleDelete={handleDelete}
           handleEdit={handleEdit}
           handleView={handleView}
+          handleOpenModal={handleOpenModal}
         />
         <CustomDialog
           open={isModalOpen}
@@ -151,6 +167,13 @@ const RoadsPage = () => {
           message={successMessage}
           error={error}
         />
+
+        <ImageViewModal
+          open={openImageModal}
+          onClose={handleCloseModal}
+          imageURL={selectedImage}
+        />
+
         <FileUploadModal
           open={fileModal}
           onClose={() => {

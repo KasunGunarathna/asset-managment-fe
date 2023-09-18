@@ -14,13 +14,20 @@ import FormGenerator from "../../components/common/FormGenerator";
 import { validationSchema } from "./validationSchema";
 import { fields } from "./formFields";
 import { fetchLoginUser } from "../../services/authService";
-import { addRoad } from "../../services/roadService";
+import { addRoad, imageUploadRoad } from "../../services/roadService";
+import { useModal } from "../../hooks/useModal";
+import { useSuccessMessage } from "../../hooks/useSuccessMessage";
 
 const AddRoadPage = () => {
   const nic = sessionStorage.getItem("userNic");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+  const { isModalOpen, openModal, closeModal } = useModal();
+  const {
+    successMessage,
+    isSuccessOpen,
+    openSuccessMessage,
+    closeSuccessMessage,
+  } = useSuccessMessage();
+
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { loading, error } = useSelector(selectRoad);
@@ -58,28 +65,38 @@ const AddRoadPage = () => {
     },
   });
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
   const handleConfirm = async () => {
-    await dispatch(addRoad(formik.values));
+    const image1: any = formik.values.starting_point_photo;
+    const image2: any = formik.values.end_point_photo;
+    console.log(image1);
+    console.log(image2);
+    let data: Road = formik.values;
+    delete data.starting_point_photo;
+    delete data.end_point_photo;
+    const res = await dispatch(addRoad(formik.values));
+    console.log(res);
+    if (image1) {
+      const formData = new FormData();
+      formData.append("file", image1);
+      await dispatch(imageUploadRoad(res.id, formData, 1));
+    }
+    if (image2) {
+      const formData = new FormData();
+      formData.append("file", image2);
+      await dispatch(imageUploadRoad(res.id, formData, 2));
+    }
+
     closeModal();
     formik.resetForm();
     openSuccessMessage("Road added successfully!");
   };
 
-  const openSuccessMessage = (message: string) => {
-    setSuccessMessage(message);
-    setIsSuccessOpen(true);
-  };
-
   const goBack = () => {
     navigate("/roads");
+  };
+
+  const onPhotoHandle = async (name: any, selectedFile: any) => {
+    await formik.setFieldValue(`${name}`, selectedFile);
   };
 
   return (
@@ -96,6 +113,7 @@ const AddRoadPage = () => {
           onSubmit={formik.handleSubmit}
           goBack={goBack}
           name={"Add Road"}
+          onPhoto={onPhotoHandle}
         />
       </MainTemplate>
 
@@ -108,7 +126,7 @@ const AddRoadPage = () => {
       />
       <CustomSnackbar
         open={isSuccessOpen}
-        onClose={() => setIsSuccessOpen(false)}
+        onClose={() => closeSuccessMessage()}
         message={successMessage}
         error={error}
       />

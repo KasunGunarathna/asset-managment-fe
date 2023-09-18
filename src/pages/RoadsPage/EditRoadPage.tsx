@@ -14,19 +14,32 @@ import { validationSchema } from "./validationSchema";
 import FormGenerator from "../../components/common/FormGenerator";
 import { fields } from "./formFields";
 import { fetchLoginUser } from "../../services/authService";
-import { editRoad, fetchRoadById } from "../../services/roadService";
+import {
+  editRoad,
+  fetchRoadById,
+  imageUploadRoad,
+} from "../../services/roadService";
+import { useImageModal } from "../../hooks/useImageModal";
+import { useModal } from "../../hooks/useModal";
+import { useSuccessMessage } from "../../hooks/useSuccessMessage";
+import ImageViewModal from "../../components/common/ImageViewModal";
 
 const EditRoadPage = () => {
   const nic = sessionStorage.getItem("userNic");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+  const { isModalOpen, openModal, closeModal } = useModal();
+  const {
+    successMessage,
+    isSuccessOpen,
+    openSuccessMessage,
+    closeSuccessMessage,
+  } = useSuccessMessage();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { loading, error, road } = useSelector(selectRoad);
   const { logUser } = useSelector(selectAuth);
   const { id, view } = useParams();
-
+  const { openImageModal, selectedImage, handleOpenModal, handleCloseModal } =
+    useImageModal();
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
     dispatch(fetchRoadById(id)); // Fetch road data by ID
@@ -36,7 +49,6 @@ const EditRoadPage = () => {
     dispatch(clearToken());
     localStorage.removeItem("isAuthenticated");
   };
-
   const formik = useFormik({
     initialValues: {
       road_name: road?.road_name || "",
@@ -48,10 +60,10 @@ const EditRoadPage = () => {
       pavement_type: road?.pavement_type || "",
       starting_point_latitude: road?.starting_point_latitude || 0,
       starting_point_longitude: road?.starting_point_longitude || 0,
-      starting_point_photo: road?.starting_point_photo || "",
+      starting_point_photo: road?.startingPhotoUrl || "",
       end_point_latitude: road?.end_point_latitude || 0,
       end_point_longitude: road?.end_point_longitude || 0,
-      end_point_photo: road?.end_point_photo || "",
+      end_point_photo: road?.endPhotoUrl || "",
       drainage_availability: road?.drainage_availability || "",
     },
     validationSchema: validationSchema,
@@ -61,31 +73,41 @@ const EditRoadPage = () => {
     enableReinitialize: true,
   });
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
+  const handleConfirm = async () => {
+    const image1: any = formik.values.starting_point_photo;
+    const image2: any = formik.values.end_point_photo;
+    console.log(image1);
+    console.log(image2);
+    let data: Road = formik.values;
+    delete data.starting_point_photo;
+    delete data.end_point_photo;
+    await dispatch(editRoad(id, formik.values));
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleConfirm = () => {
-    dispatch(editRoad(id, formik.values));
+    if (image1 !== undefined) {
+      const formData = new FormData();
+      formData.append("file", image1);
+      await dispatch(imageUploadRoad(id, formData, 1));
+    }
+    if (image2 !== undefined) {
+      const formData = new FormData();
+      formData.append("file", image2);
+      await dispatch(imageUploadRoad(id, formData, 2));
+    }
     closeModal();
-    dispatch(fetchRoadById(id));
-    formik.resetForm();
-    openSuccessMessage("Road updated successfully!");
-  };
 
-  const openSuccessMessage = (message: string) => {
-    setSuccessMessage(message);
-    setIsSuccessOpen(true);
+    await formik.setFieldValue("starting_point_photo", road?.startingPhotoUrl);
+    await formik.setFieldValue("end_point_photo", road?.endPhotoUrl);
+    await dispatch(fetchRoadById(id));
+    openSuccessMessage("Road updated successfully!");
   };
 
   const goBack = () => {
     navigate("/roads");
   };
-
+  const onPhotoHandle = async (name: any, selectedFile: any) => {
+    console.log(`${name}`, selectedFile);
+    await formik.setFieldValue(`${name}`, selectedFile);
+  };
   return (
     <>
       <PageLoader isLoading={loading} />
@@ -101,6 +123,8 @@ const EditRoadPage = () => {
           goBack={goBack}
           name={"Update Road"}
           view={view}
+          onPhoto={onPhotoHandle}
+          handleOpenModal={handleOpenModal}
         />
       </MainTemplate>
       <CustomDialog
@@ -112,9 +136,14 @@ const EditRoadPage = () => {
       />
       <CustomSnackbar
         open={isSuccessOpen}
-        onClose={() => setIsSuccessOpen(false)}
+        onClose={() => closeSuccessMessage()}
         message={successMessage}
         error={error}
+      />
+      <ImageViewModal
+        open={openImageModal}
+        onClose={handleCloseModal}
+        imageURL={selectedImage}
       />
     </>
   );

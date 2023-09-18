@@ -107,7 +107,7 @@ const BridgesPage = () => {
         openSuccessMessage("Bridges Bulk Upload successfully!");
         await dispatch(fetchBridges());
       }
-    } catch (err:any) {
+    } catch (err: any) {
       closeFileModal();
       openSuccessMessage(err.message);
     }
