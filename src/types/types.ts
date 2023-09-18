@@ -55,6 +55,8 @@ export interface Road {
   end_point_longitude: number | undefined;
   end_point_photo: string | undefined;
   drainage_availability: string | undefined;
+  startingPhotoUrl?: string | undefined;
+  endPhotoUrl?: string | undefined;
 }
 
 export interface StreetLight {

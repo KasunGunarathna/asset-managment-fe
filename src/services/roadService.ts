@@ -6,6 +6,7 @@ import {
   insertRoads,
   updateRoads,
   uploadBulkRoad,
+  uploadRoad,
 } from "../api/roadApis";
 import {
   getFailure,
@@ -51,8 +52,9 @@ export const fetchRoadById = (id: any) => async (dispatch: AppDispatch) => {
 export const addRoad = (road: Road | null) => async (dispatch: AppDispatch) => {
   dispatch(getRoadsStart());
   try {
-    await insertRoads(road);
+    const res = await insertRoads(road);
     dispatch(setSuccess());
+    return res;
   } catch (error: any) {
     dispatch(getFailure(error.response?.data?.message || error.message));
   }
@@ -89,3 +91,14 @@ export const bulkUploadRoad = (data: any) => async (dispatch: AppDispatch) => {
     throw error;
   }
 };
+
+export const imageUploadRoad =
+  (id: any, imageData: any, photo: any) => async (dispatch: AppDispatch) => {
+    dispatch(getRoadsStart());
+    try {
+      await uploadRoad(id, imageData, photo);
+      dispatch(setSuccess());
+    } catch (error: any) {
+      dispatch(getFailure(error.response?.data?.message || error.message));
+    }
+  };

@@ -51,7 +51,7 @@ export const updateStreetLights = async (id: any, streetLightsData: any) => {
 
 export const getStreetLight = async (id: any) => {
   try {
-    const response = await instance.get(`/street_lights/road-image/${id}`);
+    const response = await instance.get(`/street_lights/light_image/${id}`);
     return response.data;
   } catch (error) {
     throw error;
@@ -61,7 +61,7 @@ export const getStreetLight = async (id: any) => {
 export const uploadStreetLight = async (id: any, imageData: any) => {
   try {
     const response = await instance.post(
-      `/street_lights/upload-road-image/${id}`,
+      `/street_lights/upload_light_image/${id}`,
       imageData,
     );
     return response.data.data;

@@ -24,9 +24,7 @@ export const validationSchema = yup.object({
     .required("Starting Point Longitude is required")
     .min(-180, "Longitude must be greater than or equal to -180")
     .max(180, "Longitude must be less than or equal to 180"),
-  starting_point_photo: yup
-    .string()
-    .required("Starting Point Photo is required"),
+  starting_point_photo: yup.string(),
   end_point_latitude: yup
     .number()
     .required("End Point Latitude is required")
@@ -37,7 +35,7 @@ export const validationSchema = yup.object({
     .required("End Point Longitude is required")
     .min(-180, "Longitude must be greater than or equal to -180")
     .max(180, "Longitude must be less than or equal to 180"),
-  end_point_photo: yup.string().required("End Point Photo is required"),
+  end_point_photo: yup.string(),
   drainage_availability: yup
     .string()
     .required("Drainage Availability is required"),

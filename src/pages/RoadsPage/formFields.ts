@@ -33,19 +33,21 @@ export const fields: FormField[] = [
     label: "Starting Point Longitude",
     type: "number",
   },
-  { name: "starting_point_photo", label: "Starting Point Photo" },
+
   { name: "end_point_latitude", label: "End Point Latitude", type: "number" },
   {
     name: "end_point_longitude",
     label: "End Point Longitude",
     type: "number",
   },
-  { name: "end_point_photo", label: "End Point Photo" },
+
   {
     name: "drainage_availability",
     label: "Drainage Availability",
     select: true,
     options: Object.values(DrainageAvailability),
   },
+  { name: "starting_point_photo", label: "Starting Point Photo", photo: true },
+  { name: "end_point_photo", label: "End Point Photo", photo: true },
   // You can add more fields as needed
 ];
