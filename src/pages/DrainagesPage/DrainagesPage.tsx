@@ -67,11 +67,6 @@ const DrainagesPage = () => {
     dispatch(fetchDrainages()); // Replace with the relevant action for fetching drainages
   }, [nic, dispatch]);
 
-  const handleLogout = () => {
-    dispatch(clearToken());
-    localStorage.removeItem("isAuthenticated");
-  };
-
   const addNewPage = () => {
     navigate("/drainages/add"); // Adjust the route to match your drainage form
   };
@@ -121,7 +116,6 @@ const DrainagesPage = () => {
       <PageLoader isLoading={loading} />
       <MainTemplate
         userDetails={logUser}
-        handleLogout={handleLogout}
         breadCrumb={["Home", "Drainages"]} // Update breadcrumb
       >
         <TableControls

@@ -15,19 +15,9 @@ const HomePage = () => {
     dispatch(fetchLoginUser(nic));
   }, [nic, dispatch]);
 
-  const handleLogout = () => {
-    // Dispatch the logout action
-    dispatch(clearToken());
-    localStorage.removeItem("isAuthenticated");
-  };
-
   return (
     <>
-      <MainTemplate
-        userDetails={logUser}
-        handleLogout={handleLogout}
-        breadCrumb={["Home", "Home"]}
-      >
+      <MainTemplate userDetails={logUser} breadCrumb={["Home", "Home"]}>
         <h1>Welcome to the Home Page</h1>
         {<p>You are authenticated!</p>}
       </MainTemplate>

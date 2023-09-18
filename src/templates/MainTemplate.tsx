@@ -6,19 +6,26 @@ import Sidebar from "../components/Sidebar";
 import MainContent from "../components/MainContent";
 import BreadcrumbTrail from "../components/BreadcrumbTrail";
 import CopyrightTrail from "../components/Copyright";
+import { clearToken } from "../store/authSlice";
+import { AppDispatch } from "../store/store";
+import { useDispatch } from "react-redux";
 
 interface YourReusableTemplateProps {
   userDetails: any;
-  handleLogout: () => void;
   breadCrumb: string[];
 }
 
 const MainTemplate: React.FC<YourReusableTemplateProps> = ({
   userDetails,
-  handleLogout,
   breadCrumb,
   children,
 }) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const handleLogout =  () => {
+     dispatch(clearToken());
+     localStorage.removeItem("isAuthenticated");
+  };
+
   return (
     <>
       <Box sx={{ display: "flex" }}>
@@ -54,3 +61,4 @@ const MainTemplate: React.FC<YourReusableTemplateProps> = ({
 };
 
 export default MainTemplate;
+

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
@@ -8,19 +8,25 @@ import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
 import PageLoader from "../../components/PageLoader";
 import MainTemplate from "../../templates/MainTemplate";
-import { clearToken, selectAuth } from "../../store/authSlice";
+import { selectAuth } from "../../store/authSlice";
 import { AppDispatch } from "../../store/store";
 import { fields } from "./formFields";
 import FormGenerator from "../../components/common/FormGenerator";
 import { validationSchema } from "./validationSchema";
 import { fetchLoginUser } from "../../services/authService";
 import { editBridge, fetchBridgeById } from "../../services/bridgeService";
+import { useModal } from "../../hooks/useModal";
+import { useSuccessMessage } from "../../hooks/useSuccessMessage";
 
 const EditBridgePage = () => {
   const nic = sessionStorage.getItem("userNic");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+  const { isModalOpen, openModal, closeModal } = useModal();
+  const {
+    successMessage,
+    isSuccessOpen,
+    openSuccessMessage,
+    closeSuccessMessage,
+  } = useSuccessMessage();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { loading, error, bridge } = useSelector(selectBridge);
@@ -31,11 +37,6 @@ const EditBridgePage = () => {
     dispatch(fetchLoginUser(nic));
     dispatch(fetchBridgeById(id));
   }, [nic, id, dispatch]);
-
-  const handleLogout = () => {
-    dispatch(clearToken());
-    localStorage.removeItem("isAuthenticated");
-  };
 
   const formik = useFormik({
     initialValues: {
@@ -56,25 +57,12 @@ const EditBridgePage = () => {
     enableReinitialize: true,
   });
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleConfirm = () => {
-    dispatch(editBridge(id, formik.values));
+  const handleConfirm = async () => {
+    await dispatch(editBridge(id, formik.values));
     closeModal();
-    dispatch(fetchBridgeById(id));
+    await dispatch(fetchBridgeById(id));
     formik.resetForm();
     openSuccessMessage("Bridge updated successfully!");
-  };
-
-  const openSuccessMessage = (message: string) => {
-    setSuccessMessage(message);
-    setIsSuccessOpen(true);
   };
 
   const goBack = () => {
@@ -86,7 +74,6 @@ const EditBridgePage = () => {
       <PageLoader isLoading={loading} />
       <MainTemplate
         userDetails={logUser}
-        handleLogout={handleLogout}
         breadCrumb={["Home", "Bridges", "Edit Bridge"]}
       >
         <FormGenerator
@@ -107,7 +94,7 @@ const EditBridgePage = () => {
       />
       <CustomSnackbar
         open={isSuccessOpen}
-        onClose={() => setIsSuccessOpen(false)}
+        onClose={() => closeSuccessMessage()}
         message={successMessage}
         error={error}
       />

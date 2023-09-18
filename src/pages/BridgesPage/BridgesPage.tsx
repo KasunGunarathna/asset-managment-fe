@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearToken, selectAuth } from "../../store/authSlice";
+import { selectAuth } from "../../store/authSlice";
 import ReusableTable from "../../components/common/Table";
 import TableControls from "../../components/common/TableControls";
 import MainTemplate from "../../templates/MainTemplate";
@@ -65,11 +65,6 @@ const BridgesPage = () => {
     dispatch(fetchBridges());
   }, [nic, dispatch]);
 
-  const handleLogout = () => {
-    dispatch(clearToken());
-    localStorage.removeItem("isAuthenticated");
-  };
-
   const addNewPage = () => {
     navigate("/bridges/add");
   };
@@ -116,11 +111,7 @@ const BridgesPage = () => {
   return (
     <>
       <PageLoader isLoading={loading} />
-      <MainTemplate
-        userDetails={logUser}
-        handleLogout={handleLogout}
-        breadCrumb={["Home", "Bridges"]}
-      >
+      <MainTemplate userDetails={logUser} breadCrumb={["Home", "Bridges"]}>
         <TableControls
           setSearchQuery={setSearchQuery}
           onChange={addNewPage}

@@ -18,12 +18,18 @@ import {
   editDrainage,
   fetchDrainageById,
 } from "../../services/drainageService";
+import { useModal } from "../../hooks/useModal";
+import { useSuccessMessage } from "../../hooks/useSuccessMessage";
 
 const EditDrainagePage = () => {
   const nic = sessionStorage.getItem("userNic");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+  const { isModalOpen, openModal, closeModal } = useModal();
+  const {
+    successMessage,
+    isSuccessOpen,
+    openSuccessMessage,
+    closeSuccessMessage,
+  } = useSuccessMessage();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { loading, error, drainage } = useSelector(selectDrainages); // Use the appropriate selector for drainages
@@ -34,11 +40,6 @@ const EditDrainagePage = () => {
     dispatch(fetchLoginUser(nic));
     dispatch(fetchDrainageById(id)); // Fetch drainage data by ID
   }, [nic, id, dispatch]);
-
-  const handleLogout = () => {
-    dispatch(clearToken());
-    localStorage.removeItem("isAuthenticated");
-  };
 
   const formik = useFormik({
     initialValues: {
@@ -61,25 +62,12 @@ const EditDrainagePage = () => {
     enableReinitialize: true,
   });
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleConfirm = () => {
-    dispatch(editDrainage(id, formik.values));
+  const handleConfirm = async () => {
+    await dispatch(editDrainage(id, formik.values));
     closeModal();
-    dispatch(fetchDrainageById(id));
+    await dispatch(fetchDrainageById(id));
     formik.resetForm();
     openSuccessMessage("Drainage updated successfully!");
-  };
-
-  const openSuccessMessage = (message: string) => {
-    setSuccessMessage(message);
-    setIsSuccessOpen(true);
   };
 
   const goBack = () => {
@@ -91,7 +79,6 @@ const EditDrainagePage = () => {
       <PageLoader isLoading={loading} />
       <MainTemplate
         userDetails={logUser}
-        handleLogout={handleLogout}
         breadCrumb={[
           "Home",
           "Drainages",
@@ -118,7 +105,7 @@ const EditDrainagePage = () => {
       />
       <CustomSnackbar
         open={isSuccessOpen}
-        onClose={() => setIsSuccessOpen(false)}
+        onClose={() => closeSuccessMessage()}
         message={successMessage}
         error={error}
       />

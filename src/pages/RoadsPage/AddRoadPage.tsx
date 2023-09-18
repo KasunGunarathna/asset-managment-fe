@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearToken, selectAuth } from "../../store/authSlice";
+import { selectAuth } from "../../store/authSlice";
 import MainTemplate from "../../templates/MainTemplate";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../store/store";
@@ -37,11 +37,6 @@ const AddRoadPage = () => {
     dispatch(fetchLoginUser(nic));
   }, [nic, dispatch]);
 
-  const handleLogout = () => {
-    dispatch(clearToken());
-    localStorage.removeItem("isAuthenticated");
-  };
-
   const formik = useFormik({
     initialValues: {
       road_name: "",
@@ -68,13 +63,10 @@ const AddRoadPage = () => {
   const handleConfirm = async () => {
     const image1: any = formik.values.starting_point_photo;
     const image2: any = formik.values.end_point_photo;
-    console.log(image1);
-    console.log(image2);
     let data: Road = formik.values;
     delete data.starting_point_photo;
     delete data.end_point_photo;
     const res = await dispatch(addRoad(formik.values));
-    console.log(res);
     if (image1) {
       const formData = new FormData();
       formData.append("file", image1);
@@ -88,6 +80,8 @@ const AddRoadPage = () => {
 
     closeModal();
     formik.resetForm();
+    await formik.setFieldValue("starting_point_photo", null);
+    await formik.setFieldValue("end_point_photo", null);
     openSuccessMessage("Road added successfully!");
   };
 
@@ -104,7 +98,6 @@ const AddRoadPage = () => {
       <PageLoader isLoading={loading} />
       <MainTemplate
         userDetails={logUser}
-        handleLogout={handleLogout}
         breadCrumb={["Home", "Roads", "Add Road"]}
       >
         <FormGenerator

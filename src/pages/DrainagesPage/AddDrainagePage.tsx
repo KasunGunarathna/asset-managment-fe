@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearToken, selectAuth } from "../../store/authSlice";
+import { selectAuth } from "../../store/authSlice";
 import MainTemplate from "../../templates/MainTemplate";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../store/store";
@@ -15,12 +15,18 @@ import { validationSchema } from "./validationSchema";
 import { fields } from "./formFields"; // Define your drainage form fields here
 import { fetchLoginUser } from "../../services/authService";
 import { addDrainage } from "../../services/drainageService";
+import { useModal } from "../../hooks/useModal";
+import { useSuccessMessage } from "../../hooks/useSuccessMessage";
 
 const AddDrainagePage = () => {
   const nic = sessionStorage.getItem("userNic");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+  const { isModalOpen, openModal, closeModal } = useModal();
+  const {
+    successMessage,
+    isSuccessOpen,
+    openSuccessMessage,
+    closeSuccessMessage,
+  } = useSuccessMessage();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { loading, error } = useSelector(selectDrainages); // Use the appropriate selector for drainages
@@ -29,11 +35,6 @@ const AddDrainagePage = () => {
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
   }, [nic, dispatch]);
-
-  const handleLogout = () => {
-    dispatch(clearToken());
-    localStorage.removeItem("isAuthenticated");
-  };
 
   const formik = useFormik({
     initialValues: {
@@ -55,24 +56,11 @@ const AddDrainagePage = () => {
     },
   });
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
   const handleConfirm = async () => {
     await dispatch(addDrainage(formik.values));
     closeModal();
     formik.resetForm();
     openSuccessMessage("Drainage added successfully!");
-  };
-
-  const openSuccessMessage = (message: string) => {
-    setSuccessMessage(message);
-    setIsSuccessOpen(true);
   };
 
   const goBack = () => {
@@ -84,7 +72,6 @@ const AddDrainagePage = () => {
       <PageLoader isLoading={loading} />
       <MainTemplate
         userDetails={logUser}
-        handleLogout={handleLogout}
         breadCrumb={["Home", "Drainages", "Add Drainage"]}
       >
         <FormGenerator
@@ -105,7 +92,7 @@ const AddDrainagePage = () => {
       />
       <CustomSnackbar
         open={isSuccessOpen}
-        onClose={() => setIsSuccessOpen(false)}
+        onClose={() => closeSuccessMessage()}
         message={successMessage}
         error={error}
       />
