@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearToken, selectAuth } from "../../store/authSlice";
+import { selectAuth } from "../../store/authSlice";
 import MainTemplate from "../../templates/MainTemplate";
 import { selectUser } from "../../store/userSlice";
 import { useNavigate, useParams } from "react-router-dom";
@@ -16,14 +16,20 @@ import FormGenerator from "../../components/common/FormGenerator";
 import { fields } from "./formFields";
 import { fetchLoginUser } from "../../services/authService";
 import { editUser, fetchUserById } from "../../services/userService";
+import { useModal } from "../../hooks/useModal";
+import { useSuccessMessage } from "../../hooks/useSuccessMessage";
 
 const encryptionKey = "mysecretkey";
 
 const AddUsersPage = () => {
   const nic = sessionStorage.getItem("userNic");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+  const { isModalOpen, openModal, closeModal } = useModal();
+  const {
+    successMessage,
+    isSuccessOpen,
+    openSuccessMessage,
+    closeSuccessMessage,
+  } = useSuccessMessage();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { loading, error, user } = useSelector(selectUser);
@@ -35,11 +41,6 @@ const AddUsersPage = () => {
     dispatch(fetchLoginUser(nic));
     dispatch(fetchUserById(id));
   }, [nic, id, dispatch]);
-
-  const handleLogout = () => {
-    dispatch(clearToken());
-    localStorage.removeItem("isAuthenticated");
-  };
 
   const formik = useFormik({
     initialValues: {
@@ -55,25 +56,12 @@ const AddUsersPage = () => {
     enableReinitialize: true,
   });
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
   const handleConfirm = () => {
     dispatch(editUser(id, formik.values));
     closeModal();
     dispatch(fetchUserById(id));
     formik.resetForm();
     openSuccessMessage("User updated successfully!");
-  };
-
-  const openSuccessMessage = (message: string) => {
-    setSuccessMessage(message);
-    setIsSuccessOpen(true);
   };
 
   const goBack = () => {
@@ -84,7 +72,6 @@ const AddUsersPage = () => {
       <PageLoader isLoading={loading} />
       <MainTemplate
         userDetails={logUser}
-        handleLogout={handleLogout}
         breadCrumb={["Home", "Users", view ? "View User" : "Edit User"]}
       >
         <FormGenerator
@@ -108,7 +95,7 @@ const AddUsersPage = () => {
       />
       <CustomSnackbar
         open={isSuccessOpen}
-        onClose={() => setIsSuccessOpen(false)}
+        onClose={() => closeSuccessMessage()}
         message={successMessage}
         error={error}
       />

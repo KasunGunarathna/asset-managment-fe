@@ -45,10 +45,6 @@ const EditRoadPage = () => {
     dispatch(fetchRoadById(id)); // Fetch road data by ID
   }, [nic, id, dispatch]);
 
-  const handleLogout = () => {
-    dispatch(clearToken());
-    localStorage.removeItem("isAuthenticated");
-  };
   const formik = useFormik({
     initialValues: {
       road_name: road?.road_name || "",
@@ -76,8 +72,6 @@ const EditRoadPage = () => {
   const handleConfirm = async () => {
     const image1: any = formik.values.starting_point_photo;
     const image2: any = formik.values.end_point_photo;
-    console.log(image1);
-    console.log(image2);
     let data: Road = formik.values;
     delete data.starting_point_photo;
     delete data.end_point_photo;
@@ -105,7 +99,6 @@ const EditRoadPage = () => {
     navigate("/roads");
   };
   const onPhotoHandle = async (name: any, selectedFile: any) => {
-    console.log(`${name}`, selectedFile);
     await formik.setFieldValue(`${name}`, selectedFile);
   };
   return (
@@ -113,7 +106,6 @@ const EditRoadPage = () => {
       <PageLoader isLoading={loading} />
       <MainTemplate
         userDetails={logUser}
-        handleLogout={handleLogout}
         breadCrumb={["Home", "Roads", "Edit Road"]}
       >
         <FormGenerator

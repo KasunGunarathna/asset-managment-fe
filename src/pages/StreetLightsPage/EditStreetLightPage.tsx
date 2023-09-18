@@ -13,7 +13,7 @@ import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
 import PageLoader from "../../components/PageLoader";
 import MainTemplate from "../../templates/MainTemplate";
-import { clearToken, selectAuth } from "../../store/authSlice";
+import { selectAuth } from "../../store/authSlice";
 import { AppDispatch } from "../../store/store";
 import { validationSchema } from "./validationSchema";
 import FormGenerator from "../../components/common/FormGenerator";
@@ -52,10 +52,6 @@ const EditStreetLightPage = () => {
     dispatch(imageGetStreetLight(id));
   }, [nic, id, dispatch]);
 
-  const handleLogout = () => {
-    dispatch(clearToken());
-    localStorage.removeItem("isAuthenticated");
-  };
   const formik = useFormik({
     initialValues: {
       // Initialize with your StreetLight field names and default values
@@ -95,9 +91,7 @@ const EditStreetLightPage = () => {
     navigate("/street_lights");
   };
   const onPhotoHandle = (name: any, selectedFile: any) => {
-    console.log(`${name}`, selectedFile);
     formik.setFieldValue(`${name}`, selectedFile);
-    console.log(formik.values);
   };
 
   return (
@@ -105,7 +99,6 @@ const EditStreetLightPage = () => {
       <PageLoader isLoading={loading} />
       <MainTemplate
         userDetails={logUser}
-        handleLogout={handleLogout}
         breadCrumb={["Home", "Street Lights", "Edit Street Light"]}
       >
         <FormGenerator
