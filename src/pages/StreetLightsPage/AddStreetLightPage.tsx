@@ -69,7 +69,7 @@ const AddStreetLightPage = () => {
     }
     closeModal();
     formik.resetForm();
-    formik.setFieldValue("photo", null);
+    await formik.setFieldValue(`photo`, null);
     openSuccessMessage("Street light added successfully!");
   };
 
@@ -77,8 +77,8 @@ const AddStreetLightPage = () => {
     navigate("/street_lights");
   };
 
-  const onPhotoHandle = (name: any, selectedFile: any) => {
-    formik.setFieldValue(`${name}`, selectedFile);
+  const onPhotoHandle = async (name: any, selectedFile: any) => {
+    await formik.setFieldValue(`${name}`, selectedFile);
   };
 
   return (

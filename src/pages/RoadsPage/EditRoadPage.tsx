@@ -88,10 +88,10 @@ const EditRoadPage = () => {
       await dispatch(imageUploadRoad(id, formData, 2));
     }
     closeModal();
-
+    await dispatch(fetchRoadById(id));
     await formik.setFieldValue("starting_point_photo", road?.startingPhotoUrl);
     await formik.setFieldValue("end_point_photo", road?.endPhotoUrl);
-    await dispatch(fetchRoadById(id));
+    
     openSuccessMessage("Road updated successfully!");
   };
 

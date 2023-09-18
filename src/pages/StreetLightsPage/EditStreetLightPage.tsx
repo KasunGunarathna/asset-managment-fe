@@ -82,16 +82,16 @@ const EditStreetLightPage = () => {
       await dispatch(imageUploadStreetLight(id, formData));
     }
     closeModal();
-    formik.setFieldValue("photo", streetLight?.photoUrl);
     await dispatch(fetchStreetLightById(id));
+    await formik.setFieldValue("photo", streetLight?.photoUrl);
     openSuccessMessage("Street light updated successfully!");
   };
 
   const goBack = () => {
     navigate("/street_lights");
   };
-  const onPhotoHandle = (name: any, selectedFile: any) => {
-    formik.setFieldValue(`${name}`, selectedFile);
+  const onPhotoHandle = async (name: any, selectedFile: any) => {
+    await formik.setFieldValue(`${name}`, selectedFile);
   };
 
   return (

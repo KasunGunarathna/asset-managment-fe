@@ -80,6 +80,8 @@ const AddRoadPage = () => {
 
     closeModal();
     formik.resetForm();
+    await formik.setFieldValue("starting_point_photo", null);
+    await formik.setFieldValue("end_point_photo", null);
     openSuccessMessage("Road added successfully!");
   };
 
