@@ -36,6 +36,7 @@ const StreetLightsPage = () => {
     { id: "pole_type", label: "Pole Type" },
     { id: "lamp_type", label: "Lamp Type" },
     { id: "photo", label: "Photo", photo: true, url: "photoUrl" },
+    { id: "updatedAt", label: "Updated Date" },
   ];
 
   const dispatch = useDispatch<AppDispatch>();

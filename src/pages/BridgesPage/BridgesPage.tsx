@@ -35,6 +35,7 @@ const BridgesPage = () => {
     { id: "structure_condition", label: "Structure Condition" },
     { id: "road_surface_condition", label: "Surface Condition" },
     { id: "remarks", label: "Remarks" },
+    { id: "updatedAt", label: "Updated Date" },
   ];
 
   const dispatch = useDispatch<AppDispatch>();

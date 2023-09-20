@@ -51,6 +51,7 @@ const RoadsPage = () => {
     },
     { id: "end_point_location", label: "End Point Latitude, Longitude" },
     { id: "drainage_availability", label: "Drainage Availability" },
+    { id: "updatedAt", label: "Updated Date" },
   ];
 
   const dispatch = useDispatch<AppDispatch>();

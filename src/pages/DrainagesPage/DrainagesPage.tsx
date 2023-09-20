@@ -35,6 +35,7 @@ const DrainagesPage = () => {
     { id: "condition", label: "Condition" },
     { id: "length", label: "Length" },
     { id: "width", label: "Width" },
+    { id: "updatedAt", label: "Updated Date" },
   ];
 
   const dispatch = useDispatch<AppDispatch>();
