@@ -28,10 +28,10 @@ export const fetchBridges = () => async (dispatch: AppDispatch) => {
 };
 
 export const fetchSearchBridges =
-  (query: any) => async (dispatch: AppDispatch) => {
+  (data:any) => async (dispatch: AppDispatch) => {
     dispatch(getBridgesStart());
     try {
-      const res = await getSearchBridges(query);
+      const res = await getSearchBridges(data);
       dispatch(getBridgesSuccess(res));
     } catch (error: any) {
       dispatch(getFailure(error.response?.data?.message || error.message));
