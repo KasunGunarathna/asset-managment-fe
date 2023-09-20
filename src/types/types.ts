@@ -31,8 +31,7 @@ export interface User {
 export interface Bridge {
   bridge_name: string | undefined;
   road_name: string | undefined;
-  latitude: number | undefined;
-  longitude: number | undefined;
+  location: string | undefined;
   length: number | undefined;
   width: number | undefined;
   structure_condition: string | undefined;
@@ -48,11 +47,9 @@ export interface Road {
   survey_plan: string | undefined;
   surface_condition: string | undefined;
   pavement_type: string | undefined;
-  starting_point_latitude: number | undefined;
-  starting_point_longitude: number | undefined;
+  starting_point_location: string | undefined;
   starting_point_photo: string | undefined;
-  end_point_latitude: number | undefined;
-  end_point_longitude: number | undefined;
+  end_point_location: string | undefined;
   end_point_photo: string | undefined;
   drainage_availability: string | undefined;
   startingPhotoUrl?: string | undefined;
@@ -74,10 +71,8 @@ export interface Drainage {
   road_name: string;
   drainage_type: string;
   side_of_drain: string;
-  starting_point_latitude: number;
-  starting_point_longitude: number;
-  end_point_latitude: number;
-  end_point_longitude: number;
+  starting_point_location: string;
+  end_point_location: string;
   condition: string;
   length: number;
   width: number;

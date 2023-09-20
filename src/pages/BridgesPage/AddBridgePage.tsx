@@ -41,8 +41,7 @@ const AddBridgePage = () => {
     initialValues: {
       bridge_name: "",
       road_name: "",
-      latitude: 0.0,
-      longitude: 0.0,
+      location: "",
       length: 0.0,
       width: 0.0,
       structure_condition: "",

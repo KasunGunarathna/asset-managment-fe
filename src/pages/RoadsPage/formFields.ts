@@ -24,23 +24,11 @@ export const fields: FormField[] = [
     options: Object.values(PavementType),
   },
   {
-    name: "starting_point_latitude",
-    label: "Starting Point Latitude",
-    type: "number",
-  },
-  {
-    name: "starting_point_longitude",
-    label: "Starting Point Longitude",
-    type: "number",
+    name: "starting_point_location",
+    label: "Starting Point Latitude, Longitude",
   },
 
-  { name: "end_point_latitude", label: "End Point Latitude", type: "number" },
-  {
-    name: "end_point_longitude",
-    label: "End Point Longitude",
-    type: "number",
-  },
-
+  { name: "end_point_location", label: "End Point Latitude, Longitude" },
   {
     name: "drainage_availability",
     label: "Drainage Availability",

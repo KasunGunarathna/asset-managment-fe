@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
@@ -8,7 +8,7 @@ import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
 import PageLoader from "../../components/PageLoader";
 import MainTemplate from "../../templates/MainTemplate";
-import { clearToken, selectAuth } from "../../store/authSlice";
+import {  selectAuth } from "../../store/authSlice";
 import { AppDispatch } from "../../store/store";
 import { validationSchema } from "./validationSchema";
 import FormGenerator from "../../components/common/FormGenerator";
@@ -47,10 +47,8 @@ const EditDrainagePage = () => {
       road_name: drainage?.road_name || "",
       drainage_type: drainage?.drainage_type || "",
       side_of_drain: drainage?.side_of_drain || "",
-      starting_point_latitude: drainage?.starting_point_latitude || 0,
-      starting_point_longitude: drainage?.starting_point_longitude || 0,
-      end_point_latitude: drainage?.end_point_latitude || 0,
-      end_point_longitude: drainage?.end_point_longitude || 0,
+      starting_point_location: drainage?.starting_point_location || "",
+      end_point_location: drainage?.end_point_location || "",
       condition: drainage?.condition || "",
       length: drainage?.length || 0,
       width: drainage?.width || 0,

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearToken, selectAuth } from "../../store/authSlice";
+import { selectAuth } from "../../store/authSlice";
 import ReusableTable from "../../components/common/Table";
 import TableControls from "../../components/common/TableControls";
 import MainTemplate from "../../templates/MainTemplate";
@@ -30,10 +30,8 @@ const DrainagesPage = () => {
     { id: "road_name", label: "Road Name" },
     { id: "drainage_type", label: "Type of Drain" },
     { id: "side_of_drain", label: "Side of the Drain" },
-    { id: "starting_point_latitude", label: "Starting Point Latitude" },
-    { id: "starting_point_longitude", label: "Starting Point Longitude" },
-    { id: "end_point_latitude", label: "End Point Latitude" },
-    { id: "end_point_longitude", label: "End Point Longitude" },
+    { id: "starting_point_location", label: "Starting Point Latitude, Longitude" },
+    { id: "end_point_location", label: "End Point Latitude, Longitude" },
     { id: "condition", label: "Condition" },
     { id: "length", label: "Length" },
     { id: "width", label: "Width" },

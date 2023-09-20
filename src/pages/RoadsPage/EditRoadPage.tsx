@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
@@ -8,7 +8,7 @@ import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
 import PageLoader from "../../components/PageLoader";
 import MainTemplate from "../../templates/MainTemplate";
-import { clearToken, selectAuth } from "../../store/authSlice";
+import {  selectAuth } from "../../store/authSlice";
 import { AppDispatch } from "../../store/store";
 import { validationSchema } from "./validationSchema";
 import FormGenerator from "../../components/common/FormGenerator";
@@ -54,11 +54,9 @@ const EditRoadPage = () => {
       survey_plan: road?.survey_plan || "",
       surface_condition: road?.surface_condition || "",
       pavement_type: road?.pavement_type || "",
-      starting_point_latitude: road?.starting_point_latitude || 0,
-      starting_point_longitude: road?.starting_point_longitude || 0,
+      starting_point_location: road?.starting_point_location || "",
       starting_point_photo: road?.startingPhotoUrl || "",
-      end_point_latitude: road?.end_point_latitude || 0,
-      end_point_longitude: road?.end_point_longitude || 0,
+      end_point_location: road?.end_point_location || "",
       end_point_photo: road?.endPhotoUrl || "",
       drainage_availability: road?.drainage_availability || "",
     },

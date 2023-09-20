@@ -42,16 +42,14 @@ const RoadsPage = () => {
       photo: true,
       url: "startingPhotoUrl",
     },
-    { id: "starting_point_latitude", label: "Starting Point Latitude" },
-    { id: "starting_point_longitude", label: "Starting Point Longitude" },
+    { id: "starting_point_location", label: "Starting Point Latitude, Longitude" },
     {
       id: "end_point_photo",
       label: "End Photo",
       photo: true,
       url: "endPhotoUrl",
     },
-    { id: "end_point_latitude", label: "End Point Latitude" },
-    { id: "end_point_longitude", label: "End Point Longitude" },
+    { id: "end_point_location", label: "End Point Latitude, Longitude" },
     { id: "drainage_availability", label: "Drainage Availability" },
   ];
 
