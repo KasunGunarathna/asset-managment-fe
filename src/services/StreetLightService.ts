@@ -31,10 +31,10 @@ export const fetchStreetLights = () => async (dispatch: AppDispatch) => {
 };
 
 export const fetchSearchStreetLights =
-  (query: any) => async (dispatch: AppDispatch) => {
+  (data: any) => async (dispatch: AppDispatch) => {
     dispatch(getStreetLightsStart());
     try {
-      const res = await getSearchStreetLights(query);
+      const res = await getSearchStreetLights(data);
       dispatch(getStreetLightsSuccess(res));
     } catch (error: any) {
       dispatch(getFailure(error.response?.data?.message || error.message));
