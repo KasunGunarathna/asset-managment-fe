@@ -42,8 +42,7 @@ const EditBridgePage = () => {
     initialValues: {
       bridge_name: bridge?.bridge_name || "",
       road_name: bridge?.road_name || "",
-      latitude: bridge?.latitude || 0,
-      longitude: bridge?.longitude || 0,
+      location: bridge?.location || "",
       length: bridge?.length || 0,
       width: bridge?.width || 0,
       structure_condition: bridge?.structure_condition || "",

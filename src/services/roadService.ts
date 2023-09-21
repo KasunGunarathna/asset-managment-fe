@@ -29,10 +29,10 @@ export const fetchRoads = () => async (dispatch: AppDispatch) => {
 };
 
 export const fetchSearchRoads =
-  (query: any) => async (dispatch: AppDispatch) => {
+  (data: any) => async (dispatch: AppDispatch) => {
     dispatch(getRoadsStart());
     try {
-      const res = await getSearchRoads(query);
+      const res = await getSearchRoads(data);
       dispatch(getRoadsSuccess(res));
     } catch (error: any) {
       dispatch(getFailure(error.response?.data?.message || error.message));

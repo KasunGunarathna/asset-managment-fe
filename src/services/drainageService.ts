@@ -28,10 +28,10 @@ export const fetchDrainages = () => async (dispatch: AppDispatch) => {
 };
 
 export const fetchSearchDrainages =
-  (query: any) => async (dispatch: AppDispatch) => {
+  (data: any) => async (dispatch: AppDispatch) => {
     dispatch(getDrainagesStart());
     try {
-      const res = await getSearchDrainages(query);
+      const res = await getSearchDrainages(data);
       dispatch(getDrainagesSuccess(res));
     } catch (error: any) {
       dispatch(getFailure(error.response?.data?.message || error.message));

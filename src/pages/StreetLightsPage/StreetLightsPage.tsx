@@ -24,6 +24,12 @@ import { useModal } from "../../hooks/useModal";
 import { useImageModal } from "../../hooks/useImageModal";
 import { useSuccessMessage } from "../../hooks/useSuccessMessage";
 import { useFileModal } from "../../hooks/useFileModal";
+import { LampType, PoleType } from "../../types/enum";
+
+const filter1Name = "Pole Type";
+const filter1Options = Object.values(PoleType);
+const filter2Name = "Lamp Type";
+const filter2Options = Object.values(LampType);
 
 const StreetLightsPage = () => {
   const nic = sessionStorage.getItem("userNic");
@@ -36,6 +42,7 @@ const StreetLightsPage = () => {
     { id: "pole_type", label: "Pole Type" },
     { id: "lamp_type", label: "Lamp Type" },
     { id: "photo", label: "Photo", photo: true, url: "photoUrl" },
+    { id: "updatedAt", label: "Updated Date" },
   ];
 
   const dispatch = useDispatch<AppDispatch>();
@@ -61,6 +68,11 @@ const StreetLightsPage = () => {
   } = useFileModal();
 
   const [id, setId] = useState(0);
+
+  const [searchQ, setSearchQ] = useState("");
+
+  const [selectedFilter1Value, setFilter1Change] = useState("");
+  const [selectedFilter2Value, setFilter2Change] = useState("");
 
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
@@ -89,9 +101,43 @@ const StreetLightsPage = () => {
     openSuccessMessage("Street light deleted successfully!");
   };
 
+
   const setSearchQuery = async (query: any) => {
-    if (query) await dispatch(fetchSearchStreetLights(query));
-    else await dispatch(fetchStreetLights());
+    if (query) {
+      await setSearchQ(query);
+      const data = {
+        search: query,
+        f1name: "pole_type",
+        f1value: selectedFilter1Value,
+        f2name: "lamp_type",
+        f2value: selectedFilter2Value,
+      };
+      await dispatch(fetchSearchStreetLights(data));
+    } else await dispatch(fetchStreetLights());
+  };
+
+  const handleFilter1 = async (event: any) => {
+    await setFilter1Change(event.target.value);
+    const data = {
+      search: searchQ,
+      f1name: "pole_type",
+      f1value: event.target.value,
+      f2name: "lamp_type",
+      f2value: selectedFilter2Value,
+    };
+    await dispatch(fetchSearchStreetLights(data));
+  };
+
+  const handleFilter2 = async (event: any) => {
+    await setFilter2Change(event.target.value);
+    const data = {
+      search: searchQ,
+      f1name: "pole_type",
+      f1value: selectedFilter1Value,
+      f2name: "lamp_type",
+      f2value: event.target.value,
+    };
+    await dispatch(fetchSearchStreetLights(data));
   };
 
   const handleUpload = async () => {
@@ -121,6 +167,14 @@ const StreetLightsPage = () => {
           setSearchQuery={setSearchQuery}
           onChange={addNewPage}
           onBulk={openFileModal}
+          filter1Name={filter1Name}
+          filter1Options={filter1Options}
+          filter1onChange={handleFilter1}
+          selectedFilter1Value={selectedFilter1Value}
+          filter2Name={filter2Name}
+          filter2Options={filter2Options}
+          filter2onChange={handleFilter2}
+          selectedFilter2Value={selectedFilter2Value}
         />
         <ReusableTable
           columns={columns}

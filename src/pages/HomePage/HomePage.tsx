@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearToken, selectAuth } from "../../store/authSlice";
+import {  selectAuth } from "../../store/authSlice";
 import MainTemplate from "../../templates/MainTemplate";
 import { AppDispatch } from "../../store/store";
 import { fetchLoginUser } from "../../services/authService";

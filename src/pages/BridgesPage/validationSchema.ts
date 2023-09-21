@@ -5,16 +5,9 @@ import * as yup from "yup";
 export const validationSchema = yup.object({
   bridge_name: yup.string().required("Bridge Name is required"),
   road_name: yup.string().required("Road Name is required"),
-  latitude: yup
-    .number()
-    .required("Latitude is required")
-    .min(-90, "Latitude must be greater than or equal to -90")
-    .max(90, "Latitude must be less than or equal to 90"),
-  longitude: yup
-    .number()
-    .required("Longitude is required")
-    .min(-180, "Longitude must be greater than or equal to -180")
-    .max(180, "Longitude must be less than or equal to 180"),
+  location: yup
+    .string()
+    .required("Location is required"),
   length: yup
     .number()
     .required("Length is required")

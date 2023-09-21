@@ -4,26 +4,12 @@ export const validationSchema = yup.object({
   road_name: yup.string().required("Road Name is required"),
   drainage_type: yup.string().required("Type of Drain is required"),
   side_of_drain: yup.string().required("Side of the Drain is required"),
-  starting_point_latitude: yup
-    .number()
-    .required("Starting Point Latitude is required")
-    .min(-90, "Latitude must be greater than or equal to -90")
-    .max(90, "Latitude must be less than or equal to 90"),
-  starting_point_longitude: yup
-    .number()
-    .required("Starting Point Longitude is required")
-    .min(-180, "Longitude must be greater than or equal to -180")
-    .max(180, "Longitude must be less than or equal to 180"),
-  end_point_latitude: yup
-    .number()
-    .required("End Point Latitude is required")
-    .min(-90, "Latitude must be greater than or equal to -90")
-    .max(90, "Latitude must be less than or equal to 90"),
-  end_point_longitude: yup
-    .number()
-    .required("End Point Longitude is required")
-    .min(-180, "Longitude must be greater than or equal to -180")
-    .max(180, "Longitude must be less than or equal to 180"),
+  starting_point_location: yup
+    .string()
+    .required("Starting Point Location is required"),
+  end_point_location: yup
+    .string()
+    .required("End Point Location is required"),
   condition: yup.string().required("Condition is required"),
   length: yup
     .number()

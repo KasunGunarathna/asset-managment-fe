@@ -1,4 +1,4 @@
-import { DrainageType, SideOfDrain } from "../../types/enum";
+import { DrainageType, SideOfDrain, SurfaceCondition } from "../../types/enum";
 import { FormField } from "../../types/types";
 
 export const fields: FormField[] = [
@@ -16,18 +16,16 @@ export const fields: FormField[] = [
     options: Object.values(SideOfDrain),
   },
   {
-    name: "starting_point_latitude",
-    label: "Starting Point Latitude",
-    type: "number",
+    name: "starting_point_location",
+    label: "Starting Point Latitude, Longitude",
   },
+  { name: "end_point_location", label: "End Point Latitude, Longitude" },
   {
-    name: "starting_point_longitude",
-    label: "Starting Point Longitude",
-    type: "number",
+    name: "condition",
+    label: "Condition",
+    select: true,
+    options: Object.values(SurfaceCondition),
   },
-  { name: "end_point_latitude", label: "End Point Latitude", type: "number" },
-  { name: "end_point_longitude", label: "End Point Longitude", type: "number" },
-  { name: "condition", label: "Condition" },
   { name: "length", label: "Length (meters)", type: "number" },
   { name: "width", label: "Width (meters)", type: "number" },
   // You can add more fields as needed
