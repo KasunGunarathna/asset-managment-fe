@@ -24,6 +24,12 @@ import { useSuccessMessage } from "../../hooks/useSuccessMessage";
 import { useFileModal } from "../../hooks/useFileModal";
 import ImageViewModal from "../../components/common/ImageViewModal";
 import { useImageModal } from "../../hooks/useImageModal";
+import { PavementType, SurfaceCondition } from "../../types/enum";
+
+const filter1Name = "Pavement Type";
+const filter1Options = Object.values(PavementType);
+const filter2Name = "Surface Cond.";
+const filter2Options = Object.values(SurfaceCondition);
 
 const RoadsPage = () => {
   const nic = sessionStorage.getItem("userNic");
@@ -78,6 +84,10 @@ const RoadsPage = () => {
     handleFileChange,
   } = useFileModal();
   const [id, setId] = useState(0);
+  const [searchQ, setSearchQ] = useState("");
+
+  const [selectedFilter1Value, setFilter1Change] = useState("");
+  const [selectedFilter2Value, setFilter2Change] = useState("");
 
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
@@ -106,9 +116,43 @@ const RoadsPage = () => {
     openSuccessMessage("Road deleted successfully!");
   };
 
+ 
   const setSearchQuery = async (query: any) => {
-    if (query) await dispatch(fetchSearchRoads(query));
-    else await dispatch(fetchRoads());
+    if (query) {
+      await setSearchQ(query);
+      const data = {
+        search: query,
+        f1name: "pavement_type",
+        f1value: selectedFilter1Value,
+        f2name: "surface_condition",
+        f2value: selectedFilter2Value,
+      };
+      await dispatch(fetchSearchRoads(data));
+    } else await dispatch(fetchRoads());
+  };
+
+  const handleFilter1 = async (event: any) => {
+    await setFilter1Change(event.target.value);
+    const data = {
+      search: searchQ,
+      f1name: "pavement_type",
+      f1value: event.target.value,
+      f2name: "surface_condition",
+      f2value: selectedFilter2Value,
+    };
+    await dispatch(fetchSearchRoads(data));
+  };
+
+  const handleFilter2 = async (event: any) => {
+    await setFilter2Change(event.target.value);
+    const data = {
+      search: searchQ,
+      f1name: "pavement_type",
+      f1value: selectedFilter1Value,
+      f2name: "surface_condition",
+      f2value: event.target.value,
+    };
+    await dispatch(fetchSearchRoads(data));
   };
 
   const handleUpload = async () => {
@@ -135,6 +179,14 @@ const RoadsPage = () => {
           setSearchQuery={setSearchQuery}
           onChange={addNewPage}
           onBulk={openFileModal}
+          filter1Name={filter1Name}
+          filter1Options={filter1Options}
+          filter1onChange={handleFilter1}
+          selectedFilter1Value={selectedFilter1Value}
+          filter2Name={filter2Name}
+          filter2Options={filter2Options}
+          filter2onChange={handleFilter2}
+          selectedFilter2Value={selectedFilter2Value}
         />
         <ReusableTable
           columns={columns}
