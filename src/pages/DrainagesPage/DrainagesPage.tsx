@@ -22,6 +22,12 @@ import { useModal } from "../../hooks/useModal";
 import { useSuccessMessage } from "../../hooks/useSuccessMessage";
 import { useFileModal } from "../../hooks/useFileModal";
 import FileUploadModal from "../../components/common/FileUploadModal";
+import { DrainageType, SurfaceCondition } from "../../types/enum";
+
+const filter1Name = "Type of Drain";
+const filter1Options = Object.values(DrainageType);
+const filter2Name = "Condition";
+const filter2Options = Object.values(SurfaceCondition);
 
 const DrainagesPage = () => {
   const nic = sessionStorage.getItem("userNic");
@@ -60,6 +66,10 @@ const DrainagesPage = () => {
   } = useFileModal();
 
   const [id, setId] = useState(0);
+  const [searchQ, setSearchQ] = useState("");
+
+  const [selectedFilter1Value, setFilter1Change] = useState("");
+  const [selectedFilter2Value, setFilter2Change] = useState("");
 
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
@@ -89,9 +99,41 @@ const DrainagesPage = () => {
   };
 
   const setSearchQuery = async (query: any) => {
-    if (query) await dispatch(fetchSearchDrainages(query));
-    // Replace with the relevant action for searching drainages
-    else await dispatch(fetchDrainages()); // Replace with the relevant action for fetching drainages
+    if (query) {
+      await setSearchQ(query);
+      const data = {
+        search: query,
+        f1name: "drainage_type",
+        f1value: selectedFilter1Value,
+        f2name: "condition",
+        f2value: selectedFilter2Value,
+      };
+      await dispatch(fetchSearchDrainages(data));
+    } else await dispatch(fetchDrainages());
+  };
+
+  const handleFilter1 = async (event: any) => {
+    await setFilter1Change(event.target.value);
+    const data = {
+      search: searchQ,
+      f1name: "drainage_type",
+      f1value: event.target.value,
+      f2name: "condition",
+      f2value: selectedFilter2Value,
+    };
+    await dispatch(fetchSearchDrainages(data));
+  };
+
+  const handleFilter2 = async (event: any) => {
+    await setFilter2Change(event.target.value);
+    const data = {
+      search: searchQ,
+      f1name: "drainage_type",
+      f1value: selectedFilter1Value,
+      f2name: "condition",
+      f2value: event.target.value,
+    };
+    await dispatch(fetchSearchDrainages(data));
   };
 
   const handleUpload = async () => {
@@ -121,6 +163,14 @@ const DrainagesPage = () => {
           setSearchQuery={setSearchQuery}
           onChange={addNewPage}
           onBulk={openFileModal}
+          filter1Name={filter1Name}
+          filter1Options={filter1Options}
+          filter1onChange={handleFilter1}
+          selectedFilter1Value={selectedFilter1Value}
+          filter2Name={filter2Name}
+          filter2Options={filter2Options}
+          filter2onChange={handleFilter2}
+          selectedFilter2Value={selectedFilter2Value}
         />
         <ReusableTable
           columns={columns}
