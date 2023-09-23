@@ -25,6 +25,7 @@ import { useFileModal } from "../../hooks/useFileModal";
 import ImageViewModal from "../../components/common/ImageViewModal";
 import { useImageModal } from "../../hooks/useImageModal";
 import { PavementType, SurfaceCondition } from "../../types/enum";
+import { generateCsvData } from "../../utils/generateCsv";
 
 const filter1Name = "Pavement Type";
 const filter1Options = Object.values(PavementType);
@@ -88,6 +89,8 @@ const RoadsPage = () => {
 
   const [selectedFilter1Value, setFilter1Change] = useState("");
   const [selectedFilter2Value, setFilter2Change] = useState("");
+
+  const csvData = generateCsvData(columns, roads);
 
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
@@ -187,6 +190,8 @@ const RoadsPage = () => {
           filter2Options={filter2Options}
           filter2onChange={handleFilter2}
           selectedFilter2Value={selectedFilter2Value}
+          csvData={csvData}
+          csvName={`roads_${new Date().toLocaleDateString()}.csv`}
         />
         <ReusableTable
           columns={columns}

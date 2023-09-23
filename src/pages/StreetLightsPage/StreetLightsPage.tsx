@@ -25,6 +25,7 @@ import { useImageModal } from "../../hooks/useImageModal";
 import { useSuccessMessage } from "../../hooks/useSuccessMessage";
 import { useFileModal } from "../../hooks/useFileModal";
 import { LampType, PoleType } from "../../types/enum";
+import { generateCsvData } from "../../utils/generateCsv";
 
 const filter1Name = "Pole Type";
 const filter1Options = Object.values(PoleType);
@@ -73,6 +74,8 @@ const StreetLightsPage = () => {
 
   const [selectedFilter1Value, setFilter1Change] = useState("");
   const [selectedFilter2Value, setFilter2Change] = useState("");
+
+  const csvData = generateCsvData(columns, streetLights);
 
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
@@ -175,6 +178,8 @@ const StreetLightsPage = () => {
           filter2Options={filter2Options}
           filter2onChange={handleFilter2}
           selectedFilter2Value={selectedFilter2Value}
+          csvData={csvData}
+          csvName={`streetLights_${new Date().toLocaleDateString()}.csv`}
         />
         <ReusableTable
           columns={columns}

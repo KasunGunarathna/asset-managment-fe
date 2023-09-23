@@ -12,6 +12,7 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
+import CsvDownloadButton from "./CsvDownloadButton";
 
 interface TableControlsProps {
   setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
@@ -19,12 +20,14 @@ interface TableControlsProps {
   onBulk?: () => void;
   filter1Name?: any;
   filter1Options?: any;
-  filter1onChange?: ((event:any) => void) ;
-  selectedFilter1Value?:any;
+  filter1onChange?: (event: any) => void;
+  selectedFilter1Value?: any;
   filter2Name?: any;
   filter2Options?: any;
-  filter2onChange?: ((event:any) => void );
-  selectedFilter2Value?:any;
+  filter2onChange?: (event: any) => void;
+  selectedFilter2Value?: any;
+  csvData?: any;
+  csvName?: any;
 }
 
 const TableControls: React.FC<TableControlsProps> = ({
@@ -39,6 +42,8 @@ const TableControls: React.FC<TableControlsProps> = ({
   filter2Options,
   filter2onChange,
   selectedFilter2Value,
+  csvData,
+  csvName,
 }) => {
   return (
     <Box
@@ -65,9 +70,16 @@ const TableControls: React.FC<TableControlsProps> = ({
           }}
         />
         {filter1Name && (
-          <FormControl variant="standard" sx={{ width: "150px", marginLeft: "20px" }}>
+          <FormControl
+            variant="standard"
+            sx={{ width: "150px", marginLeft: "20px" }}
+          >
             <InputLabel>{filter1Name}</InputLabel>
-            <Select  name={filter1Name} value={selectedFilter1Value} onChange={filter1onChange}>
+            <Select
+              name={filter1Name}
+              value={selectedFilter1Value}
+              onChange={filter1onChange}
+            >
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
@@ -80,9 +92,16 @@ const TableControls: React.FC<TableControlsProps> = ({
           </FormControl>
         )}
         {filter2Name && (
-          <FormControl variant="standard" sx={{ width: "150px", marginLeft: "20px" }}>
+          <FormControl
+            variant="standard"
+            sx={{ width: "150px", marginLeft: "20px" }}
+          >
             <InputLabel>{filter2Name}</InputLabel>
-            <Select name={filter2Name} value={selectedFilter2Value} onChange={filter2onChange}>
+            <Select
+              name={filter2Name}
+              value={selectedFilter2Value}
+              onChange={filter2onChange}
+            >
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
@@ -96,6 +115,13 @@ const TableControls: React.FC<TableControlsProps> = ({
         )}
       </Box>
       <Box>
+        {csvName && (
+          <CsvDownloadButton
+            csvData={csvData}
+            fileName={csvName}
+            buttonText="Download CSV"
+          />
+        )}
         {onBulk && (
           <Button
             onClick={onBulk}

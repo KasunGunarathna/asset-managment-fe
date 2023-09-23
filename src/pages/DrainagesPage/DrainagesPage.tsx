@@ -23,6 +23,7 @@ import { useSuccessMessage } from "../../hooks/useSuccessMessage";
 import { useFileModal } from "../../hooks/useFileModal";
 import FileUploadModal from "../../components/common/FileUploadModal";
 import { DrainageType, SurfaceCondition } from "../../types/enum";
+import { generateCsvData } from "../../utils/generateCsv";
 
 const filter1Name = "Type of Drain";
 const filter1Options = Object.values(DrainageType);
@@ -36,7 +37,10 @@ const DrainagesPage = () => {
     { id: "road_name", label: "Road Name" },
     { id: "drainage_type", label: "Type of Drain" },
     { id: "side_of_drain", label: "Side of the Drain" },
-    { id: "starting_point_location", label: "Starting Point Latitude, Longitude" },
+    {
+      id: "starting_point_location",
+      label: "Starting Point Latitude, Longitude",
+    },
     { id: "end_point_location", label: "End Point Latitude, Longitude" },
     { id: "condition", label: "Condition" },
     { id: "length", label: "Length" },
@@ -70,6 +74,8 @@ const DrainagesPage = () => {
 
   const [selectedFilter1Value, setFilter1Change] = useState("");
   const [selectedFilter2Value, setFilter2Change] = useState("");
+
+  const csvData = generateCsvData(columns, drainages);
 
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
@@ -171,6 +177,8 @@ const DrainagesPage = () => {
           filter2Options={filter2Options}
           filter2onChange={handleFilter2}
           selectedFilter2Value={selectedFilter2Value}
+          csvData={csvData}
+          csvName={`drainages_${new Date().toLocaleDateString()}.csv`}
         />
         <ReusableTable
           columns={columns}

@@ -23,6 +23,7 @@ import { useModal } from "../../hooks/useModal";
 import { useSuccessMessage } from "../../hooks/useSuccessMessage";
 import FileUploadModal from "../../components/common/FileUploadModal";
 import { SurfaceCondition } from "../../types/enum";
+import { generateCsvData } from "../../utils/generateCsv";
 
 const filter1Name = "Structure Cond.";
 const filter1Options = Object.values(SurfaceCondition);
@@ -45,7 +46,7 @@ const BridgesPage = () => {
   const nic = sessionStorage.getItem("userNic");
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { bridges, loading, error } = useSelector(selectBridge, undefined);
+  const { bridges, loading, error } = useSelector(selectBridge);
   const { logUser } = useSelector(selectAuth);
   const { isModalOpen, openModal, closeModal } = useModal();
   const {
@@ -68,6 +69,8 @@ const BridgesPage = () => {
 
   const [selectedFilter1Value, setFilter1Change] = useState("");
   const [selectedFilter2Value, setFilter2Change] = useState("");
+
+  const csvData = generateCsvData(columns, bridges);
 
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
@@ -166,6 +169,9 @@ const BridgesPage = () => {
           filter2Options={filter2Options}
           filter2onChange={handleFilter2}
           selectedFilter2Value={selectedFilter2Value}
+          csvData={csvData}
+          csvName={`bridges_${new Date()
+            .toLocaleDateString()}.csv`}
         />
         <ReusableTable
           columns={columns}
