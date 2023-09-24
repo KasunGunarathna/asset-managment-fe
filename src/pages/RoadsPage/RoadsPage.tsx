@@ -49,14 +49,22 @@ const RoadsPage = () => {
       photo: true,
       url: "startingPhotoUrl",
     },
-    { id: "starting_point_location", label: "Starting Point Latitude, Longitude" },
+    {
+      id: "starting_point_location",
+      label: "Starting Point Latitude, Longitude",
+      location: true,
+    },
     {
       id: "end_point_photo",
       label: "End Photo",
       photo: true,
       url: "endPhotoUrl",
     },
-    { id: "end_point_location", label: "End Point Latitude, Longitude" },
+    {
+      id: "end_point_location",
+      label: "End Point Latitude, Longitude",
+      location: true,
+    },
     { id: "drainage_availability", label: "Drainage Availability" },
     { id: "updatedAt", label: "Updated Date" },
   ];
@@ -119,7 +127,6 @@ const RoadsPage = () => {
     openSuccessMessage("Road deleted successfully!");
   };
 
- 
   const setSearchQuery = async (query: any) => {
     if (query) {
       await setSearchQ(query);

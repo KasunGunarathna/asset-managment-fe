@@ -33,7 +33,7 @@ const filter2Options = Object.values(SurfaceCondition);
 const columns = [
   { id: "bridge_name", label: "Bridge Name" },
   { id: "road_name", label: "Road Name" },
-  { id: "location", label: "Latitude , longitude" },
+  { id: "location", label: "Latitude , longitude",  location: true, },
   { id: "length", label: "Road Length" },
   { id: "width", label: "Road Width" },
   { id: "structure_condition", label: "Structure Condition" },

@@ -17,6 +17,7 @@ interface Column {
   label: string;
   photo?: boolean;
   url?: string;
+  location?: boolean;
 }
 
 interface ReusableTableProps {
@@ -44,10 +45,22 @@ const ReusableTable: React.FC<ReusableTableProps> = ({
   };
 
   const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
+  };
+
+  const openGoogleMaps = (event: any) => {
+    event.preventDefault(); // Prevent the default behavior of the anchor element
+    console.log(event.target.textContent)
+    const location = event.target.textContent;
+    const latitude = location.split(",")[0]; // Replace with the actual latitude from your data
+    const longitude = location.split(",")[1];  // Replace with the actual longitude from your data
+    const googleMapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+
+    // Open Google Maps in a new tab or window
+    window.open(googleMapsUrl, "_blank");
   };
 
   return (
@@ -88,7 +101,7 @@ const ReusableTable: React.FC<ReusableTableProps> = ({
                 .map((row, rowIndex) => (
                   <TableRow key={row.id}>
                     {columns.map((column) => (
-                      <TableCell key={column.id}>
+                      <TableCell onClick={column.location ? openGoogleMaps : undefined} key={column.id}>
                         {" "}
                         {column.photo && row[column.id] ? (
                           // Render the photo as an Avatar if 'photo' column is present
@@ -100,8 +113,11 @@ const ReusableTable: React.FC<ReusableTableProps> = ({
                               handleOpenModal(row[column.url || column.id])
                             }
                           />
+                        ) : // Otherwise, render regular text
+                        column.location && row[column.id] ? (
+                          // eslint-disable-next-line jsx-a11y/anchor-is-valid
+                          <a href="#" onClick={openGoogleMaps}>{row[column.id]}</a>
                         ) : (
-                          // Otherwise, render regular text
                           row[column.id]
                         )}
                       </TableCell>

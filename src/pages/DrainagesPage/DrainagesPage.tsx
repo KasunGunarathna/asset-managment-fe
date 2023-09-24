@@ -40,8 +40,13 @@ const DrainagesPage = () => {
     {
       id: "starting_point_location",
       label: "Starting Point Latitude, Longitude",
+      location: true,
     },
-    { id: "end_point_location", label: "End Point Latitude, Longitude" },
+    {
+      id: "end_point_location",
+      label: "End Point Latitude, Longitude",
+      location: true,
+    },
     { id: "condition", label: "Condition" },
     { id: "length", label: "Length" },
     { id: "width", label: "Width" },

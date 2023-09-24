@@ -1,20 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import Modal from "@mui/material/Modal";
 import { Button, Box, Typography } from "@mui/material";
 
 interface LocationViewModalProps {
-  open: boolean;
-  onClose: () => void;
+  open:any,
   latitude: number;
   longitude: number;
 }
 
 const LocationViewModal: React.FC<LocationViewModalProps> = ({
   open,
-  onClose,
   latitude,
   longitude,
 }) => {
+  const onClose = () => {
+    return false
+  }
   return (
     <Modal open={open} onClose={onClose}>
       <Box
