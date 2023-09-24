@@ -52,8 +52,7 @@ const ReusableTable: React.FC<ReusableTableProps> = ({
   };
 
   const openGoogleMaps = (event: any) => {
-    event.preventDefault(); // Prevent the default behavior of the anchor element
-    console.log(event.target.textContent)
+    event.preventDefault(); 
     const location = event.target.textContent;
     const latitude = location.split(",")[0]; // Replace with the actual latitude from your data
     const longitude = location.split(",")[1];  // Replace with the actual longitude from your data

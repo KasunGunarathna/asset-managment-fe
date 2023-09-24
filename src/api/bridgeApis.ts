@@ -11,7 +11,6 @@ export const getBridges = async () => {
 
 export const getSearchBridges = async (data: any) => {
   try {
-    console.log(data);
     const response = await instance.get(
       `/bridges/query?search=${data.search}&f1name=${data.f1name}&f1value=${data.f1value}&f2name=${data.f2name}&f2value=${data.f2value}`
     );
