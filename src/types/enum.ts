@@ -34,6 +34,12 @@ export enum PoleType {
   Steel = "Steel",
 }
 
+export enum UserType {
+  Admin = "Admin",
+  Collector = "Collector",
+  Viewer = "Viewer",
+}
+
 // Enum for Type of Drain
 export enum DrainageType {
   OpenUDrain = "Open U drain",

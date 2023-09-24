@@ -23,9 +23,9 @@ interface Column {
 interface ReusableTableProps {
   columns: Column[];
   data: any[];
-  handleDelete: any;
-  handleEdit: any;
-  handleView: any;
+  handleDelete?: any;
+  handleEdit?: any;
+  handleView?: any;
   handleOpenModal?: any;
 }
 
@@ -127,27 +127,27 @@ const ReusableTable: React.FC<ReusableTableProps> = ({
                         textAlign: "right",
                       }}
                     >
-                      <IconButton
+                      {handleDelete && <IconButton
                         sx={{ color: "#df4444" }}
                         aria-label="Delete"
                         onClick={() => handleDelete(row.id)} // Implement a delete handler function.
                       >
                         <Delete />
-                      </IconButton>
-                      <IconButton
+                      </IconButton>}
+                      {handleEdit && <IconButton
                         sx={{ color: "#00bec4" }}
                         aria-label="Edit"
                         onClick={() => handleEdit(row.id)} // Implement an edit handler function.
                       >
                         <Edit />
-                      </IconButton>
-                      <IconButton
+                      </IconButton>}
+                      {handleView && <IconButton
                         sx={{ color: "#2fce3b" }}
                         aria-label="View"
                         onClick={() => handleView(row.id)} // Implement a view handler function.
                       >
                         <Visibility />
-                      </IconButton>
+                      </IconButton>}
                     </TableCell>
                   </TableRow>
                 ))}

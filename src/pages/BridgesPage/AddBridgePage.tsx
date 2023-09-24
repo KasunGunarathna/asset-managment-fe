@@ -33,6 +33,7 @@ const AddBridgePage = () => {
   const { loading, error } = useSelector(selectBridge);
   const { logUser } = useSelector(selectAuth);
 
+
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
   }, [nic, dispatch]);

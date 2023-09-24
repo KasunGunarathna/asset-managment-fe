@@ -26,6 +26,7 @@ import { useSuccessMessage } from "../../hooks/useSuccessMessage";
 import { useFileModal } from "../../hooks/useFileModal";
 import { LampType, PoleType } from "../../types/enum";
 import { generateCsvData } from "../../utils/generateCsv";
+import { CheckPermission } from "../../utils/permissionConfig";
 
 const filter1Name = "Pole Type";
 const filter1Options = Object.values(PoleType);
@@ -168,8 +169,14 @@ const StreetLightsPage = () => {
       >
         <TableControls
           setSearchQuery={setSearchQuery}
-          onChange={addNewPage}
-          onBulk={openFileModal}
+          onAdd={
+            CheckPermission(logUser?.user_type, "add") ? addNewPage : undefined
+          }
+          onBulk={
+            CheckPermission(logUser?.user_type, "bulk")
+              ? openFileModal
+              : undefined
+          }
           filter1Name={filter1Name}
           filter1Options={filter1Options}
           filter1onChange={handleFilter1}
@@ -184,9 +191,17 @@ const StreetLightsPage = () => {
         <ReusableTable
           columns={columns}
           data={streetLights}
-          handleDelete={handleDelete}
-          handleEdit={handleEdit}
-          handleView={handleView}
+          handleDelete={
+            CheckPermission(logUser?.user_type, "delete")
+              ? handleDelete
+              : undefined
+          }
+          handleEdit={
+            CheckPermission(logUser?.user_type, "edit") ? handleEdit : undefined
+          }
+          handleView={
+            CheckPermission(logUser?.user_type, "view") ? handleView : undefined
+          }
           handleOpenModal={handleOpenModal}
         />
         <CustomDialog

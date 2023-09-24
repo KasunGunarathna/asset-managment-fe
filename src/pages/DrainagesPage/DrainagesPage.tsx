@@ -24,6 +24,7 @@ import { useFileModal } from "../../hooks/useFileModal";
 import FileUploadModal from "../../components/common/FileUploadModal";
 import { DrainageType, SurfaceCondition } from "../../types/enum";
 import { generateCsvData } from "../../utils/generateCsv";
+import { CheckPermission } from "../../utils/permissionConfig";
 
 const filter1Name = "Type of Drain";
 const filter1Options = Object.values(DrainageType);
@@ -172,8 +173,14 @@ const DrainagesPage = () => {
       >
         <TableControls
           setSearchQuery={setSearchQuery}
-          onChange={addNewPage}
-          onBulk={openFileModal}
+          onAdd={
+            CheckPermission(logUser?.user_type, "add") ? addNewPage : undefined
+          }
+          onBulk={
+            CheckPermission(logUser?.user_type, "bulk")
+              ? openFileModal
+              : undefined
+          }
           filter1Name={filter1Name}
           filter1Options={filter1Options}
           filter1onChange={handleFilter1}
@@ -188,9 +195,17 @@ const DrainagesPage = () => {
         <ReusableTable
           columns={columns}
           data={drainages}
-          handleDelete={handleDelete}
-          handleEdit={handleEdit}
-          handleView={handleView}
+          handleDelete={
+            CheckPermission(logUser?.user_type, "delete")
+              ? handleDelete
+              : undefined
+          }
+          handleEdit={
+            CheckPermission(logUser?.user_type, "edit") ? handleEdit : undefined
+          }
+          handleView={
+            CheckPermission(logUser?.user_type, "view") ? handleView : undefined
+          }
         />
         <CustomDialog
           open={isModalOpen}

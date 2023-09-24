@@ -26,6 +26,7 @@ import ImageViewModal from "../../components/common/ImageViewModal";
 import { useImageModal } from "../../hooks/useImageModal";
 import { PavementType, SurfaceCondition } from "../../types/enum";
 import { generateCsvData } from "../../utils/generateCsv";
+import { CheckPermission } from "../../utils/permissionConfig";
 
 const filter1Name = "Pavement Type";
 const filter1Options = Object.values(PavementType);
@@ -187,8 +188,14 @@ const RoadsPage = () => {
       <MainTemplate userDetails={logUser} breadCrumb={["Home", "Roads"]}>
         <TableControls
           setSearchQuery={setSearchQuery}
-          onChange={addNewPage}
-          onBulk={openFileModal}
+          onAdd={
+            CheckPermission(logUser?.user_type, "add") ? addNewPage : undefined
+          }
+          onBulk={
+            CheckPermission(logUser?.user_type, "bulk")
+              ? openFileModal
+              : undefined
+          }
           filter1Name={filter1Name}
           filter1Options={filter1Options}
           filter1onChange={handleFilter1}
@@ -203,9 +210,17 @@ const RoadsPage = () => {
         <ReusableTable
           columns={columns}
           data={roads}
-          handleDelete={handleDelete}
-          handleEdit={handleEdit}
-          handleView={handleView}
+          handleDelete={
+            CheckPermission(logUser?.user_type, "delete")
+              ? handleDelete
+              : undefined
+          }
+          handleEdit={
+            CheckPermission(logUser?.user_type, "edit") ? handleEdit : undefined
+          }
+          handleView={
+            CheckPermission(logUser?.user_type, "view") ? handleView : undefined
+          }
           handleOpenModal={handleOpenModal}
         />
         <CustomDialog
