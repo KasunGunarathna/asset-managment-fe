@@ -3,7 +3,7 @@ import Modal from "@mui/material/Modal";
 import { Button, Box, Typography } from "@mui/material";
 
 interface LocationViewModalProps {
-  open:any,
+  open: any;
   latitude: number;
   longitude: number;
 }
@@ -14,8 +14,8 @@ const LocationViewModal: React.FC<LocationViewModalProps> = ({
   longitude,
 }) => {
   const onClose = () => {
-    return false
-  }
+    return false;
+  };
   return (
     <Modal open={open} onClose={onClose}>
       <Box
@@ -34,7 +34,7 @@ const LocationViewModal: React.FC<LocationViewModalProps> = ({
         <Typography variant="h5">Location Details</Typography>
         <div style={{ height: "300px", width: "100%" }}>
           <iframe
-          title="Google Maps Location"
+            title="Google Maps Location"
             width="100%"
             height="100%"
             src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyAep7x3qwBqLAdM5Mnx7dVQLK9BsHEFu_0&q=${latitude},${longitude}`}

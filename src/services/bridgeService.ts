@@ -28,7 +28,7 @@ export const fetchBridges = () => async (dispatch: AppDispatch) => {
 };
 
 export const fetchSearchBridges =
-  (data:any) => async (dispatch: AppDispatch) => {
+  (data: any) => async (dispatch: AppDispatch) => {
     dispatch(getBridgesStart());
     try {
       const res = await getSearchBridges(data);

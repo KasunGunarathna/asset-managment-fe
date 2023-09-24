@@ -8,7 +8,7 @@ import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
 import PageLoader from "../../components/PageLoader";
 import MainTemplate from "../../templates/MainTemplate";
-import {  selectAuth } from "../../store/authSlice";
+import { selectAuth } from "../../store/authSlice";
 import { AppDispatch } from "../../store/store";
 import { validationSchema } from "./validationSchema";
 import FormGenerator from "../../components/common/FormGenerator";
@@ -23,7 +23,6 @@ import { useImageModal } from "../../hooks/useImageModal";
 import { useModal } from "../../hooks/useModal";
 import { useSuccessMessage } from "../../hooks/useSuccessMessage";
 import ImageViewModal from "../../components/common/ImageViewModal";
-
 
 const EditRoadPage = () => {
   const nic = sessionStorage.getItem("userNic");
@@ -90,7 +89,7 @@ const EditRoadPage = () => {
     await dispatch(fetchRoadById(id));
     await formik.setFieldValue("starting_point_photo", road?.startingPhotoUrl);
     await formik.setFieldValue("end_point_photo", road?.endPhotoUrl);
-    
+
     openSuccessMessage("Road updated successfully!");
   };
 

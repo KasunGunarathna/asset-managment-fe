@@ -7,9 +7,7 @@ export const validationSchema = yup.object({
   starting_point_location: yup
     .string()
     .required("Starting Point Location is required"),
-  end_point_location: yup
-    .string()
-    .required("End Point Location is required"),
+  end_point_location: yup.string().required("End Point Location is required"),
   condition: yup.string().required("Condition is required"),
   length: yup
     .number()

@@ -31,8 +31,12 @@ const NavigationList: React.FC<{}> = () => {
       path: "/home",
       permission: true,
     },
-    { text: "Users", icon: <PersonIcon />, path: "/users",
-    permission: CheckPermission(logUser?.user_type, "page"), },
+    {
+      text: "Users",
+      icon: <PersonIcon />,
+      path: "/users",
+      permission: CheckPermission(logUser?.user_type, "page"),
+    },
     {
       text: "Bridge and Culverts",
       icon: <AlignVerticalTopIcon />,
@@ -64,7 +68,7 @@ const NavigationList: React.FC<{}> = () => {
               <ListItemText primary={item.text} />
             </ListItemButton>
           </ListItem>
-        ) : null
+        ) : null,
       )}
     </List>
   );

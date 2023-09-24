@@ -134,10 +134,12 @@ const TableControls: React.FC<TableControlsProps> = ({
             Bulk Upload
           </Button>
         )}
-        {onAdd && <Button onClick={onAdd} variant="contained" type="button">
-          <AddIcon />
-          Add New
-        </Button>}
+        {onAdd && (
+          <Button onClick={onAdd} variant="contained" type="button">
+            <AddIcon />
+            Add New
+          </Button>
+        )}
       </Box>
     </Box>
   );

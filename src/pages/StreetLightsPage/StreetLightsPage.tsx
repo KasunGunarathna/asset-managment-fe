@@ -105,7 +105,6 @@ const StreetLightsPage = () => {
     openSuccessMessage("Street light deleted successfully!");
   };
 
-
   const setSearchQuery = async (query: any) => {
     if (query) {
       await setSearchQ(query);

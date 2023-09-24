@@ -18,9 +18,7 @@ export const validationSchema = yup.object({
     .string()
     .required("Starting Point Location is required"),
   starting_point_photo: yup.string(),
-  end_point_location: yup
-    .string()
-    .required("End Point Location is required"),
+  end_point_location: yup.string().required("End Point Location is required"),
   end_point_photo: yup.string(),
   drainage_availability: yup
     .string()
