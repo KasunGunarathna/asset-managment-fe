@@ -25,6 +25,7 @@ import { useFileModal } from "../../hooks/useFileModal";
 import ImageViewModal from "../../components/common/ImageViewModal";
 import { useImageModal } from "../../hooks/useImageModal";
 import { PavementType, SurfaceCondition } from "../../types/enum";
+import { generateCsvData } from "../../utils/generateCsv";
 
 const filter1Name = "Pavement Type";
 const filter1Options = Object.values(PavementType);
@@ -48,14 +49,22 @@ const RoadsPage = () => {
       photo: true,
       url: "startingPhotoUrl",
     },
-    { id: "starting_point_location", label: "Starting Point Latitude, Longitude" },
+    {
+      id: "starting_point_location",
+      label: "Starting Point Latitude, Longitude",
+      location: true,
+    },
     {
       id: "end_point_photo",
       label: "End Photo",
       photo: true,
       url: "endPhotoUrl",
     },
-    { id: "end_point_location", label: "End Point Latitude, Longitude" },
+    {
+      id: "end_point_location",
+      label: "End Point Latitude, Longitude",
+      location: true,
+    },
     { id: "drainage_availability", label: "Drainage Availability" },
     { id: "updatedAt", label: "Updated Date" },
   ];
@@ -89,6 +98,8 @@ const RoadsPage = () => {
   const [selectedFilter1Value, setFilter1Change] = useState("");
   const [selectedFilter2Value, setFilter2Change] = useState("");
 
+  const csvData = generateCsvData(columns, roads);
+
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
     dispatch(fetchRoads());
@@ -116,7 +127,6 @@ const RoadsPage = () => {
     openSuccessMessage("Road deleted successfully!");
   };
 
- 
   const setSearchQuery = async (query: any) => {
     if (query) {
       await setSearchQ(query);
@@ -187,6 +197,8 @@ const RoadsPage = () => {
           filter2Options={filter2Options}
           filter2onChange={handleFilter2}
           selectedFilter2Value={selectedFilter2Value}
+          csvData={csvData}
+          csvName={`roads_${new Date().toLocaleDateString()}.csv`}
         />
         <ReusableTable
           columns={columns}
