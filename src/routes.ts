@@ -99,22 +99,43 @@ export const routes = [
   },
   {
     path: "/drainages",
-    component: lazy(() => import("./pages/DrainagesPage/DrainagesPage")),
+    component: lazy(() => import("./pages/BuildingsPage/BuildingsPage")),
     protected: true,
   },
   {
     path: "/drainages/add",
-    component: lazy(() => import("./pages/DrainagesPage/AddDrainagePage")),
+    component: lazy(() => import("./pages/BuildingsPage/AddBuildingPage")),
     protected: true,
   },
   {
     path: "/drainages/edit/:id",
-    component: lazy(() => import("./pages/DrainagesPage/EditDrainagePage")),
+    component: lazy(() => import("./pages/BuildingsPage/EditBuildingPage")),
     protected: true,
   },
   {
     path: "/drainages/view/:id/:view",
-    component: lazy(() => import("./pages/DrainagesPage/EditDrainagePage")),
+    component: lazy(() => import("./pages/BuildingsPage/EditBuildingPage")),
     protected: true,
   },
+  {
+    path: "/buildings",
+    component: lazy(() => import("./pages/BuildingsPage/BuildingsPage")),
+    protected: true,
+  },
+  {
+    path: "/buildings/add",
+    component: lazy(() => import("./pages/BuildingsPage/AddBuildingPage")),
+    protected: true,
+  },
+  {
+    path: "/buildings/edit/:id",
+    component: lazy(() => import("./pages/BuildingsPage/EditBuildingPage")),
+    protected: true,
+  },
+  {
+    path: "/buildings/view/:id/:view",
+    component: lazy(() => import("./pages/BuildingsPage/EditBuildingPage")),
+    protected: true,
+  }
+  
 ];
