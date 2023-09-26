@@ -15,6 +15,7 @@ import {
   getFailure,
 } from "../store/bridgeSlice";
 import { AppDispatch } from "../store/store";
+import { SurfaceCondition } from "../types/enum";
 import { Bridge } from "../types/types";
 
 export const fetchBridges = () => async (dispatch: AppDispatch) => {
@@ -91,3 +92,38 @@ export const bulkUploadBridge =
       throw error;
     }
   };
+
+export const bridgeSummery = () => async (dispatch: AppDispatch) => {
+  try {
+    const res = await getBridges();
+    const total = res.length;
+    const surfaceConditionCounts = Object.values(SurfaceCondition).reduce(
+      (counts: any, condition: any) => {
+        const count = res.filter(
+          (data: any) => data.road_surface_condition === condition
+        ).length;
+        counts[condition] = count;
+        return counts;
+      },
+      {}
+    );
+    const structureConditionCounts = Object.values(SurfaceCondition).reduce(
+      (counts: any, condition: any) => {
+        const count = res.filter(
+          (data: any) => data.structure_condition === condition
+        ).length;
+        counts[condition] = count;
+        return counts;
+      },
+      {}
+    );
+
+    return {
+      total: total,
+      surfaceConditionCounts: surfaceConditionCounts,
+      structureConditionCounts: structureConditionCounts,
+    };
+  } catch (error: any) {
+    throw error;
+  }
+};

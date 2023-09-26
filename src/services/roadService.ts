@@ -16,6 +16,7 @@ import {
   setSuccess,
 } from "../store/roadSlice";
 import { AppDispatch } from "../store/store";
+import { PavementType, SurfaceCondition } from "../types/enum";
 import { Road } from "../types/types";
 
 export const fetchRoads = () => async (dispatch: AppDispatch) => {
@@ -102,3 +103,44 @@ export const imageUploadRoad =
       dispatch(getFailure(error.response?.data?.message || error.message));
     }
   };
+
+export const roadSummary = () => async (dispatch: AppDispatch) => {
+  try {
+    const res = await getRoads(); // Replace with your API call or data retrieval method
+    const total = res.length;
+
+    const pavementTypeCounts = Object.values(PavementType).reduce(
+      (counts: any, pavementType: any) => {
+        let totalLength;
+        const count = res.filter(
+          (data: Road) => data.pavement_type === pavementType
+        );
+        totalLength = count.reduce((total: any, item: any) => {
+          return total + (item.length || 0);
+        }, 0);
+        counts[pavementType] = totalLength || 0;
+        return counts;
+      },
+      {}
+    );
+
+    const surfaceConditionCounts = Object.values(SurfaceCondition).reduce(
+      (counts: any, surfaceCondition: any) => {
+        const count = res.filter(
+          (data: Road) => data.surface_condition === surfaceCondition
+        ).length;
+        counts[surfaceCondition] = count;
+        return counts;
+      },
+      {}
+    );
+
+    return {
+      total: total,
+      pavementTypeCounts: pavementTypeCounts,
+      surfaceConditionCounts: surfaceConditionCounts,
+    };
+  } catch (error: any) {
+    throw error;
+  }
+};

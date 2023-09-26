@@ -99,7 +99,6 @@ const BridgesPage = () => {
     await dispatch(fetchBridges());
     openSuccessMessage("Bridge deleted successfully!");
   };
-  console.log(logUser);
   const setSearchQuery = async (query: any) => {
     if (query) {
       await setSearchQ(query);
