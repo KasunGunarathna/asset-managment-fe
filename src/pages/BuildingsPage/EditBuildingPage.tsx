@@ -46,7 +46,7 @@ const EditBuildingPage = () => {
       // Initialize with your Building field names and default values
       name: building?.name || "",
       plan: building?.plan || "",
-      numberOfStories: building?.numberOfStories || 0,
+      number_of_stories: building?.number_of_stories || 0,
       photo: building?.photo || "",
       location: building?.location || "",
       builtYear: building?.builtYear || 0,

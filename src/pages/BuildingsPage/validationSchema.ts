@@ -3,7 +3,7 @@ import * as yup from "yup";
 export const validationSchema = yup.object({
   name: yup.string().required("Building Name is required"),
   plan: yup.string().required("Building Plan is required"),
-  numberOfStories: yup
+  number_of_stories: yup
     .number()
     .required("Number of Stories is required")
     .integer("Number of Stories must be an integer")

@@ -41,7 +41,7 @@ const AddBuildingPage = () => {
       // Initialize with your Building field names and default values
       name: "",
       plan: "",
-      numberOfStories: 0,
+      number_of_stories: 0,
       photo: "", // You can set a default URL or empty string here
       location: "",
       builtYear: 0,

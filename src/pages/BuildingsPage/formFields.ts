@@ -4,7 +4,7 @@ import { FormField } from "../../types/types";
 export const fields: FormField[] = [
   { name: "name", label: "Building Name" },
   { name: "plan", label: "Building Plan" },
-  { name: "numberOfStories", label: "Number of Stories", type: "number" },
+  { name: "number_of_stories", label: "Number of Stories", type: "number" },
   { name: "photo", label: "Building Photo URL" },
   { name: "location", label: "Building Location" },
   { name: "builtYear", label: "Built Year", type: "number" },
