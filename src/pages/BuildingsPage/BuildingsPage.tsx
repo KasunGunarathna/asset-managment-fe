@@ -25,6 +25,8 @@ import FileUploadModal from "../../components/common/FileUploadModal";
 import { Building } from "../../types/types"; // Import your Building type
 import { CheckPermission } from "../../utils/permissionConfig";
 import { generateCsvData } from "../../utils/generateCsv";
+import ImageViewModal from "../../components/common/ImageViewModal";
+import { useImageModal } from "../../hooks/useImageModal";
 
 const filter1Name = "Building Type"; // Update with your filter criteria
 const filter1Options = ["Residential", "Commercial", "Industrial"]; // Example filter options
@@ -37,10 +39,10 @@ const BuildingsPage = () => {
   const columns = [
     { id: "name", label: "Building Name" },
     { id: "plan", label: "Plan" },
-    { id: "numberOfStories", label: "Number of Stories" },
-    { id: "photo", label: "Photo" },
+    { id: "number_of_stories", label: "Number of Stories" },
+    { id: "photo", label: "Photo", photo: true, url: "photoUrl" },
     { id: "location", label: "Location" },
-    { id: "builtYear", label: "Built Year" },
+    { id: "built_year", label: "Built Year" },
     { id: "condition", label: "Condition" },
     { id: "remark", label: "Remark" },
     { id: "updatedAt", label: "Updated Date" },
@@ -58,7 +60,8 @@ const BuildingsPage = () => {
     openSuccessMessage,
     closeSuccessMessage,
   } = useSuccessMessage();
-
+  const { openImageModal, selectedImage, handleOpenModal, handleCloseModal } =
+    useImageModal();
   const {
     fileModal,
     openFileModal,
@@ -184,6 +187,7 @@ const BuildingsPage = () => {
         <ReusableTable
           columns={columns}
           data={buildings}
+          handleOpenModal={handleOpenModal}
           handleDelete={
             CheckPermission(logUser?.user_type, "delete")
               ? handleDelete
@@ -219,6 +223,11 @@ const BuildingsPage = () => {
           selectedFile={selectedFile}
           uploading={loading}
           error={error}
+        />
+        <ImageViewModal
+          open={openImageModal}
+          onClose={handleCloseModal}
+          imageURL={selectedImage}
         />
       </MainTemplate>
     </>

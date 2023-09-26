@@ -10,13 +10,13 @@ import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
 import PageLoader from "../../components/PageLoader";
 import { selectBridge } from "../../store/bridgeSlice";
-import { validationSchema } from "../RoadsPage/validationSchema";
 import FormGenerator from "../../components/common/FormGenerator";
 import { fields } from "./formFields";
 import { fetchLoginUser } from "../../services/authService";
 import { addBridge } from "../../services/bridgeService";
 import { useModal } from "../../hooks/useModal";
 import { useSuccessMessage } from "../../hooks/useSuccessMessage";
+import { validationSchema } from "./validationSchema";
 
 const AddBridgePage = () => {
   const nic = sessionStorage.getItem("userNic");
@@ -36,7 +36,7 @@ const AddBridgePage = () => {
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
   }, [nic, dispatch]);
-
+console.log(validationSchema)
   const formik = useFormik({
     initialValues: {
       bridge_name: "",
@@ -57,7 +57,7 @@ const AddBridgePage = () => {
   const handleConfirm = async () => {
     await dispatch(addBridge(formik.values));
     closeModal();
-    formik.resetForm();
+    // formik.resetForm();
     openSuccessMessage("Bridge added successfully!");
   };
 

@@ -31,7 +31,9 @@ export const getSearchBuildings = async (data: any) => {
 
 export const insertBuilding = async (buildingData: any) => {
   try {
+    console.log(buildingData)
     const response = await instance.post(`/buildings`, buildingData);
+    console.log(response.data.data)
     return response.data.data;
   } catch (error) {
     throw error;
@@ -60,6 +62,27 @@ export const uploadBulkBuilding = async (data: any) => {
   try {
     const response = await instance.post(`/buildings/bulk-upload`, data);
     return response.data.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const uploadBuilding = async (id: any, imageData: any) => {
+  try {
+    const response = await instance.post(
+      `/buildings/upload_building_image/${id}`,
+      imageData,
+    );
+    return response.data.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getBuilding = async (id: any) => {
+  try {
+    const response = await instance.get(`/buildings/building_image/${id}`);
+    return response.data;
   } catch (error) {
     throw error;
   }

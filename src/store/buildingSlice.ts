@@ -6,6 +6,7 @@ interface BuildingsState {
   buildings: Building[]; // Define your Building type
   building: Building | null; // Define your Building type
   loading: boolean;
+  photo:any;
   error: string | null;
 }
 
@@ -13,6 +14,7 @@ const initialState: BuildingsState = {
   buildings: [],
   building: null,
   loading: false,
+  photo: null,
   error: null,
 };
 
@@ -37,6 +39,11 @@ const buildingsSlice = createSlice({
       state.error = action.payload;
     },
     setSuccess(state) {
+      state.loading = false;
+      state.error = null;
+    },
+    setImageSuccess(state, action: PayloadAction<any>) {
+      state.photo = action.payload;
       state.loading = false;
       state.error = null;
     },

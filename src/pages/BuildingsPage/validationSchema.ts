@@ -9,7 +9,7 @@ export const validationSchema = yup.object({
     .integer("Number of Stories must be an integer")
     .positive("Number of Stories must be a positive number"),
   location: yup.string().required("Building Location is required"),
-  builtYear: yup
+  built_year: yup
     .number()
     .required("Built Year is required")
     .integer("Built Year must be an integer")

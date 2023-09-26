@@ -6,6 +6,8 @@ import {
     insertBuilding,
     updateBuilding,
     uploadBulkBuilding,
+    uploadBuilding,
+    getBuilding,
   } from "../api/buildingsApis"; // Import your building API functions
   import {
     getBuildingSuccess,
@@ -15,6 +17,7 @@ import {
     setSuccess,
   } from "../store/buildingSlice"; // Import your Redux slice actions
   import { AppDispatch } from "../store/store";
+import { setImageSuccess } from "../store/streetLightSlice";
   import { Building } from "../types/types"; // Import your Building type
   
   // Fetch all buildings
@@ -56,8 +59,9 @@ import {
     (building: Building | null) => async (dispatch: AppDispatch) => {
       dispatch(getBuildingsStart());
       try {
-        await insertBuilding(building);
+        const res = await insertBuilding(building);
         dispatch(setSuccess());
+        return res;
       } catch (error: any) {
         dispatch(getFailure(error.response?.data?.message || error.message));
       }
@@ -100,4 +104,24 @@ import {
       }
     };
   
-    
+    export const imageGetBuilding =
+  (id: any) => async (dispatch: AppDispatch) => {
+    dispatch(getBuildingsStart());
+    try {
+      const res = await getBuilding(id);
+      dispatch(setImageSuccess(res));
+    } catch (error: any) {
+      dispatch(getFailure(error.response?.data?.message || error.message));
+    }
+  };
+
+  export const imageUploadBuilding =
+  (id: any, imageData: any) => async (dispatch: AppDispatch) => {
+    dispatch(getBuildingsStart());
+    try {
+      await uploadBuilding(id, imageData);
+      dispatch(setSuccess());
+    } catch (error: any) {
+      dispatch(getFailure(error.response?.data?.message || error.message));
+    }
+  };

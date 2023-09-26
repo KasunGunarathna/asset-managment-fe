@@ -17,9 +17,12 @@ import { fetchLoginUser } from "../../services/authService";
 import {
   editBuilding,
   fetchBuildingById,
+  imageUploadBuilding,
 } from "../../services/buildingService"; // Import your building service functions
 import { useModal } from "../../hooks/useModal";
 import { useSuccessMessage } from "../../hooks/useSuccessMessage";
+import { useImageModal } from "../../hooks/useImageModal";
+import ImageViewModal from "../../components/common/ImageViewModal";
 
 const EditBuildingPage = () => {
   const nic = sessionStorage.getItem("userNic");
@@ -32,9 +35,12 @@ const EditBuildingPage = () => {
   } = useSuccessMessage();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { loading, error, building } = useSelector(selectBuildings); // Use the appropriate selector for buildings
+  const { loading, error, building ,photo} = useSelector(selectBuildings); // Use the appropriate selector for buildings
   const { logUser } = useSelector(selectAuth);
   const { id, view } = useParams();
+
+  const { openImageModal, selectedImage, handleOpenModal, handleCloseModal } =
+  useImageModal();
 
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
@@ -47,9 +53,9 @@ const EditBuildingPage = () => {
       name: building?.name || "",
       plan: building?.plan || "",
       number_of_stories: building?.number_of_stories || 0,
-      photo: building?.photo || "",
+      photo: building?.photoUrl || "",
       location: building?.location || "",
-      builtYear: building?.builtYear || 0,
+      built_year: building?.built_year || 0,
       condition: building?.condition || "",
       remark: building?.remark || "",
     },
@@ -61,17 +67,29 @@ const EditBuildingPage = () => {
   });
 
   const handleConfirm = async () => {
-    await dispatch(editBuilding(id, formik.values));
+
+    const image: any = formik.values.photo || photo;
+    let data: Building = formik.values;
+    delete data.photo;
+
+    await dispatch(editBuilding(id, data));
+    const formData = new FormData();
+    if (image !== undefined) {
+      formData.append("file", image);
+      await dispatch(imageUploadBuilding(id, formData));
+    }
     closeModal();
     await dispatch(fetchBuildingById(id));
-    formik.resetForm();
+    await formik.setFieldValue("photo", building?.photoUrl);
     openSuccessMessage("Building updated successfully!");
   };
 
   const goBack = () => {
     navigate("/buildings");
   };
-
+  const onPhotoHandle = async (name: any, selectedFile: any) => {
+    await formik.setFieldValue(`${name}`, selectedFile);
+  };
   return (
     <>
       <PageLoader isLoading={loading} />
@@ -90,6 +108,8 @@ const EditBuildingPage = () => {
           goBack={goBack}
           name={view === "true" ? "View Building" : "Update Building"}
           view={view}
+          onPhoto={onPhotoHandle}
+          handleOpenModal={handleOpenModal}
         />
       </MainTemplate>
       <CustomDialog
@@ -106,6 +126,11 @@ const EditBuildingPage = () => {
         onClose={() => closeSuccessMessage()}
         message={successMessage}
         error={error}
+      />
+            <ImageViewModal
+        open={openImageModal}
+        onClose={handleCloseModal}
+        imageURL={selectedImage}
       />
     </>
   );

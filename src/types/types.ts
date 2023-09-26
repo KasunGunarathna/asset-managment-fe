@@ -82,9 +82,10 @@ export interface Building {
   name: string;
   plan: string;
   number_of_stories: number;
-  photo: string; // You can use a URL or a file path here
+  photo?: string; // You can use a URL or a file path here
   location: string;
-  builtYear: number;
+  built_year: number;
   condition: string;
   remark: string;
+  photoUrl?: string | undefined;
 }

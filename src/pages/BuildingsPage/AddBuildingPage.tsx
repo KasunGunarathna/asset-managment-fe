@@ -14,7 +14,7 @@ import FormGenerator from "../../components/common/FormGenerator";
 import { validationSchema } from "./validationSchema";
 import { fields } from "./formFields"; // Define your building form fields here
 import { fetchLoginUser } from "../../services/authService";
-import { addBuilding } from "../../services/buildingService"; // Import your building service function
+import { addBuilding, imageUploadBuilding } from "../../services/buildingService"; // Import your building service function
 import { useModal } from "../../hooks/useModal";
 import { useSuccessMessage } from "../../hooks/useSuccessMessage";
 
@@ -44,7 +44,7 @@ const AddBuildingPage = () => {
       number_of_stories: 0,
       photo: "", // You can set a default URL or empty string here
       location: "",
-      builtYear: 0,
+      built_year: 0,
       condition: "",
       remark: "",
     },
@@ -55,14 +55,27 @@ const AddBuildingPage = () => {
   });
 
   const handleConfirm = async () => {
-    await dispatch(addBuilding(formik.values));
+    const photo: any = formik.values.photo;
+    let data: Building = formik.values;
+    delete data.photo;
+    const res = await dispatch(addBuilding(data));
+    const formData = new FormData();
+    if (photo !== undefined) {
+      formData.append("file", photo);
+      await dispatch(imageUploadBuilding(res.id, formData));
+    }
     closeModal();
     formik.resetForm();
+    await formik.setFieldValue(`photo`, null);
     openSuccessMessage("Building added successfully!");
   };
 
   const goBack = () => {
     navigate("/buildings");
+  };
+
+  const onPhotoHandle = async (name: any, selectedFile: any) => {
+    await formik.setFieldValue(`${name}`, selectedFile);
   };
 
   return (
@@ -78,6 +91,7 @@ const AddBuildingPage = () => {
           onSubmit={formik.handleSubmit}
           goBack={goBack}
           name={"Add Building"}
+          onPhoto={onPhotoHandle}
         />
       </MainTemplate>
 
