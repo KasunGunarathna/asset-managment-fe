@@ -16,7 +16,7 @@ import CsvDownloadButton from "./CsvDownloadButton";
 
 interface TableControlsProps {
   setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
-  onChange: () => void;
+  onAdd?: () => void;
   onBulk?: () => void;
   filter1Name?: any;
   filter1Options?: any;
@@ -32,7 +32,7 @@ interface TableControlsProps {
 
 const TableControls: React.FC<TableControlsProps> = ({
   setSearchQuery,
-  onChange,
+  onAdd,
   onBulk,
   filter1Name,
   filter1Options,
@@ -134,10 +134,12 @@ const TableControls: React.FC<TableControlsProps> = ({
             Bulk Upload
           </Button>
         )}
-        <Button onClick={onChange} variant="contained" type="button">
-          <AddIcon />
-          Add New
-        </Button>
+        {onAdd && (
+          <Button onClick={onAdd} variant="contained" type="button">
+            <AddIcon />
+            Add New
+          </Button>
+        )}
       </Box>
     </Box>
   );

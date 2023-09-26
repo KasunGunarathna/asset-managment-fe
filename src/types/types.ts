@@ -77,3 +77,15 @@ export interface Drainage {
   length: number;
   width: number;
 }
+
+export interface Building {
+  name: string;
+  plan: string;
+  number_of_stories: number;
+  photo?: string; // You can use a URL or a file path here
+  location: string;
+  built_year: number;
+  condition: string;
+  remark: string;
+  photoUrl?: string | undefined;
+}

@@ -21,9 +21,9 @@ const MainTemplate: React.FC<YourReusableTemplateProps> = ({
   children,
 }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const handleLogout =  () => {
-     dispatch(clearToken());
-     localStorage.removeItem("isAuthenticated");
+  const handleLogout = () => {
+    dispatch(clearToken());
+    localStorage.removeItem("isAuthenticated");
   };
 
   return (
@@ -61,4 +61,3 @@ const MainTemplate: React.FC<YourReusableTemplateProps> = ({
 };
 
 export default MainTemplate;
-

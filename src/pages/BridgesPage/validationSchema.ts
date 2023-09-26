@@ -5,9 +5,7 @@ import * as yup from "yup";
 export const validationSchema = yup.object({
   bridge_name: yup.string().required("Bridge Name is required"),
   road_name: yup.string().required("Road Name is required"),
-  location: yup
-    .string()
-    .required("Location is required"),
+  location: yup.string().required("Location is required"),
   length: yup
     .number()
     .required("Length is required")

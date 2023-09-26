@@ -23,9 +23,9 @@ interface Column {
 interface ReusableTableProps {
   columns: Column[];
   data: any[];
-  handleDelete: any;
-  handleEdit: any;
-  handleView: any;
+  handleDelete?: any;
+  handleEdit?: any;
+  handleView?: any;
   handleOpenModal?: any;
 }
 
@@ -45,17 +45,17 @@ const ReusableTable: React.FC<ReusableTableProps> = ({
   };
 
   const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
 
   const openGoogleMaps = (event: any) => {
-    event.preventDefault(); 
+    event.preventDefault();
     const location = event.target.textContent;
     const latitude = location.split(",")[0]; // Replace with the actual latitude from your data
-    const longitude = location.split(",")[1];  // Replace with the actual longitude from your data
+    const longitude = location.split(",")[1]; // Replace with the actual longitude from your data
     const googleMapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
 
     // Open Google Maps in a new tab or window
@@ -100,7 +100,10 @@ const ReusableTable: React.FC<ReusableTableProps> = ({
                 .map((row, rowIndex) => (
                   <TableRow key={row.id}>
                     {columns.map((column) => (
-                      <TableCell onClick={column.location ? openGoogleMaps : undefined} key={column.id}>
+                      <TableCell
+                        onClick={column.location ? openGoogleMaps : undefined}
+                        key={column.id}
+                      >
                         {" "}
                         {column.photo && row[column.id] ? (
                           // Render the photo as an Avatar if 'photo' column is present
@@ -115,7 +118,9 @@ const ReusableTable: React.FC<ReusableTableProps> = ({
                         ) : // Otherwise, render regular text
                         column.location && row[column.id] ? (
                           // eslint-disable-next-line jsx-a11y/anchor-is-valid
-                          <a href="#" onClick={openGoogleMaps}>{row[column.id]}</a>
+                          <a href="#" onClick={openGoogleMaps}>
+                            {row[column.id]}
+                          </a>
                         ) : (
                           row[column.id]
                         )}
@@ -127,27 +132,33 @@ const ReusableTable: React.FC<ReusableTableProps> = ({
                         textAlign: "right",
                       }}
                     >
-                      <IconButton
-                        sx={{ color: "#df4444" }}
-                        aria-label="Delete"
-                        onClick={() => handleDelete(row.id)} // Implement a delete handler function.
-                      >
-                        <Delete />
-                      </IconButton>
-                      <IconButton
-                        sx={{ color: "#00bec4" }}
-                        aria-label="Edit"
-                        onClick={() => handleEdit(row.id)} // Implement an edit handler function.
-                      >
-                        <Edit />
-                      </IconButton>
-                      <IconButton
-                        sx={{ color: "#2fce3b" }}
-                        aria-label="View"
-                        onClick={() => handleView(row.id)} // Implement a view handler function.
-                      >
-                        <Visibility />
-                      </IconButton>
+                      {handleDelete && (
+                        <IconButton
+                          sx={{ color: "#df4444" }}
+                          aria-label="Delete"
+                          onClick={() => handleDelete(row.id)} // Implement a delete handler function.
+                        >
+                          <Delete />
+                        </IconButton>
+                      )}
+                      {handleEdit && (
+                        <IconButton
+                          sx={{ color: "#00bec4" }}
+                          aria-label="Edit"
+                          onClick={() => handleEdit(row.id)} // Implement an edit handler function.
+                        >
+                          <Edit />
+                        </IconButton>
+                      )}
+                      {handleView && (
+                        <IconButton
+                          sx={{ color: "#2fce3b" }}
+                          aria-label="View"
+                          onClick={() => handleView(row.id)} // Implement a view handler function.
+                        >
+                          <Visibility />
+                        </IconButton>
+                      )}
                     </TableCell>
                   </TableRow>
                 ))}

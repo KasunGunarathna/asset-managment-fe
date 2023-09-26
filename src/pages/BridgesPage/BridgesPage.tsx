@@ -22,8 +22,9 @@ import { useFileModal } from "../../hooks/useFileModal";
 import { useModal } from "../../hooks/useModal";
 import { useSuccessMessage } from "../../hooks/useSuccessMessage";
 import FileUploadModal from "../../components/common/FileUploadModal";
-import { SurfaceCondition } from "../../types/enum";
+import { SurfaceCondition, UserType } from "../../types/enum";
 import { generateCsvData } from "../../utils/generateCsv";
+import { CheckPermission } from "../../utils/permissionConfig";
 
 const filter1Name = "Structure Cond.";
 const filter1Options = Object.values(SurfaceCondition);
@@ -33,7 +34,7 @@ const filter2Options = Object.values(SurfaceCondition);
 const columns = [
   { id: "bridge_name", label: "Bridge Name" },
   { id: "road_name", label: "Road Name" },
-  { id: "location", label: "Latitude , longitude",  location: true, },
+  { id: "location", label: "Latitude , longitude", location: true },
   { id: "length", label: "Road Length" },
   { id: "width", label: "Road Width" },
   { id: "structure_condition", label: "Structure Condition" },
@@ -98,7 +99,6 @@ const BridgesPage = () => {
     await dispatch(fetchBridges());
     openSuccessMessage("Bridge deleted successfully!");
   };
-
   const setSearchQuery = async (query: any) => {
     if (query) {
       await setSearchQ(query);
@@ -159,8 +159,14 @@ const BridgesPage = () => {
       <MainTemplate userDetails={logUser} breadCrumb={["Home", "Bridges"]}>
         <TableControls
           setSearchQuery={setSearchQuery}
-          onChange={addNewPage}
-          onBulk={openFileModal}
+          onAdd={
+            CheckPermission(logUser?.user_type, "add") ? addNewPage : undefined
+          }
+          onBulk={
+            CheckPermission(logUser?.user_type, "bulk")
+              ? openFileModal
+              : undefined
+          }
           filter1Name={filter1Name}
           filter1Options={filter1Options}
           filter1onChange={handleFilter1}
@@ -170,15 +176,22 @@ const BridgesPage = () => {
           filter2onChange={handleFilter2}
           selectedFilter2Value={selectedFilter2Value}
           csvData={csvData}
-          csvName={`bridges_${new Date()
-            .toLocaleDateString()}.csv`}
+          csvName={`bridges_${new Date().toLocaleDateString()}.csv`}
         />
         <ReusableTable
           columns={columns}
           data={bridges}
-          handleDelete={handleDelete}
-          handleEdit={handleEdit}
-          handleView={handleView}
+          handleDelete={
+            CheckPermission(logUser?.user_type, "delete")
+              ? handleDelete
+              : undefined
+          }
+          handleEdit={
+            CheckPermission(logUser?.user_type, "edit") ? handleEdit : undefined
+          }
+          handleView={
+            CheckPermission(logUser?.user_type, "view") ? handleView : undefined
+          }
         />
         <CustomDialog
           open={isModalOpen}

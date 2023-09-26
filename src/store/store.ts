@@ -5,6 +5,7 @@ import bridgeReducer from "./bridgeSlice";
 import roadReducer from "./roadSlice";
 import streetLightsReducer from "./streetLightSlice";
 import drainagesReducer from "./drainageSlice";
+import buildingReducer from "./buildingSlice";
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     road: roadReducer,
     streetLights: streetLightsReducer,
     drainages: drainagesReducer,
+    buildings: buildingReducer,
   },
 });
 

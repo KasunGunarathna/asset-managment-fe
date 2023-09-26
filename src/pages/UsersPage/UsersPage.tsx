@@ -78,7 +78,7 @@ const UsersPage = () => {
     <>
       <PageLoader isLoading={loading} />
       <MainTemplate userDetails={logUser} breadCrumb={["Home", "Users"]}>
-        <TableControls setSearchQuery={setSearchQuery} onChange={addNewPage} />
+        <TableControls setSearchQuery={setSearchQuery} onAdd={addNewPage} />
         <ReusableTable
           columns={columns}
           data={users}

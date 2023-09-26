@@ -8,7 +8,7 @@ import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
 import PageLoader from "../../components/PageLoader";
 import MainTemplate from "../../templates/MainTemplate";
-import {  selectAuth } from "../../store/authSlice";
+import { selectAuth } from "../../store/authSlice";
 import { AppDispatch } from "../../store/store";
 import { validationSchema } from "./validationSchema";
 import FormGenerator from "../../components/common/FormGenerator";

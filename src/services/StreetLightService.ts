@@ -18,6 +18,7 @@ import {
   setImageSuccess,
   setSuccess,
 } from "../store/streetLightSlice";
+import { LampType, PoleType } from "../types/enum";
 import { StreetLight } from "../types/types";
 
 export const fetchStreetLights = () => async (dispatch: AppDispatch) => {
@@ -117,5 +118,41 @@ export const removeStreetLightById =
       dispatch(setSuccess());
     } catch (error: any) {
       dispatch(getFailure(error.response?.data?.message || error.message));
+    }
+  };
+
+
+  export const streetLightSummery = () => async (dispatch: AppDispatch) => {
+    try {
+      const res = await getStreetLights();
+      const total = res.length;
+      const poleTypeCounts = Object.values(PoleType).reduce(
+        (counts: any, condition: any) => {
+          const count = res.filter(
+            (data: any) => data.pole_type === condition
+          ).length;
+          counts[condition] = count;
+          return counts;
+        },
+        {}
+      );
+      const lampTypeCounts = Object.values(LampType).reduce(
+        (counts: any, condition: any) => {
+          const count = res.filter(
+            (data: any) => data.lamp_type === condition
+          ).length;
+          counts[condition] = count;
+          return counts;
+        },
+        {}
+      );
+  
+      return {
+        total: total,
+        poleTypeCounts: poleTypeCounts,
+        lampTypeCounts: lampTypeCounts,
+      };
+    } catch (error: any) {
+      throw error;
     }
   };

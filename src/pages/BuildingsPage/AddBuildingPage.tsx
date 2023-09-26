@@ -5,20 +5,20 @@ import MainTemplate from "../../templates/MainTemplate";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../store/store";
 import { useFormik } from "formik";
-import { Bridge } from "../../types/types";
+import { Building } from "../../types/types"; // Import the Building type
 import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
 import PageLoader from "../../components/PageLoader";
-import { selectBridge } from "../../store/bridgeSlice";
+import { selectBuildings } from "../../store/buildingSlice"; // Import relevant actions and selectors
 import FormGenerator from "../../components/common/FormGenerator";
-import { fields } from "./formFields";
+import { validationSchema } from "./validationSchema";
+import { fields } from "./formFields"; // Define your building form fields here
 import { fetchLoginUser } from "../../services/authService";
-import { addBridge } from "../../services/bridgeService";
+import { addBuilding, imageUploadBuilding } from "../../services/buildingService"; // Import your building service function
 import { useModal } from "../../hooks/useModal";
 import { useSuccessMessage } from "../../hooks/useSuccessMessage";
-import { validationSchema } from "./validationSchema";
 
-const AddBridgePage = () => {
+const AddBuildingPage = () => {
   const nic = sessionStorage.getItem("userNic");
   const { isModalOpen, openModal, closeModal } = useModal();
   const {
@@ -27,63 +27,78 @@ const AddBridgePage = () => {
     openSuccessMessage,
     closeSuccessMessage,
   } = useSuccessMessage();
-
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { loading, error } = useSelector(selectBridge);
+  const { loading, error } = useSelector(selectBuildings); // Use the appropriate selector for buildings
   const { logUser } = useSelector(selectAuth);
 
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
   }, [nic, dispatch]);
-console.log(validationSchema)
+
   const formik = useFormik({
     initialValues: {
-      bridge_name: "",
-      road_name: "",
+      // Initialize with your Building field names and default values
+      name: "",
+      plan: "",
+      number_of_stories: 0,
+      photo: "", // You can set a default URL or empty string here
       location: "",
-      length: 0.0,
-      width: 0.0,
-      structure_condition: "",
-      road_surface_condition: "",
-      remarks: "",
+      built_year: 0,
+      condition: "",
+      remark: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values: Bridge) => {
+    onSubmit: (values: Building) => {
       openModal();
     },
   });
 
   const handleConfirm = async () => {
-    await dispatch(addBridge(formik.values));
+    const photo: any = formik.values.photo;
+    let data: Building = formik.values;
+    delete data.photo;
+    const res = await dispatch(addBuilding(data));
+    const formData = new FormData();
+    if (photo !== undefined) {
+      formData.append("file", photo);
+      await dispatch(imageUploadBuilding(res.id, formData));
+    }
     closeModal();
-    // formik.resetForm();
-    openSuccessMessage("Bridge added successfully!");
+    formik.resetForm();
+    await formik.setFieldValue(`photo`, null);
+    openSuccessMessage("Building added successfully!");
   };
 
   const goBack = () => {
-    navigate("/bridges");
+    navigate("/buildings");
   };
+
+  const onPhotoHandle = async (name: any, selectedFile: any) => {
+    await formik.setFieldValue(`${name}`, selectedFile);
+  };
+
   return (
     <>
       <PageLoader isLoading={loading} />
       <MainTemplate
         userDetails={logUser}
-        breadCrumb={["Home", "Bridges", "Add Bridge"]}
+        breadCrumb={["Home", "Buildings", "Add Building"]}
       >
         <FormGenerator
-          fields={fields}
+          fields={fields} // Use your building form fields here
           formik={formik}
           onSubmit={formik.handleSubmit}
           goBack={goBack}
-          name={"Add Bridge"}
+          name={"Add Building"}
+          onPhoto={onPhotoHandle}
         />
       </MainTemplate>
 
       <CustomDialog
         open={isModalOpen}
         title="Confirmation"
-        content="Are you sure you want to add this bridge?"
+        content="Are you sure you want to add this building?"
         onCancel={closeModal}
         onConfirm={handleConfirm}
       />
@@ -97,4 +112,4 @@ console.log(validationSchema)
   );
 };
 
-export default AddBridgePage;
+export default AddBuildingPage;

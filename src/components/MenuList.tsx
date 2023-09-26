@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -11,31 +11,72 @@ import AltRouteIcon from "@mui/icons-material/AltRoute";
 import { Link } from "react-router-dom";
 import LightIcon from "@mui/icons-material/Light";
 import AirIcon from "@mui/icons-material/Air";
-
-const itemsWithIcons = [
-  { text: "Home", icon: <HomeIcon />, path: "/home" },
-  { text: "Users", icon: <PersonIcon />, path: "/users" },
-  {
-    text: "Bridge and Culverts",
-    icon: <AlignVerticalTopIcon />,
-    path: "/bridges",
-  },
-  { text: "Roads", icon: <AltRouteIcon />, path: "/roads" },
-  { text: "Street Lights", icon: <LightIcon />, path: "/street_lights" },
-  { text: "Drainages", icon: <AirIcon />, path: "/drainages" },
-];
+import { CheckPermission } from "../utils/permissionConfig";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "../store/store";
+import { fetchLoginUser } from "../services/authService";
+import { selectAuth } from "../store/authSlice";
+import ApartmentIcon from '@mui/icons-material/Apartment';
 
 const NavigationList: React.FC<{}> = () => {
+  const nic = sessionStorage.getItem("userNic");
+  const dispatch = useDispatch<AppDispatch>();
+  const { logUser } = useSelector(selectAuth);
+  useEffect(() => {
+    dispatch(fetchLoginUser(nic));
+  }, [nic, dispatch]);
+  const itemsWithIcons = [
+    {
+      text: "Home",
+      icon: <HomeIcon />,
+      path: "/home",
+      permission: true,
+    },
+    {
+      text: "Users",
+      icon: <PersonIcon />,
+      path: "/users",
+      permission: CheckPermission(logUser?.user_type, "page"),
+    },
+    {
+      text: "Bridge and Culverts",
+      icon: <AlignVerticalTopIcon />,
+      path: "/bridges",
+      permission: true,
+    },
+    { text: "Roads", icon: <AltRouteIcon />, path: "/roads", permission: true },
+    {
+      text: "Street Lights",
+      icon: <LightIcon />,
+      path: "/street_lights",
+      permission: true,
+    },
+    {
+      text: "Drainages",
+      icon: <AirIcon />,
+      path: "/drainages",
+      permission: true,
+    },
+    {
+      text: "Buildings",
+      icon: <ApartmentIcon />,
+      path: "/buildings",
+      permission: true,
+    },
+  ];
+
   return (
     <List>
-      {itemsWithIcons.map((item, index) => (
-        <ListItem key={item.text} disablePadding>
-          <ListItemButton component={Link} to={item.path}>
-            <ListItemIcon>{item.icon}</ListItemIcon>
-            <ListItemText primary={item.text} />
-          </ListItemButton>
-        </ListItem>
-      ))}
+      {itemsWithIcons.map((item, index) =>
+        item.permission ? (
+          <ListItem key={item.text} disablePadding>
+            <ListItemButton component={Link} to={item.path}>
+              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemText primary={item.text} />
+            </ListItemButton>
+          </ListItem>
+        ) : null,
+      )}
     </List>
   );
 };

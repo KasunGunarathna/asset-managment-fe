@@ -117,4 +117,25 @@ export const routes = [
     component: lazy(() => import("./pages/DrainagesPage/EditDrainagePage")),
     protected: true,
   },
+  {
+    path: "/buildings",
+    component: lazy(() => import("./pages/BuildingsPage/BuildingsPage")),
+    protected: true,
+  },
+  {
+    path: "/buildings/add",
+    component: lazy(() => import("./pages/BuildingsPage/AddBuildingPage")),
+    protected: true,
+  },
+  {
+    path: "/buildings/edit/:id",
+    component: lazy(() => import("./pages/BuildingsPage/EditBuildingPage")),
+    protected: true,
+  },
+  {
+    path: "/buildings/view/:id/:view",
+    component: lazy(() => import("./pages/BuildingsPage/EditBuildingPage")),
+    protected: true,
+  }
+  
 ];

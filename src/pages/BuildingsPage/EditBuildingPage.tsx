@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import { selectRoad } from "../../store/roadSlice"; // Import road-related actions and selectors
-import { Road } from "../../types/types"; // Import the Road type
+import { selectBuildings } from "../../store/buildingSlice"; // Import building-related actions and selectors
+import { Building } from "../../types/types"; // Import the Building type
 import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
 import PageLoader from "../../components/PageLoader";
@@ -15,16 +15,16 @@ import FormGenerator from "../../components/common/FormGenerator";
 import { fields } from "./formFields";
 import { fetchLoginUser } from "../../services/authService";
 import {
-  editRoad,
-  fetchRoadById,
-  imageUploadRoad,
-} from "../../services/roadService";
-import { useImageModal } from "../../hooks/useImageModal";
+  editBuilding,
+  fetchBuildingById,
+  imageUploadBuilding,
+} from "../../services/buildingService"; // Import your building service functions
 import { useModal } from "../../hooks/useModal";
 import { useSuccessMessage } from "../../hooks/useSuccessMessage";
+import { useImageModal } from "../../hooks/useImageModal";
 import ImageViewModal from "../../components/common/ImageViewModal";
 
-const EditRoadPage = () => {
+const EditBuildingPage = () => {
   const nic = sessionStorage.getItem("userNic");
   const { isModalOpen, openModal, closeModal } = useModal();
   const {
@@ -35,66 +35,57 @@ const EditRoadPage = () => {
   } = useSuccessMessage();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { loading, error, road } = useSelector(selectRoad);
+  const { loading, error, building ,photo} = useSelector(selectBuildings); // Use the appropriate selector for buildings
   const { logUser } = useSelector(selectAuth);
   const { id, view } = useParams();
+
   const { openImageModal, selectedImage, handleOpenModal, handleCloseModal } =
-    useImageModal();
+  useImageModal();
+
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
-    dispatch(fetchRoadById(id)); // Fetch road data by ID
+    dispatch(fetchBuildingById(id)); // Fetch building data by ID
   }, [nic, id, dispatch]);
 
   const formik = useFormik({
     initialValues: {
-      road_name: road?.road_name || "",
-      length: road?.length || 0,
-      width: road?.width || 0,
-      gazetted_detail: road?.gazetted_detail || "",
-      survey_plan: road?.survey_plan || "",
-      surface_condition: road?.surface_condition || "",
-      pavement_type: road?.pavement_type || "",
-      starting_point_location: road?.starting_point_location || "",
-      starting_point_photo: road?.startingPhotoUrl || "",
-      end_point_location: road?.end_point_location || "",
-      end_point_photo: road?.endPhotoUrl || "",
-      drainage_availability: road?.drainage_availability || "",
+      // Initialize with your Building field names and default values
+      name: building?.name || "",
+      plan: building?.plan || "",
+      number_of_stories: building?.number_of_stories || 0,
+      photo: building?.photoUrl || "",
+      location: building?.location || "",
+      built_year: building?.built_year || 0,
+      condition: building?.condition || "",
+      remark: building?.remark || "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values: Road) => {
+    onSubmit: (values: Building) => {
       openModal();
     },
     enableReinitialize: true,
   });
 
   const handleConfirm = async () => {
-    const image1: any = formik.values.starting_point_photo;
-    const image2: any = formik.values.end_point_photo;
-    let data: Road = formik.values;
-    delete data.starting_point_photo;
-    delete data.end_point_photo;
-    await dispatch(editRoad(id, formik.values));
 
-    if (image1 !== undefined) {
-      const formData = new FormData();
-      formData.append("file", image1);
-      await dispatch(imageUploadRoad(id, formData, 1));
-    }
-    if (image2 !== undefined) {
-      const formData = new FormData();
-      formData.append("file", image2);
-      await dispatch(imageUploadRoad(id, formData, 2));
+    const image: any = formik.values.photo || photo;
+    let data: Building = formik.values;
+    delete data.photo;
+
+    await dispatch(editBuilding(id, data));
+    const formData = new FormData();
+    if (image !== undefined) {
+      formData.append("file", image);
+      await dispatch(imageUploadBuilding(id, formData));
     }
     closeModal();
-    await dispatch(fetchRoadById(id));
-    await formik.setFieldValue("starting_point_photo", road?.startingPhotoUrl);
-    await formik.setFieldValue("end_point_photo", road?.endPhotoUrl);
-
-    openSuccessMessage("Road updated successfully!");
+    await dispatch(fetchBuildingById(id));
+    await formik.setFieldValue("photo", building?.photoUrl);
+    openSuccessMessage("Building updated successfully!");
   };
 
   const goBack = () => {
-    navigate("/roads");
+    navigate("/buildings");
   };
   const onPhotoHandle = async (name: any, selectedFile: any) => {
     await formik.setFieldValue(`${name}`, selectedFile);
@@ -104,14 +95,18 @@ const EditRoadPage = () => {
       <PageLoader isLoading={loading} />
       <MainTemplate
         userDetails={logUser}
-        breadCrumb={["Home", "Roads", "Edit Road"]}
+        breadCrumb={[
+          "Home",
+          "Buildings",
+          view === "true" ? "View Building" : "Edit Building",
+        ]}
       >
         <FormGenerator
-          fields={fields}
+          fields={fields} // Use your building form fields here
           formik={formik}
           onSubmit={formik.handleSubmit}
           goBack={goBack}
-          name={"Update Road"}
+          name={view === "true" ? "View Building" : "Update Building"}
           view={view}
           onPhoto={onPhotoHandle}
           handleOpenModal={handleOpenModal}
@@ -120,7 +115,9 @@ const EditRoadPage = () => {
       <CustomDialog
         open={isModalOpen}
         title="Confirmation"
-        content="Are you sure you want to update this road?"
+        content={`Are you sure you want to ${
+          view === "true" ? "view" : "update"
+        } this building?`}
         onCancel={closeModal}
         onConfirm={handleConfirm}
       />
@@ -130,7 +127,7 @@ const EditRoadPage = () => {
         message={successMessage}
         error={error}
       />
-      <ImageViewModal
+            <ImageViewModal
         open={openImageModal}
         onClose={handleCloseModal}
         imageURL={selectedImage}
@@ -139,4 +136,4 @@ const EditRoadPage = () => {
   );
 };
 
-export default EditRoadPage;
+export default EditBuildingPage;
