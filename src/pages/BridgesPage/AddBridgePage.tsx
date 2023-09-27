@@ -36,7 +36,6 @@ const AddBridgePage = () => {
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
   }, [nic, dispatch]);
-console.log(validationSchema)
   const formik = useFormik({
     initialValues: {
       bridge_name: "",
@@ -57,7 +56,7 @@ console.log(validationSchema)
   const handleConfirm = async () => {
     await dispatch(addBridge(formik.values));
     closeModal();
-    // formik.resetForm();
+    formik.resetForm();
     openSuccessMessage("Bridge added successfully!");
   };
 

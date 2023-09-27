@@ -113,7 +113,7 @@ export const roadSummary = () => async (dispatch: AppDispatch) => {
       (counts: any, pavementType: any) => {
         let totalLength;
         const count = res.filter(
-          (data: Road) => data.pavement_type === pavementType
+          (data: Road) => data.pavement_type === pavementType,
         );
         totalLength = count.reduce((total: any, item: any) => {
           return total + (item.length || 0);
@@ -121,18 +121,18 @@ export const roadSummary = () => async (dispatch: AppDispatch) => {
         counts[pavementType] = totalLength || 0;
         return counts;
       },
-      {}
+      {},
     );
 
     const surfaceConditionCounts = Object.values(SurfaceCondition).reduce(
       (counts: any, surfaceCondition: any) => {
         const count = res.filter(
-          (data: Road) => data.surface_condition === surfaceCondition
+          (data: Road) => data.surface_condition === surfaceCondition,
         ).length;
         counts[surfaceCondition] = count;
         return counts;
       },
-      {}
+      {},
     );
 
     return {

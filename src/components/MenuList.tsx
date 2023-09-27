@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../store/store";
 import { fetchLoginUser } from "../services/authService";
 import { selectAuth } from "../store/authSlice";
-import ApartmentIcon from '@mui/icons-material/Apartment';
+import ApartmentIcon from "@mui/icons-material/Apartment";
 
 const NavigationList: React.FC<{}> = () => {
   const nic = sessionStorage.getItem("userNic");

@@ -94,37 +94,37 @@ export const bulkUploadDrainage =
     }
   };
 
-  export const drainageSummery = () => async (dispatch: AppDispatch) => {
-    try {
-      const res = await getDrainages();
-      const total = res.length;
-      const drainageTypeCounts = Object.values(DrainageType).reduce(
-        (counts: any, condition: any) => {
-          const count = res.filter(
-            (data: any) => data.drainage_type === condition
-          ).length;
-          counts[condition] = count;
-          return counts;
-        },
-        {}
-      );
-      const conditionCounts = Object.values(SurfaceCondition).reduce(
-        (counts: any, condition: any) => {
-          const count = res.filter(
-            (data: any) => data.condition === condition
-          ).length;
-          counts[condition] = count;
-          return counts;
-        },
-        {}
-      );
-  
-      return {
-        total: total,
-        drainageTypeCounts: drainageTypeCounts,
-        conditionCounts: conditionCounts,
-      };
-    } catch (error: any) {
-      throw error;
-    }
-  };
+export const drainageSummery = () => async (dispatch: AppDispatch) => {
+  try {
+    const res = await getDrainages();
+    const total = res.length;
+    const drainageTypeCounts = Object.values(DrainageType).reduce(
+      (counts: any, condition: any) => {
+        const count = res.filter(
+          (data: any) => data.drainage_type === condition,
+        ).length;
+        counts[condition] = count;
+        return counts;
+      },
+      {},
+    );
+    const conditionCounts = Object.values(SurfaceCondition).reduce(
+      (counts: any, condition: any) => {
+        const count = res.filter(
+          (data: any) => data.condition === condition,
+        ).length;
+        counts[condition] = count;
+        return counts;
+      },
+      {},
+    );
+
+    return {
+      total: total,
+      drainageTypeCounts: drainageTypeCounts,
+      conditionCounts: conditionCounts,
+    };
+  } catch (error: any) {
+    throw error;
+  }
+};

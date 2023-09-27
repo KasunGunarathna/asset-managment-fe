@@ -121,38 +121,37 @@ export const removeStreetLightById =
     }
   };
 
+export const streetLightSummery = () => async (dispatch: AppDispatch) => {
+  try {
+    const res = await getStreetLights();
+    const total = res.length;
+    const poleTypeCounts = Object.values(PoleType).reduce(
+      (counts: any, condition: any) => {
+        const count = res.filter(
+          (data: any) => data.pole_type === condition,
+        ).length;
+        counts[condition] = count;
+        return counts;
+      },
+      {},
+    );
+    const lampTypeCounts = Object.values(LampType).reduce(
+      (counts: any, condition: any) => {
+        const count = res.filter(
+          (data: any) => data.lamp_type === condition,
+        ).length;
+        counts[condition] = count;
+        return counts;
+      },
+      {},
+    );
 
-  export const streetLightSummery = () => async (dispatch: AppDispatch) => {
-    try {
-      const res = await getStreetLights();
-      const total = res.length;
-      const poleTypeCounts = Object.values(PoleType).reduce(
-        (counts: any, condition: any) => {
-          const count = res.filter(
-            (data: any) => data.pole_type === condition
-          ).length;
-          counts[condition] = count;
-          return counts;
-        },
-        {}
-      );
-      const lampTypeCounts = Object.values(LampType).reduce(
-        (counts: any, condition: any) => {
-          const count = res.filter(
-            (data: any) => data.lamp_type === condition
-          ).length;
-          counts[condition] = count;
-          return counts;
-        },
-        {}
-      );
-  
-      return {
-        total: total,
-        poleTypeCounts: poleTypeCounts,
-        lampTypeCounts: lampTypeCounts,
-      };
-    } catch (error: any) {
-      throw error;
-    }
-  };
+    return {
+      total: total,
+      poleTypeCounts: poleTypeCounts,
+      lampTypeCounts: lampTypeCounts,
+    };
+  } catch (error: any) {
+    throw error;
+  }
+};

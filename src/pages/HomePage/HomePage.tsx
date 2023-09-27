@@ -197,7 +197,7 @@ const HomePage = () => {
                                 >
                                   {`${condition}: ${count}`}
                                 </Typography>
-                              )
+                              ),
                             )}
                         </Typography>
                       )}
@@ -223,7 +223,7 @@ const HomePage = () => {
                                 >
                                   {`${condition}: ${count}`}
                                 </Typography>
-                              )
+                              ),
                             )}
                         </Typography>
                       )}

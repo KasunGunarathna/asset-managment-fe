@@ -100,22 +100,22 @@ export const bridgeSummery = () => async (dispatch: AppDispatch) => {
     const surfaceConditionCounts = Object.values(SurfaceCondition).reduce(
       (counts: any, condition: any) => {
         const count = res.filter(
-          (data: any) => data.road_surface_condition === condition
+          (data: any) => data.road_surface_condition === condition,
         ).length;
         counts[condition] = count;
         return counts;
       },
-      {}
+      {},
     );
     const structureConditionCounts = Object.values(SurfaceCondition).reduce(
       (counts: any, condition: any) => {
         const count = res.filter(
-          (data: any) => data.structure_condition === condition
+          (data: any) => data.structure_condition === condition,
         ).length;
         counts[condition] = count;
         return counts;
       },
-      {}
+      {},
     );
 
     return {
