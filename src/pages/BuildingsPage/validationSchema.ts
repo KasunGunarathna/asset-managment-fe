@@ -16,5 +16,4 @@ export const validationSchema = yup.object({
     .positive("Built Year must be a positive number"),
   condition: yup.string().required("Building Condition is required"),
   remark: yup.string(),
-  // You can add more validation rules as needed
 });

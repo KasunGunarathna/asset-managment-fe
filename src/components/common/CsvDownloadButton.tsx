@@ -19,9 +19,8 @@ const CsvDownloadButton: React.FC<CsvDownloadButtonProps> = ({
     const a = document.createElement("a");
     a.style.display = "none";
 
-    // Use the defaultFileName or a custom filename if provided
     a.href = url;
-    a.setAttribute("download", fileName); // Set the 'download' attribute
+    a.setAttribute("download", fileName);
 
     document.body.appendChild(a);
     a.click();

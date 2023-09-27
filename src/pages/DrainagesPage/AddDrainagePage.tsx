@@ -5,14 +5,14 @@ import MainTemplate from "../../templates/MainTemplate";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../store/store";
 import { useFormik } from "formik";
-import { Drainage } from "../../types/types"; // Import the Drainage type
+import { Drainage } from "../../types/types";
 import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
 import PageLoader from "../../components/PageLoader";
-import { selectDrainages } from "../../store/drainageSlice"; // Import relevant actions and selectors
+import { selectDrainages } from "../../store/drainageSlice";
 import FormGenerator from "../../components/common/FormGenerator";
 import { validationSchema } from "./validationSchema";
-import { fields } from "./formFields"; // Define your drainage form fields here
+import { fields } from "./formFields";
 import { fetchLoginUser } from "../../services/authService";
 import { addDrainage } from "../../services/drainageService";
 import { useModal } from "../../hooks/useModal";
@@ -29,7 +29,7 @@ const AddDrainagePage = () => {
   } = useSuccessMessage();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { loading, error } = useSelector(selectDrainages); // Use the appropriate selector for drainages
+  const { loading, error } = useSelector(selectDrainages);
   const { logUser } = useSelector(selectAuth);
 
   useEffect(() => {
@@ -38,7 +38,6 @@ const AddDrainagePage = () => {
 
   const formik = useFormik({
     initialValues: {
-      // Initialize with your Drainage field names and default values
       road_name: "",
       drainage_type: "",
       side_of_drain: "",
@@ -73,7 +72,7 @@ const AddDrainagePage = () => {
         breadCrumb={["Home", "Drainages", "Add Drainage"]}
       >
         <FormGenerator
-          fields={fields} // Use your drainage form fields here
+          fields={fields}
           formik={formik}
           onSubmit={formik.handleSubmit}
           goBack={goBack}

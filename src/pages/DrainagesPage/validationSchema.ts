@@ -17,5 +17,4 @@ export const validationSchema = yup.object({
     .number()
     .required("Width is required")
     .positive("Width must be a positive number"),
-  // You can add more validation rules as needed
 });

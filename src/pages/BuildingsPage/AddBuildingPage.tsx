@@ -5,19 +5,19 @@ import MainTemplate from "../../templates/MainTemplate";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../store/store";
 import { useFormik } from "formik";
-import { Building } from "../../types/types"; // Import the Building type
+import { Building } from "../../types/types";
 import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
 import PageLoader from "../../components/PageLoader";
-import { selectBuildings } from "../../store/buildingSlice"; // Import relevant actions and selectors
+import { selectBuildings } from "../../store/buildingSlice";
 import FormGenerator from "../../components/common/FormGenerator";
 import { validationSchema } from "./validationSchema";
-import { fields } from "./formFields"; // Define your building form fields here
+import { fields } from "./formFields";
 import { fetchLoginUser } from "../../services/authService";
 import {
   addBuilding,
   imageUploadBuilding,
-} from "../../services/buildingService"; // Import your building service function
+} from "../../services/buildingService";
 import { useModal } from "../../hooks/useModal";
 import { useSuccessMessage } from "../../hooks/useSuccessMessage";
 
@@ -32,7 +32,7 @@ const AddBuildingPage = () => {
   } = useSuccessMessage();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { loading, error } = useSelector(selectBuildings); // Use the appropriate selector for buildings
+  const { loading, error } = useSelector(selectBuildings);
   const { logUser } = useSelector(selectAuth);
 
   useEffect(() => {
@@ -41,11 +41,10 @@ const AddBuildingPage = () => {
 
   const formik = useFormik({
     initialValues: {
-      // Initialize with your Building field names and default values
       name: "",
       plan: "",
       number_of_stories: 0,
-      photo: "", // You can set a default URL or empty string here
+      photo: "",
       location: "",
       built_year: 0,
       condition: "",
@@ -89,7 +88,7 @@ const AddBuildingPage = () => {
         breadCrumb={["Home", "Buildings", "Add Building"]}
       >
         <FormGenerator
-          fields={fields} // Use your building form fields here
+          fields={fields}
           formik={formik}
           onSubmit={formik.handleSubmit}
           goBack={goBack}

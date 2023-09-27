@@ -39,8 +39,6 @@ export enum UserType {
   Collector = "Collector",
   Viewer = "Viewer",
 }
-
-// Enum for Type of Drain
 export enum DrainageType {
   OpenUDrain = "Open U drain",
   CloseUDrain = "Close U drain",
@@ -48,7 +46,6 @@ export enum DrainageType {
   EarthDrain = "Earth Drain",
 }
 
-// Enum for Side of the Drain
 export enum SideOfDrain {
   Left = "Left",
   Right = "Right",

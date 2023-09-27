@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import { selectDrainages } from "../../store/drainageSlice"; // Import drainage-related actions and selectors
-import { Drainage } from "../../types/types"; // Import the Drainage type
+import { selectDrainages } from "../../store/drainageSlice";
+import { Drainage } from "../../types/types";
 import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
 import PageLoader from "../../components/PageLoader";
@@ -32,18 +32,17 @@ const EditDrainagePage = () => {
   } = useSuccessMessage();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { loading, error, drainage } = useSelector(selectDrainages); // Use the appropriate selector for drainages
+  const { loading, error, drainage } = useSelector(selectDrainages);
   const { logUser } = useSelector(selectAuth);
   const { id, view } = useParams();
 
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
-    dispatch(fetchDrainageById(id)); // Fetch drainage data by ID
+    dispatch(fetchDrainageById(id));
   }, [nic, id, dispatch]);
 
   const formik = useFormik({
     initialValues: {
-      // Initialize with your Drainage field names and default values
       road_name: drainage?.road_name || "",
       drainage_type: drainage?.drainage_type || "",
       side_of_drain: drainage?.side_of_drain || "",
@@ -84,7 +83,7 @@ const EditDrainagePage = () => {
         ]}
       >
         <FormGenerator
-          fields={fields} // Use your drainage form fields here
+          fields={fields}
           formik={formik}
           onSubmit={formik.handleSubmit}
           goBack={goBack}

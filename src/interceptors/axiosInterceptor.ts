@@ -8,7 +8,6 @@ const instance = axios.create({
   baseURL: API_BASE_URL,
 });
 
-// Request interceptor
 instance.interceptors.request.use(
   (config) => {
     const token = getTokenFromLocalStorage();
@@ -29,7 +28,6 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Handle error globally
     return Promise.reject(error);
   },
 );

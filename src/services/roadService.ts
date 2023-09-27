@@ -106,7 +106,7 @@ export const imageUploadRoad =
 
 export const roadSummary = () => async (dispatch: AppDispatch) => {
   try {
-    const res = await getRoads(); // Replace with your API call or data retrieval method
+    const res = await getRoads();
     const total = res.length;
 
     const pavementTypeCounts = Object.values(PavementType).reduce(

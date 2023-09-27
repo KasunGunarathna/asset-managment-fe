@@ -35,7 +35,7 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({
         <input
           type="file"
           id="file-upload-input"
-          accept=".csv" // Specify the accepted file types
+          accept=".csv"
           onChange={handleFileChange}
           style={{ display: "none" }}
         />

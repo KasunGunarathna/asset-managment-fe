@@ -14,7 +14,6 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import { selectBridge } from "../../store/bridgeSlice";
 import { bridgeSummery } from "../../services/bridgeService";
 import { roadSummary } from "../../services/roadService";
 import { drainageSummery } from "../../services/drainageService";
@@ -114,7 +113,6 @@ const HomePage = () => {
       data3Name: "Lamp Type Base Counts",
       data3Value: lightData?.lampTypeCounts,
     },
-    // Add other items here
   ];
 
   return (
@@ -140,7 +138,7 @@ const HomePage = () => {
                     height: "auto",
                     width: "auto",
                     padding: "10px",
-                    cursor: "pointer", // Add cursor pointer style
+                    cursor: "pointer",
                   }}
                   onClick={() => navigateToRoute(item.path)}
                 >

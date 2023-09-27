@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import { selectBuildings } from "../../store/buildingSlice"; // Import building-related actions and selectors
-import { Building } from "../../types/types"; // Import the Building type
+import { selectBuildings } from "../../store/buildingSlice";
+import { Building } from "../../types/types";
 import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
 import PageLoader from "../../components/PageLoader";
@@ -18,7 +18,7 @@ import {
   editBuilding,
   fetchBuildingById,
   imageUploadBuilding,
-} from "../../services/buildingService"; // Import your building service functions
+} from "../../services/buildingService";
 import { useModal } from "../../hooks/useModal";
 import { useSuccessMessage } from "../../hooks/useSuccessMessage";
 import { useImageModal } from "../../hooks/useImageModal";
@@ -35,7 +35,7 @@ const EditBuildingPage = () => {
   } = useSuccessMessage();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { loading, error, building, photo } = useSelector(selectBuildings); // Use the appropriate selector for buildings
+  const { loading, error, building, photo } = useSelector(selectBuildings);
   const { logUser } = useSelector(selectAuth);
   const { id, view } = useParams();
 
@@ -44,12 +44,11 @@ const EditBuildingPage = () => {
 
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
-    dispatch(fetchBuildingById(id)); // Fetch building data by ID
+    dispatch(fetchBuildingById(id));
   }, [nic, id, dispatch]);
 
   const formik = useFormik({
     initialValues: {
-      // Initialize with your Building field names and default values
       name: building?.name || "",
       plan: building?.plan || "",
       number_of_stories: building?.number_of_stories || 0,
@@ -101,7 +100,7 @@ const EditBuildingPage = () => {
         ]}
       >
         <FormGenerator
-          fields={fields} // Use your building form fields here
+          fields={fields}
           formik={formik}
           onSubmit={formik.handleSubmit}
           goBack={goBack}

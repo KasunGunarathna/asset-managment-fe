@@ -37,5 +37,4 @@ export const fields: FormField[] = [
   },
   { name: "starting_point_photo", label: "Starting Point Photo", photo: true },
   { name: "end_point_photo", label: "End Point Photo", photo: true },
-  // You can add more fields as needed
 ];

@@ -20,5 +20,4 @@ export const fields: FormField[] = [
     options: Object.values(SurfaceCondition),
   },
   { name: "remarks", label: "Remarks" },
-  // Add more form fields as needed
 ];

@@ -10,14 +10,13 @@ export const fields: FormField[] = [
     name: "pole_type",
     label: "Pole Type",
     select: true,
-    options: Object.values(PoleType), // Use LampType or another relevant enum
+    options: Object.values(PoleType),
   },
   {
     name: "lamp_type",
     label: "Lamp Type",
     select: true,
-    options: Object.values(LampType), // Use the LampType enum
+    options: Object.values(LampType),
   },
   { name: "photo", label: "Photo", photo: true },
-  // You can add more fields as needed
 ];

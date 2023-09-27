@@ -15,7 +15,7 @@ import {
   fetchSearchStreetLights,
   removeStreetLightById,
   bulkUploadStreetLight,
-} from "../../services/StreetLightService"; // Import corresponding actions and selectors
+} from "../../services/StreetLightService";
 import ImageViewModal from "../../components/common/ImageViewModal";
 import FileUploadModal from "../../components/common/FileUploadModal";
 import { selectStreetLights } from "../../store/streetLightSlice";

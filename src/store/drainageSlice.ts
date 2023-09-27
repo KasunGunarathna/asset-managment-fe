@@ -1,10 +1,10 @@
-import { Drainage } from "../types/types"; // Import your Drainage type
+import { Drainage } from "../types/types";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 
 interface DrainagesState {
-  drainages: Drainage[]; // Replace Bridge with Drainage
-  drainage: Drainage | null; // Replace Bridge with Drainage
+  drainages: Drainage[];
+  drainage: Drainage | null;
   loading: boolean;
   error: string | null;
 }
@@ -17,7 +17,7 @@ const initialState: DrainagesState = {
 };
 
 const drainagesSlice = createSlice({
-  name: "drainages", // Change the slice name
+  name: "drainages",
   initialState,
   reducers: {
     getDrainagesStart(state) {
@@ -25,14 +25,12 @@ const drainagesSlice = createSlice({
       state.error = null;
     },
     getDrainagesSuccess(state, action: PayloadAction<Drainage[]>) {
-      // Replace Bridge with Drainage
       state.loading = false;
-      state.drainages = action.payload; // Replace Bridge with Drainage
+      state.drainages = action.payload;
     },
     getDrainageSuccess(state, action: PayloadAction<Drainage>) {
-      // Replace Bridge with Drainage
       state.loading = false;
-      state.drainage = action.payload; // Replace Bridge with Drainage
+      state.drainage = action.payload;
     },
     getFailure(state, action: PayloadAction<string>) {
       state.loading = false;
