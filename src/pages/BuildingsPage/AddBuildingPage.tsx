@@ -14,7 +14,10 @@ import FormGenerator from "../../components/common/FormGenerator";
 import { validationSchema } from "./validationSchema";
 import { fields } from "./formFields"; // Define your building form fields here
 import { fetchLoginUser } from "../../services/authService";
-import { addBuilding, imageUploadBuilding } from "../../services/buildingService"; // Import your building service function
+import {
+  addBuilding,
+  imageUploadBuilding,
+} from "../../services/buildingService"; // Import your building service function
 import { useModal } from "../../hooks/useModal";
 import { useSuccessMessage } from "../../hooks/useSuccessMessage";
 

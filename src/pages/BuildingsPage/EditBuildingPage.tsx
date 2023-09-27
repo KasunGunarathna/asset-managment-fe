@@ -35,12 +35,12 @@ const EditBuildingPage = () => {
   } = useSuccessMessage();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { loading, error, building ,photo} = useSelector(selectBuildings); // Use the appropriate selector for buildings
+  const { loading, error, building, photo } = useSelector(selectBuildings); // Use the appropriate selector for buildings
   const { logUser } = useSelector(selectAuth);
   const { id, view } = useParams();
 
   const { openImageModal, selectedImage, handleOpenModal, handleCloseModal } =
-  useImageModal();
+    useImageModal();
 
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
@@ -67,7 +67,6 @@ const EditBuildingPage = () => {
   });
 
   const handleConfirm = async () => {
-
     const image: any = formik.values.photo || photo;
     let data: Building = formik.values;
     delete data.photo;
@@ -127,7 +126,7 @@ const EditBuildingPage = () => {
         message={successMessage}
         error={error}
       />
-            <ImageViewModal
+      <ImageViewModal
         open={openImageModal}
         onClose={handleCloseModal}
         imageURL={selectedImage}

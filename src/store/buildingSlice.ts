@@ -6,7 +6,7 @@ interface BuildingsState {
   buildings: Building[]; // Define your Building type
   building: Building | null; // Define your Building type
   loading: boolean;
-  photo:any;
+  photo: any;
   error: string | null;
 }
 

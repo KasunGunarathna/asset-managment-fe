@@ -136,6 +136,5 @@ export const routes = [
     path: "/buildings/view/:id/:view",
     component: lazy(() => import("./pages/BuildingsPage/EditBuildingPage")),
     protected: true,
-  }
-  
+  },
 ];

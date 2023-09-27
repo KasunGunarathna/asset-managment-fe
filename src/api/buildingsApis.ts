@@ -21,7 +21,7 @@ export const getBuildingById = async (id: any) => {
 export const getSearchBuildings = async (data: any) => {
   try {
     const response = await instance.get(
-      `/buildings/query?search=${data.search}&f1name=${data.f1name}&f1value=${data.f1value}&f2name=${data.f2name}&f2value=${data.f2value}`
+      `/buildings/query?search=${data.search}&f1name=${data.f1name}&f1value=${data.f1value}&f2name=${data.f2name}&f2value=${data.f2value}`,
     );
     return response.data.data;
   } catch (error) {
@@ -31,9 +31,7 @@ export const getSearchBuildings = async (data: any) => {
 
 export const insertBuilding = async (buildingData: any) => {
   try {
-    console.log(buildingData)
     const response = await instance.post(`/buildings`, buildingData);
-    console.log(response.data.data)
     return response.data.data;
   } catch (error) {
     throw error;
