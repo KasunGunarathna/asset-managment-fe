@@ -136,5 +136,24 @@ export const routes = [
     path: "/buildings/view/:id/:view",
     component: lazy(() => import("./pages/BuildingsPage/EditBuildingPage")),
     protected: true,
+  },{
+    path: "/vehicles",
+    component: lazy(() => import("./pages/VehiclePage/VehiclesPage")),
+    protected: true,
+  },
+  {
+    path: "/vehicles/add",
+    component: lazy(() => import("./pages/VehiclePage/AddVehiclePage")),
+    protected: true,
+  },
+  {
+    path: "/vehicles/edit/:id",
+    component: lazy(() => import("./pages/VehiclePage/EditVehiclePage")),
+    protected: true,
+  },
+  {
+    path: "/vehicles/view/:id/:view",
+    component: lazy(() => import("./pages/VehiclePage/EditVehiclePage")),
+    protected: true,
   },
 ];

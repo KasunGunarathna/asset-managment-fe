@@ -50,3 +50,16 @@ export enum SideOfDrain {
   Left = "Left",
   Right = "Right",
 }
+
+export enum FuelType {
+  Petrol = "Petrol",
+  Diesel = "Diesel",
+  Electric = "Electric",
+  Hybrid = "Hybrid",
+  Other = "Other",
+}
+
+export enum TaxationClass {
+  Personal = "Personal",
+  Corporate = "Corporate",
+}
