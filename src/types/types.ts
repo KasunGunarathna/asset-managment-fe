@@ -97,11 +97,11 @@ export interface Vehicle {
   fuel_type: string | undefined;
   license_from: string | undefined;
   license_to: string | undefined;
-  engine_no: string | undefined;
+  engine_number: string | undefined;
   allocated_location: string | undefined;
   yom: string | undefined; // Year of Manufacture
   yor: string | undefined; // Year of Registration
-  chassi_no: string | undefined;
+  chassi_number: string | undefined;
   taxation_class: string | undefined;
   wheel_size: string | undefined;
   battery_required: string | undefined;

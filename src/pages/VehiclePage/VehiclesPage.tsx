@@ -28,8 +28,6 @@ import { CheckPermission } from "../../utils/permissionConfig";
 // Define filter options and columns for vehicles
 const filter1Name = "Fuel Type";
 const filter1Options = Object.values(FuelType);
-const filter2Name = "Some Other Filter"; // Modify with your filter name
-const filter2Options = ["Option 1", "Option 2", "Option 3"]; // Modify with your filter options
 
 const columns = [
   { id: "vehicle_number", label: "Vehicle Number" },
@@ -40,14 +38,14 @@ const columns = [
   { id: "license_to", label: "License To" },
   { id: "engine_number", label: "Engine Number" },
   { id: "allocated_location", label: "Allocated Location" },
-  { id: "year_of_manufacture", label: "Year of Manufacture" },
-  { id: "year_of_registration", label: "Year of Registration" },
-  { id: "chassis_number", label: "Chassis Number" },
+  { id: "yom", label: "Year of Manufacture" },
+  { id: "yor", label: "Year of Registration" },
+  { id: "chassi_number", label: "Chassis Number" },
   { id: "taxation_class", label: "Taxation Class" },
   { id: "wheel_size", label: "Wheel Size" },
   { id: "battery_required", label: "Battery Required" },
-  { id: "fuel_consumption", label: "Fuel Consumption" },
-  { id: "date_of_test", label: "Date of Test" },
+  { id: "fuel_consume", label: "Fuel Consumption" },
+  { id: "date_of_tested", label: "Date of Test" },
   // Add more columns for additional vehicle details as needed
   { id: "updatedAt", label: "Updated Date" },
 ];
@@ -78,7 +76,6 @@ const VehiclesPage = () => {
   const [searchQ, setSearchQ] = useState("");
 
   const [selectedFilter1Value, setFilter1Change] = useState("");
-  const [selectedFilter2Value, setFilter2Change] = useState("");
 
   const csvData = generateCsvData(columns, vehicles);
 
@@ -117,7 +114,7 @@ const VehiclesPage = () => {
         f1name: "fuel_type",
         f1value: selectedFilter1Value,
         f2name: "some_other_filter", // Modify with your filter name
-        f2value: selectedFilter2Value,
+        f2value: "",
       };
       await dispatch(fetchSearchVehicles(data)); // Dispatch fetchSearchVehicles action
     } else await dispatch(fetchVehicles()); // Dispatch fetchVehicles action
@@ -131,23 +128,23 @@ const VehiclesPage = () => {
       f1name: "fuel_type",
       f1value: event.target.value,
       f2name: "some_other_filter", // Modify with your filter name
-      f2value: selectedFilter2Value,
+      f2value: "",
     };
     await dispatch(fetchSearchVehicles(data)); // Dispatch fetchSearchVehicles action
   };
 
-  const handleFilter2 = async (event: any) => {
-    await setFilter2Change(event.target.value);
-    // Modify data structure and fields based on your filter requirements
-    const data = {
-      search: searchQ,
-      f1name: "fuel_type",
-      f1value: selectedFilter1Value,
-      f2name: "some_other_filter", // Modify with your filter name
-      f2value: event.target.value,
-    };
-    await dispatch(fetchSearchVehicles(data)); // Dispatch fetchSearchVehicles action
-  };
+  // const handleFilter2 = async (event: any) => {
+  //   await setFilter2Change(event.target.value);
+  //   // Modify data structure and fields based on your filter requirements
+  //   const data = {
+  //     search: searchQ,
+  //     f1name: "fuel_type",
+  //     f1value: selectedFilter1Value,
+  //     f2name: "some_other_filter", // Modify with your filter name
+  //     f2value: event.target.value,
+  //   };
+  //   await dispatch(fetchSearchVehicles(data)); // Dispatch fetchSearchVehicles action
+  // };
 
   const handleUpload = async () => {
     try {
@@ -183,10 +180,6 @@ const VehiclesPage = () => {
           filter1Options={filter1Options}
           filter1onChange={handleFilter1}
           selectedFilter1Value={selectedFilter1Value}
-          filter2Name={filter2Name}
-          filter2Options={filter2Options}
-          filter2onChange={handleFilter2}
-          selectedFilter2Value={selectedFilter2Value}
           csvData={csvData}
           csvName={`vehicles_${new Date().toLocaleDateString()}.csv`}
         />

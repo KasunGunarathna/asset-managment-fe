@@ -44,11 +44,11 @@ const AddVehiclePage = () => {
       fuel_type: "",
       license_from: "",
       license_to: "",
-      engine_no: "",
+      engine_number: "",
       allocated_location: "",
       yom: "",
       yor: "",
-      chassi_no: "",
+      chassi_number: "",
       taxation_class: "",
       wheel_size: "",
       battery_required: "",
@@ -60,11 +60,11 @@ const AddVehiclePage = () => {
       openModal();
     },
   });
-
+ 
   const handleConfirm = async () => {
     await dispatch(addVehicle(formik.values)); 
     closeModal();
-    formik.resetForm();
+    // formik.resetForm();
     openSuccessMessage("Vehicle added successfully!");
   };
 
