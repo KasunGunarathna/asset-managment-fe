@@ -24,17 +24,17 @@ export const fields: FormField[] = [
     options: Object.values(PavementType),
   },
   {
-    name: "starting_point_location",
-    label: "Starting Point Latitude, Longitude",
-  },
-
-  { name: "end_point_location", label: "End Point Latitude, Longitude" },
-  {
     name: "drainage_availability",
     label: "Drainage Availability",
     select: true,
     options: Object.values(DrainageAvailability),
   },
+  {
+    name: "starting_point_location",
+    label: "Starting Point Latitude, Longitude",
+  },
+
+  { name: "end_point_location", label: "End Point Latitude, Longitude" },
   { name: "starting_point_photo", label: "Starting Point Photo", photo: true },
   { name: "end_point_photo", label: "End Point Photo", photo: true },
 ];
