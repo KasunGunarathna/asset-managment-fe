@@ -71,9 +71,9 @@ const LoginPage = () => {
   };
   const handleRenewSubscription = async (code: any) => {
     if (code === "H4DYQ9") {
-      var currentDate = new Date();
+      let currentDate = new Date();
       currentDate.setDate(currentDate.getDate() + 30);
-      var newDate = currentDate.toISOString();
+      let newDate = currentDate.toISOString();
       await localStorage.setItem("expire_date", newDate);
       await setIsSubscriptionExpired(false);
     }

@@ -50,11 +50,7 @@ const SubscriptionExpirationPage: React.FC<SubscriptionExpirationPageProps> = ({
           Your subscription has expired. Please renew your subscription to
           continue using our service.
         </Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleOpenDialog}
-        >
+        <Button variant="contained" color="primary" onClick={handleOpenDialog}>
           Renew Subscription
         </Button>
       </Paper>
@@ -66,7 +62,7 @@ const SubscriptionExpirationPage: React.FC<SubscriptionExpirationPageProps> = ({
             margin="dense"
             id="renewalCode"
             label="Renewal Code"
-            type="text"
+            type="password"
             fullWidth
             value={renewalCode}
             onChange={(e) => setRenewalCode(e.target.value)}
