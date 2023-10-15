@@ -10,7 +10,7 @@ import { AppDispatch } from "../../store/store";
 import PageLoader from "../../components/PageLoader";
 import CustomDialog from "../../components/common/CustomDialog";
 import CustomSnackbar from "../../components/common/Snackbar";
-import { selectDrainages } from "../../store/drainageSlice"; // Import corresponding actions and selectors
+import { selectDrainages } from "../../store/drainageSlice";
 import { fetchLoginUser } from "../../services/authService";
 import {
   bulkUploadDrainage,
@@ -56,7 +56,7 @@ const DrainagesPage = () => {
 
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { drainages, loading, error } = useSelector(selectDrainages); // Use the appropriate selector for drainages
+  const { drainages, loading, error } = useSelector(selectDrainages);
   const { logUser } = useSelector(selectAuth);
 
   const { isModalOpen, openModal, closeModal } = useModal();
@@ -85,11 +85,11 @@ const DrainagesPage = () => {
 
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
-    dispatch(fetchDrainages()); // Replace with the relevant action for fetching drainages
+    dispatch(fetchDrainages());
   }, [nic, dispatch]);
 
   const addNewPage = () => {
-    navigate("/drainages/add"); // Adjust the route to match your drainage form
+    navigate("/drainages/add");
   };
 
   const handleDelete = (id: any) => {
@@ -97,16 +97,16 @@ const DrainagesPage = () => {
     openModal();
   };
   const handleEdit = (id: any) => {
-    navigate(`/drainages/edit/${id}`); // Adjust the route to match your drainage edit form
+    navigate(`/drainages/edit/${id}`);
   };
   const handleView = (id: any) => {
-    navigate(`/drainages/view/${id}/${true}`); // Adjust the route to match your drainage view page
+    navigate(`/drainages/view/${id}/${true}`);
   };
 
   const handleConfirm = async () => {
-    await dispatch(removeDrainageById(id)); // Replace with the relevant action for removing drainage
+    await dispatch(removeDrainageById(id));
     closeModal();
-    await dispatch(fetchDrainages()); // Replace with the relevant action for fetching drainages
+    await dispatch(fetchDrainages());
     openSuccessMessage("Drainage deleted successfully!");
   };
 
@@ -167,10 +167,7 @@ const DrainagesPage = () => {
   return (
     <>
       <PageLoader isLoading={loading} />
-      <MainTemplate
-        userDetails={logUser}
-        breadCrumb={["Home", "Drainages"]} // Update breadcrumb
-      >
+      <MainTemplate userDetails={logUser} breadCrumb={["Home", "Drainages"]}>
         <TableControls
           setSearchQuery={setSearchQuery}
           onAdd={

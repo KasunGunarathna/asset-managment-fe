@@ -28,5 +28,4 @@ export const fields: FormField[] = [
   },
   { name: "length", label: "Length (meters)", type: "number" },
   { name: "width", label: "Width (meters)", type: "number" },
-  // You can add more fields as needed
 ];

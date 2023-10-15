@@ -1,5 +1,3 @@
-// validationSchema.ts
-
 import * as yup from "yup";
 
 export const validationSchema = yup.object({
@@ -19,5 +17,4 @@ export const validationSchema = yup.object({
     .string()
     .required("Road Surface Condition is required"),
   remarks: yup.string().required("Remarks are required"),
-  // Add more validation rules for other fields as needed
 });

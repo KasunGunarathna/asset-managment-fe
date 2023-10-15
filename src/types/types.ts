@@ -82,10 +82,31 @@ export interface Building {
   name: string;
   plan: string;
   number_of_stories: number;
-  photo?: string; // You can use a URL or a file path here
+  photo?: string;
   location: string;
   built_year: number;
   condition: string;
   remark: string;
   photoUrl?: string | undefined;
 }
+
+
+export interface Vehicle {
+  vehicle_number: string | undefined;
+  vehicle_make: string | undefined;
+  model: string | undefined;
+  fuel_type: string | undefined;
+  license_from: string | undefined;
+  license_to: string | undefined;
+  engine_number: string | undefined;
+  allocated_location: string | undefined;
+  yom: string | undefined; // Year of Manufacture
+  yor: string | undefined; // Year of Registration
+  chassi_number: string | undefined;
+  taxation_class: string | undefined;
+  wheel_size: string | undefined;
+  battery_required: string | undefined;
+  fuel_consume: string | undefined;
+  date_of_tested: string | undefined;
+}
+

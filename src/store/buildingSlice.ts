@@ -1,10 +1,10 @@
-import { Building } from "../types/types"; // Import your Building type
+import { Building } from "../types/types";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 
 interface BuildingsState {
-  buildings: Building[]; // Define your Building type
-  building: Building | null; // Define your Building type
+  buildings: Building[];
+  building: Building | null;
   loading: boolean;
   photo: any;
   error: string | null;
@@ -19,7 +19,7 @@ const initialState: BuildingsState = {
 };
 
 const buildingsSlice = createSlice({
-  name: "buildings", // Define the slice name
+  name: "buildings",
   initialState,
   reducers: {
     getBuildingsStart(state) {

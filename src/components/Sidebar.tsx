@@ -1,4 +1,3 @@
-// Sidebar.tsx
 import React from "react";
 import { Drawer, Avatar, Typography, Toolbar } from "@mui/material";
 import Logo from "../assets/logo.png";

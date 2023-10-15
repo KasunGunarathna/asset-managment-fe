@@ -8,5 +8,4 @@ export const validationSchema = yup.object({
   pole_type: yup.string().required("Pole Type is required"),
   lamp_type: yup.string().required("Lamp Type is required"),
   photo: yup.string().required("Photo is required"),
-  // You can add more validation rules as needed
 });

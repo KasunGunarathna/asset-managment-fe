@@ -17,6 +17,7 @@ import { AppDispatch } from "../store/store";
 import { fetchLoginUser } from "../services/authService";
 import { selectAuth } from "../store/authSlice";
 import ApartmentIcon from "@mui/icons-material/Apartment";
+import CarRentalIcon from '@mui/icons-material/CarRental';
 
 const NavigationList: React.FC<{}> = () => {
   const nic = sessionStorage.getItem("userNic");
@@ -61,6 +62,12 @@ const NavigationList: React.FC<{}> = () => {
       text: "Buildings",
       icon: <ApartmentIcon />,
       path: "/buildings",
+      permission: true,
+    },
+    {
+      text: "Vehicles",
+      icon: <CarRentalIcon />,
+      path: "/vehicles",
       permission: true,
     },
   ];

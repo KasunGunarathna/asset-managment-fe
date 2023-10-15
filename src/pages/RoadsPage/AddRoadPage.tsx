@@ -5,7 +5,7 @@ import MainTemplate from "../../templates/MainTemplate";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../store/store";
 import { useFormik } from "formik";
-import { Road } from "../../types/types"; // Import the Road type
+import { Road } from "../../types/types";
 import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
 import PageLoader from "../../components/PageLoader";

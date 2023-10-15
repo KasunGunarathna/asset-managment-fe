@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import { selectRoad } from "../../store/roadSlice"; // Import road-related actions and selectors
-import { Road } from "../../types/types"; // Import the Road type
+import { selectRoad } from "../../store/roadSlice";
+import { Road } from "../../types/types";
 import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
 import PageLoader from "../../components/PageLoader";
@@ -42,7 +42,7 @@ const EditRoadPage = () => {
     useImageModal();
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
-    dispatch(fetchRoadById(id)); // Fetch road data by ID
+    dispatch(fetchRoadById(id));
   }, [nic, id, dispatch]);
 
   const formik = useFormik({

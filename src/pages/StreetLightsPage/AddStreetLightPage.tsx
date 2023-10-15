@@ -5,14 +5,14 @@ import MainTemplate from "../../templates/MainTemplate";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../store/store";
 import { useFormik } from "formik";
-import { StreetLight } from "../../types/types"; // Import the StreetLight type
+import { StreetLight } from "../../types/types";
 import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
 import PageLoader from "../../components/PageLoader";
-import { selectStreetLights } from "../../store/streetLightSlice"; // Import relevant actions and selectors
+import { selectStreetLights } from "../../store/streetLightSlice";
 import FormGenerator from "../../components/common/FormGenerator";
 import { validationSchema } from "./validationSchema";
-import { fields } from "./formFields"; // Define your street lights form fields here
+import { fields } from "./formFields";
 import {
   addStreetLight,
   imageUploadStreetLight,
@@ -42,7 +42,6 @@ const AddStreetLightPage = () => {
 
   const formik = useFormik({
     initialValues: {
-      // Initialize with your StreetLight field names and default values
       pole_number: "",
       road_name: "",
       wire_condition: "",
@@ -89,7 +88,7 @@ const AddStreetLightPage = () => {
         breadCrumb={["Home", "Street Lights", "Add Street Light"]}
       >
         <FormGenerator
-          fields={fields} // Use your street light form fields here
+          fields={fields}
           formik={formik}
           onSubmit={formik.handleSubmit}
           goBack={goBack}

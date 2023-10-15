@@ -1,55 +1,60 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAuth } from "../../store/authSlice";
 import ReusableTable from "../../components/common/Table";
 import TableControls from "../../components/common/TableControls";
 import MainTemplate from "../../templates/MainTemplate";
-
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../store/store";
 import PageLoader from "../../components/PageLoader";
 import CustomDialog from "../../components/common/CustomDialog";
 import CustomSnackbar from "../../components/common/Snackbar";
-import {
-  fetchStreetLights,
-  fetchSearchStreetLights,
-  removeStreetLightById,
-  bulkUploadStreetLight,
-} from "../../services/StreetLightService";
-import ImageViewModal from "../../components/common/ImageViewModal";
-import FileUploadModal from "../../components/common/FileUploadModal";
-import { selectStreetLights } from "../../store/streetLightSlice";
+import { selectVehicle } from "../../store/vehicleSlice";
 import { fetchLoginUser } from "../../services/authService";
-import { useModal } from "../../hooks/useModal";
-import { useImageModal } from "../../hooks/useImageModal";
-import { useSuccessMessage } from "../../hooks/useSuccessMessage";
+import {
+  bulkUploadVehicle,
+  fetchVehicles,
+  fetchSearchVehicles,
+  removeVehicleById,
+} from "../../services/vehicleService"; // Import vehicle-related services
 import { useFileModal } from "../../hooks/useFileModal";
-import { LampType, PoleType } from "../../types/enum";
+import { useModal } from "../../hooks/useModal";
+import { useSuccessMessage } from "../../hooks/useSuccessMessage";
+import FileUploadModal from "../../components/common/FileUploadModal";
+import { FuelType } from "../../types/enum"; // Import FuelType enum
 import { generateCsvData } from "../../utils/generateCsv";
 import { CheckPermission } from "../../utils/permissionConfig";
 
-const filter1Name = "Pole Type";
-const filter1Options = Object.values(PoleType);
-const filter2Name = "Lamp Type";
-const filter2Options = Object.values(LampType);
+// Define filter options and columns for vehicles
+const filter1Name = "Fuel Type";
+const filter1Options = Object.values(FuelType);
 
-const StreetLightsPage = () => {
+const columns = [
+  { id: "vehicle_number", label: "Vehicle Number" },
+  { id: "vehicle_make", label: "Make" },
+  { id: "model", label: "Model" },
+  { id: "fuel_type", label: "Fuel Type" },
+  { id: "license_from", label: "License From" },
+  { id: "license_to", label: "License To" },
+  { id: "engine_number", label: "Engine Number" },
+  { id: "allocated_location", label: "Allocated Location" },
+  { id: "yom", label: "Year of Manufacture" },
+  { id: "yor", label: "Year of Registration" },
+  { id: "chassi_number", label: "Chassis Number" },
+  { id: "taxation_class", label: "Taxation Class" },
+  { id: "wheel_size", label: "Wheel Size" },
+  { id: "battery_required", label: "Battery Required" },
+  { id: "fuel_consume", label: "Fuel Consumption" },
+  { id: "date_of_tested", label: "Date of Test" },
+  // Add more columns for additional vehicle details as needed
+  { id: "updatedAt", label: "Updated Date" },
+];
+
+const VehiclesPage = () => {
   const nic = sessionStorage.getItem("userNic");
-
-  const columns = [
-    { id: "pole_number", label: "Pole Number" },
-    { id: "road_name", label: "Road Name" },
-    { id: "wire_condition", label: "Wire Condition" },
-    { id: "switch_condition", label: "Switch Condition" },
-    { id: "pole_type", label: "Pole Type" },
-    { id: "lamp_type", label: "Lamp Type" },
-    { id: "photo", label: "Photo", photo: true, url: "photoUrl" },
-    { id: "updatedAt", label: "Updated Date" },
-  ];
-
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { streetLights, loading, error } = useSelector(selectStreetLights);
+  const { vehicles, loading, error } = useSelector(selectVehicle); // Use vehicle-related selectors
   const { logUser } = useSelector(selectAuth);
   const { isModalOpen, openModal, closeModal } = useModal();
   const {
@@ -59,8 +64,6 @@ const StreetLightsPage = () => {
     closeSuccessMessage,
   } = useSuccessMessage();
 
-  const { openImageModal, selectedImage, handleOpenModal, handleCloseModal } =
-    useImageModal();
   const {
     fileModal,
     openFileModal,
@@ -70,21 +73,19 @@ const StreetLightsPage = () => {
   } = useFileModal();
 
   const [id, setId] = useState(0);
-
   const [searchQ, setSearchQ] = useState("");
 
   const [selectedFilter1Value, setFilter1Change] = useState("");
-  const [selectedFilter2Value, setFilter2Change] = useState("");
 
-  const csvData = generateCsvData(columns, streetLights);
+  const csvData = generateCsvData(columns, vehicles);
 
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
-    dispatch(fetchStreetLights());
+    dispatch(fetchVehicles()); // Dispatch fetchVehicles action
   }, [nic, dispatch]);
 
   const addNewPage = () => {
-    navigate("/street_lights/add");
+    navigate("/vehicles/add"); // Modify the path for adding a new vehicle
   };
 
   const handleDelete = (id: any) => {
@@ -92,66 +93,68 @@ const StreetLightsPage = () => {
     openModal();
   };
   const handleEdit = (id: any) => {
-    navigate(`/street_lights/edit/${id}`);
+    navigate(`/vehicles/edit/${id}`); // Modify the path for editing a vehicle
   };
   const handleView = (id: any) => {
-    navigate(`/street_lights/view/${id}/${true}`);
+    navigate(`/vehicles/view/${id}/${true}`); // Modify the path for viewing a vehicle
   };
 
   const handleConfirm = async () => {
-    await dispatch(removeStreetLightById(id));
+    await dispatch(removeVehicleById(id)); // Dispatch removeVehicleById action
     closeModal();
-    await dispatch(fetchStreetLights());
-    openSuccessMessage("Street light deleted successfully!");
+    await dispatch(fetchVehicles()); // Dispatch fetchVehicles action
+    openSuccessMessage("Vehicle deleted successfully!");
   };
-
   const setSearchQuery = async (query: any) => {
     if (query) {
       await setSearchQ(query);
+      // Modify data structure and fields based on your search requirements
       const data = {
         search: query,
-        f1name: "pole_type",
+        f1name: "fuel_type",
         f1value: selectedFilter1Value,
-        f2name: "lamp_type",
-        f2value: selectedFilter2Value,
+        f2name: "some_other_filter", // Modify with your filter name
+        f2value: "",
       };
-      await dispatch(fetchSearchStreetLights(data));
-    } else await dispatch(fetchStreetLights());
+      await dispatch(fetchSearchVehicles(data)); // Dispatch fetchSearchVehicles action
+    } else await dispatch(fetchVehicles()); // Dispatch fetchVehicles action
   };
 
   const handleFilter1 = async (event: any) => {
     await setFilter1Change(event.target.value);
+    // Modify data structure and fields based on your filter requirements
     const data = {
       search: searchQ,
-      f1name: "pole_type",
+      f1name: "fuel_type",
       f1value: event.target.value,
-      f2name: "lamp_type",
-      f2value: selectedFilter2Value,
+      f2name: "some_other_filter", // Modify with your filter name
+      f2value: "",
     };
-    await dispatch(fetchSearchStreetLights(data));
+    await dispatch(fetchSearchVehicles(data)); // Dispatch fetchSearchVehicles action
   };
 
-  const handleFilter2 = async (event: any) => {
-    await setFilter2Change(event.target.value);
-    const data = {
-      search: searchQ,
-      f1name: "pole_type",
-      f1value: selectedFilter1Value,
-      f2name: "lamp_type",
-      f2value: event.target.value,
-    };
-    await dispatch(fetchSearchStreetLights(data));
-  };
+  // const handleFilter2 = async (event: any) => {
+  //   await setFilter2Change(event.target.value);
+  //   // Modify data structure and fields based on your filter requirements
+  //   const data = {
+  //     search: searchQ,
+  //     f1name: "fuel_type",
+  //     f1value: selectedFilter1Value,
+  //     f2name: "some_other_filter", // Modify with your filter name
+  //     f2value: event.target.value,
+  //   };
+  //   await dispatch(fetchSearchVehicles(data)); // Dispatch fetchSearchVehicles action
+  // };
 
   const handleUpload = async () => {
     try {
       if (selectedFile) {
         const formData = new FormData();
         formData.append("file", selectedFile);
-        await dispatch(bulkUploadStreetLight(formData));
+        await dispatch(bulkUploadVehicle(formData)); // Dispatch bulkUploadVehicle action
         closeFileModal();
-        openSuccessMessage("Street lights Bulk Upload successfully!");
-        await dispatch(fetchStreetLights());
+        openSuccessMessage("Vehicles Bulk Upload successfully!");
+        await dispatch(fetchVehicles()); // Dispatch fetchVehicles action
       }
     } catch (err: any) {
       closeFileModal();
@@ -162,10 +165,7 @@ const StreetLightsPage = () => {
   return (
     <>
       <PageLoader isLoading={loading} />
-      <MainTemplate
-        userDetails={logUser}
-        breadCrumb={["Home", "Street Lights"]}
-      >
+      <MainTemplate userDetails={logUser} breadCrumb={["Home", "Vehicles"]}>
         <TableControls
           setSearchQuery={setSearchQuery}
           onAdd={
@@ -180,16 +180,12 @@ const StreetLightsPage = () => {
           filter1Options={filter1Options}
           filter1onChange={handleFilter1}
           selectedFilter1Value={selectedFilter1Value}
-          filter2Name={filter2Name}
-          filter2Options={filter2Options}
-          filter2onChange={handleFilter2}
-          selectedFilter2Value={selectedFilter2Value}
           csvData={csvData}
-          csvName={`streetLights_${new Date().toLocaleDateString()}.csv`}
+          csvName={`vehicles_${new Date().toLocaleDateString()}.csv`}
         />
         <ReusableTable
           columns={columns}
-          data={streetLights}
+          data={vehicles}
           handleDelete={
             CheckPermission(logUser?.user_type, "delete")
               ? handleDelete
@@ -201,12 +197,11 @@ const StreetLightsPage = () => {
           handleView={
             CheckPermission(logUser?.user_type, "view") ? handleView : undefined
           }
-          handleOpenModal={handleOpenModal}
         />
         <CustomDialog
           open={isModalOpen}
           title="Confirmation"
-          content="Are you sure you want to delete this street light?"
+          content="Are you sure you want to delete this vehicle?"
           onCancel={closeModal}
           onConfirm={handleConfirm}
         />
@@ -216,13 +211,6 @@ const StreetLightsPage = () => {
           message={successMessage}
           error={error}
         />
-
-        <ImageViewModal
-          open={openImageModal}
-          onClose={handleCloseModal}
-          imageURL={selectedImage}
-        />
-
         <FileUploadModal
           open={fileModal}
           onClose={() => {
@@ -239,4 +227,4 @@ const StreetLightsPage = () => {
   );
 };
 
-export default StreetLightsPage;
+export default VehiclesPage;

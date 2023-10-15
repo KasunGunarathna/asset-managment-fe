@@ -7,8 +7,8 @@ import {
   fetchStreetLightById,
   imageGetStreetLight,
   imageUploadStreetLight,
-} from "../../services/StreetLightService"; // Import street light-related actions and selectors
-import { StreetLight } from "../../types/types"; // Import the StreetLight type
+} from "../../services/StreetLightService";
+import { StreetLight } from "../../types/types";
 import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
 import PageLoader from "../../components/PageLoader";
@@ -48,13 +48,12 @@ const EditStreetLightPage = () => {
 
   useEffect(() => {
     dispatch(fetchLoginUser(nic));
-    dispatch(fetchStreetLightById(id)); // Fetch street light data by ID
+    dispatch(fetchStreetLightById(id));
     dispatch(imageGetStreetLight(id));
   }, [nic, id, dispatch]);
 
   const formik = useFormik({
     initialValues: {
-      // Initialize with your StreetLight field names and default values
       pole_number: streetLight?.pole_number || "",
       road_name: streetLight?.road_name || "",
       wire_condition: streetLight?.wire_condition || "",
@@ -102,7 +101,7 @@ const EditStreetLightPage = () => {
         breadCrumb={["Home", "Street Lights", "Edit Street Light"]}
       >
         <FormGenerator
-          fields={fields} // Use your street light form fields here
+          fields={fields}
           formik={formik}
           onSubmit={formik.handleSubmit}
           goBack={goBack}

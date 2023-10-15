@@ -22,7 +22,7 @@ import { useFileModal } from "../../hooks/useFileModal";
 import { useModal } from "../../hooks/useModal";
 import { useSuccessMessage } from "../../hooks/useSuccessMessage";
 import FileUploadModal from "../../components/common/FileUploadModal";
-import { SurfaceCondition, UserType } from "../../types/enum";
+import { SurfaceCondition } from "../../types/enum";
 import { generateCsvData } from "../../utils/generateCsv";
 import { CheckPermission } from "../../utils/permissionConfig";
 

@@ -1,4 +1,4 @@
-import { SurfaceCondition } from "../../types/enum"; // Import relevant enums if needed
+import { SurfaceCondition } from "../../types/enum";
 import { FormField } from "../../types/types";
 
 export const fields: FormField[] = [
@@ -12,8 +12,7 @@ export const fields: FormField[] = [
     name: "condition",
     label: "Building Condition",
     select: true,
-    options: Object.values(SurfaceCondition), // Use the appropriate enum for building condition
+    options: Object.values(SurfaceCondition),
   },
   { name: "remark", label: "Remarks" },
-  // You can add more fields as needed
 ];

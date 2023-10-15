@@ -5,23 +5,20 @@ import MainTemplate from "../../templates/MainTemplate";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../store/store";
 import { useFormik } from "formik";
-import { Building } from "../../types/types";
+import { Vehicle } from "../../types/types";
 import CustomSnackbar from "../../components/common/Snackbar";
 import CustomDialog from "../../components/common/CustomDialog";
 import PageLoader from "../../components/PageLoader";
-import { selectBuildings } from "../../store/buildingSlice";
+import { selectVehicle } from "../../store/vehicleSlice"; // Import vehicle-related selectors
 import FormGenerator from "../../components/common/FormGenerator";
-import { validationSchema } from "./validationSchema";
-import { fields } from "./formFields";
+import { validationSchema } from "./validationSchema"; // Create validation schema for your vehicle
+import { fields } from "./formFields"; // Define form fields for your vehicle
 import { fetchLoginUser } from "../../services/authService";
-import {
-  addBuilding,
-  imageUploadBuilding,
-} from "../../services/buildingService";
+import { addVehicle } from "../../services/vehicleService"; // Import vehicle-related services
 import { useModal } from "../../hooks/useModal";
 import { useSuccessMessage } from "../../hooks/useSuccessMessage";
 
-const AddBuildingPage = () => {
+const AddVehiclePage = () => {
   const nic = sessionStorage.getItem("userNic");
   const { isModalOpen, openModal, closeModal } = useModal();
   const {
@@ -32,7 +29,7 @@ const AddBuildingPage = () => {
   } = useSuccessMessage();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { loading, error } = useSelector(selectBuildings);
+  const { loading, error } = useSelector(selectVehicle); // Use vehicle-related selectors
   const { logUser } = useSelector(selectAuth);
 
   useEffect(() => {
@@ -41,39 +38,38 @@ const AddBuildingPage = () => {
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      plan: "",
-      number_of_stories: 0,
-      photo: "",
-      location: "",
-      built_year: 0,
-      condition: "",
-      remark: "",
+      vehicle_number: "",
+      vehicle_make: "",
+      model: "",
+      fuel_type: "",
+      license_from: "",
+      license_to: "",
+      engine_number: "",
+      allocated_location: "",
+      yom: "",
+      yor: "",
+      chassi_number: "",
+      taxation_class: "",
+      wheel_size: "",
+      battery_required: "",
+      fuel_consume: "",
+      date_of_tested: "",
     },
-    validationSchema: validationSchema,
-    onSubmit: (values: Building) => {
+    validationSchema: validationSchema, // Use the vehicle validation schema
+    onSubmit: (values: Vehicle) => {
       openModal();
     },
   });
-
+ 
   const handleConfirm = async () => {
-    const photo: any = formik.values.photo;
-    let data: Building = formik.values;
-    delete data.photo;
-    const res = await dispatch(addBuilding(data));
-    const formData = new FormData();
-    if (photo !== undefined) {
-      formData.append("file", photo);
-      await dispatch(imageUploadBuilding(res.id, formData));
-    }
+    await dispatch(addVehicle(formik.values)); 
     closeModal();
-    formik.resetForm();
-    await formik.setFieldValue(`photo`, null);
-    openSuccessMessage("Building added successfully!");
+    // formik.resetForm();
+    openSuccessMessage("Vehicle added successfully!");
   };
 
   const goBack = () => {
-    navigate("/buildings");
+    navigate("/vehicles"); // Adjust the navigation path as needed
   };
 
   const onPhotoHandle = async (name: any, selectedFile: any) => {
@@ -85,14 +81,14 @@ const AddBuildingPage = () => {
       <PageLoader isLoading={loading} />
       <MainTemplate
         userDetails={logUser}
-        breadCrumb={["Home", "Buildings", "Add Building"]}
+        breadCrumb={["Home", "Vehicles", "Add Vehicle"]}
       >
         <FormGenerator
-          fields={fields}
+          fields={fields} // Use the vehicle form fields
           formik={formik}
           onSubmit={formik.handleSubmit}
           goBack={goBack}
-          name={"Add Building"}
+          name={"Add Vehicle"}
           onPhoto={onPhotoHandle}
         />
       </MainTemplate>
@@ -100,7 +96,7 @@ const AddBuildingPage = () => {
       <CustomDialog
         open={isModalOpen}
         title="Confirmation"
-        content="Are you sure you want to add this building?"
+        content="Are you sure you want to add this vehicle?"
         onCancel={closeModal}
         onConfirm={handleConfirm}
       />
@@ -114,4 +110,4 @@ const AddBuildingPage = () => {
   );
 };
 
-export default AddBuildingPage;
+export default AddVehiclePage;

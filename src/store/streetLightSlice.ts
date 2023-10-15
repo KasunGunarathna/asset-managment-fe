@@ -1,10 +1,10 @@
-import { StreetLight } from "../types/types"; // Import your StreetLight type
+import { StreetLight } from "../types/types";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 
 interface StreetLightsState {
-  streetLights: StreetLight[]; // Replace Bridge with StreetLight
-  streetLight: StreetLight | null; // Replace Bridge with StreetLight
+  streetLights: StreetLight[];
+  streetLight: StreetLight | null;
   photo: any;
   loading: boolean;
   error: string | null;
@@ -19,7 +19,7 @@ const initialState: StreetLightsState = {
 };
 
 const streetLightsSlice = createSlice({
-  name: "streetLights", // Change the slice name
+  name: "streetLights",
   initialState,
   reducers: {
     getStreetLightsStart(state) {
@@ -27,14 +27,12 @@ const streetLightsSlice = createSlice({
       state.error = null;
     },
     getStreetLightsSuccess(state, action: PayloadAction<StreetLight[]>) {
-      // Replace Bridge with StreetLight
       state.loading = false;
-      state.streetLights = action.payload; // Replace Bridge with StreetLight
+      state.streetLights = action.payload;
     },
     getStreetLightSuccess(state, action: PayloadAction<StreetLight>) {
-      // Replace Bridge with StreetLight
       state.loading = false;
-      state.streetLight = action.payload; // Replace Bridge with StreetLight
+      state.streetLight = action.payload;
     },
     getFailure(state, action: PayloadAction<string>) {
       state.loading = false;

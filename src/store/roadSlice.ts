@@ -1,10 +1,10 @@
-import { Road } from "../types/types"; // Import your Road type
+import { Road } from "../types/types";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 
 interface RoadState {
-  roads: Road[]; // Replace Bridge with Road
-  road: Road | null; // Replace Bridge with Road
+  roads: Road[];
+  road: Road | null;
   loading: boolean;
   error: string | null;
 }
@@ -17,7 +17,7 @@ const initialState: RoadState = {
 };
 
 const roadSlice = createSlice({
-  name: "road", // Change the slice name
+  name: "road",
   initialState,
   reducers: {
     getRoadsStart(state) {
@@ -25,14 +25,12 @@ const roadSlice = createSlice({
       state.error = null;
     },
     getRoadsSuccess(state, action: PayloadAction<Road[]>) {
-      // Replace Bridge with Road
       state.loading = false;
-      state.roads = action.payload; // Replace Bridge with Road
+      state.roads = action.payload;
     },
     getRoadSuccess(state, action: PayloadAction<Road>) {
-      // Replace Bridge with Road
       state.loading = false;
-      state.road = action.payload; // Replace Bridge with Road
+      state.road = action.payload;
     },
     getFailure(state, action: PayloadAction<string>) {
       state.loading = false;

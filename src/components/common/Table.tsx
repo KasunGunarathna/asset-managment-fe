@@ -54,11 +54,10 @@ const ReusableTable: React.FC<ReusableTableProps> = ({
   const openGoogleMaps = (event: any) => {
     event.preventDefault();
     const location = event.target.textContent;
-    const latitude = location.split(",")[0]; // Replace with the actual latitude from your data
-    const longitude = location.split(",")[1]; // Replace with the actual longitude from your data
+    const latitude = location.split(",")[0];
+    const longitude = location.split(",")[1];
     const googleMapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
 
-    // Open Google Maps in a new tab or window
     window.open(googleMapsUrl, "_blank");
   };
 
@@ -106,7 +105,6 @@ const ReusableTable: React.FC<ReusableTableProps> = ({
                       >
                         {" "}
                         {column.photo && row[column.id] ? (
-                          // Render the photo as an Avatar if 'photo' column is present
                           <Avatar
                             alt={column.label}
                             src={row[column.url || column.id]}
@@ -115,8 +113,7 @@ const ReusableTable: React.FC<ReusableTableProps> = ({
                               handleOpenModal(row[column.url || column.id])
                             }
                           />
-                        ) : // Otherwise, render regular text
-                        column.location && row[column.id] ? (
+                        ) : column.location && row[column.id] ? (
                           // eslint-disable-next-line jsx-a11y/anchor-is-valid
                           <a href="#" onClick={openGoogleMaps}>
                             {row[column.id]}
@@ -136,7 +133,7 @@ const ReusableTable: React.FC<ReusableTableProps> = ({
                         <IconButton
                           sx={{ color: "#df4444" }}
                           aria-label="Delete"
-                          onClick={() => handleDelete(row.id)} // Implement a delete handler function.
+                          onClick={() => handleDelete(row.id)}
                         >
                           <Delete />
                         </IconButton>
@@ -145,7 +142,7 @@ const ReusableTable: React.FC<ReusableTableProps> = ({
                         <IconButton
                           sx={{ color: "#00bec4" }}
                           aria-label="Edit"
-                          onClick={() => handleEdit(row.id)} // Implement an edit handler function.
+                          onClick={() => handleEdit(row.id)}
                         >
                           <Edit />
                         </IconButton>
@@ -154,7 +151,7 @@ const ReusableTable: React.FC<ReusableTableProps> = ({
                         <IconButton
                           sx={{ color: "#2fce3b" }}
                           aria-label="View"
-                          onClick={() => handleView(row.id)} // Implement a view handler function.
+                          onClick={() => handleView(row.id)}
                         >
                           <Visibility />
                         </IconButton>

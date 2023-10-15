@@ -75,12 +75,11 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
                   onPhoto(field.name, selectedFile);
                 }}
               />
-              {formik.touched[field.name] &&
-                formik.errors[field.name] && ( // Display error helper text
-                  <FormHelperText error>
-                    {formik.errors[field.name]}
-                  </FormHelperText>
-                )}
+              {formik.touched[field.name] && formik.errors[field.name] && (
+                <FormHelperText error>
+                  {formik.errors[field.name]}
+                </FormHelperText>
+              )}
               {formik.values[field.name] && (
                 <Avatar
                   alt={field.name}

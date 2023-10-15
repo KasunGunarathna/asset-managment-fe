@@ -8,19 +8,18 @@ import {
   uploadBulkBuilding,
   uploadBuilding,
   getBuilding,
-} from "../api/buildingsApis"; // Import your building API functions
+} from "../api/buildingsApis";
 import {
   getBuildingSuccess,
   getBuildingsStart,
   getBuildingsSuccess,
   getFailure,
   setSuccess,
-} from "../store/buildingSlice"; // Import your Redux slice actions
+} from "../store/buildingSlice";
 import { AppDispatch } from "../store/store";
 import { setImageSuccess } from "../store/streetLightSlice";
-import { Building } from "../types/types"; // Import your Building type
+import { Building } from "../types/types";
 
-// Fetch all buildings
 export const fetchBuildings = () => async (dispatch: AppDispatch) => {
   dispatch(getBuildingsStart());
   try {
@@ -31,7 +30,6 @@ export const fetchBuildings = () => async (dispatch: AppDispatch) => {
   }
 };
 
-// Search buildings
 export const fetchSearchBuildings =
   (data: any) => async (dispatch: AppDispatch) => {
     dispatch(getBuildingsStart());
@@ -43,7 +41,6 @@ export const fetchSearchBuildings =
     }
   };
 
-// Fetch a building by ID
 export const fetchBuildingById = (id: any) => async (dispatch: AppDispatch) => {
   dispatch(getBuildingsStart());
   try {
@@ -54,7 +51,7 @@ export const fetchBuildingById = (id: any) => async (dispatch: AppDispatch) => {
   }
 };
 
-// Add a new building
+
 export const addBuilding =
   (building: Building | null) => async (dispatch: AppDispatch) => {
     dispatch(getBuildingsStart());
@@ -67,7 +64,7 @@ export const addBuilding =
     }
   };
 
-// Edit a building by ID
+
 export const editBuilding =
   (id: any, building: Building | null) => async (dispatch: AppDispatch) => {
     dispatch(getBuildingsStart());
@@ -79,7 +76,7 @@ export const editBuilding =
     }
   };
 
-// Remove a building by ID
+
 export const removeBuildingById =
   (id: any) => async (dispatch: AppDispatch) => {
     dispatch(getBuildingsStart());
@@ -91,7 +88,7 @@ export const removeBuildingById =
     }
   };
 
-// Bulk upload buildings
+
 export const bulkUploadBuilding =
   (data: any) => async (dispatch: AppDispatch) => {
     dispatch(getBuildingsStart());
