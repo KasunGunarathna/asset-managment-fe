@@ -90,6 +90,7 @@ export interface Building {
   photoUrl?: string | undefined;
 }
 
+
 export interface Vehicle {
   vehicle_number: string | undefined;
   vehicle_make: string | undefined;
@@ -108,3 +109,4 @@ export interface Vehicle {
   fuel_consume: string | undefined;
   date_of_tested: string | undefined;
 }
+

@@ -51,6 +51,7 @@ export const fetchBuildingById = (id: any) => async (dispatch: AppDispatch) => {
   }
 };
 
+
 export const addBuilding =
   (building: Building | null) => async (dispatch: AppDispatch) => {
     dispatch(getBuildingsStart());
@@ -63,6 +64,7 @@ export const addBuilding =
     }
   };
 
+
 export const editBuilding =
   (id: any, building: Building | null) => async (dispatch: AppDispatch) => {
     dispatch(getBuildingsStart());
@@ -74,6 +76,7 @@ export const editBuilding =
     }
   };
 
+
 export const removeBuildingById =
   (id: any) => async (dispatch: AppDispatch) => {
     dispatch(getBuildingsStart());
@@ -84,6 +87,7 @@ export const removeBuildingById =
       dispatch(getFailure(error.response?.data?.message || error.message));
     }
   };
+
 
 export const bulkUploadBuilding =
   (data: any) => async (dispatch: AppDispatch) => {
