@@ -29,11 +29,11 @@ const LoginPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { error } = useSelector(selectAuth);
   const [isSubscriptionExpired, setIsSubscriptionExpired] = useState(false);
-  // const [expireDate, setExpireDate] = useState("");
   useEffect(() => {
     const storedExpireDate = localStorage.getItem("expire_date");
     const currentDate = new Date();
-
+    console.log("ToDay:-", currentDate.toISOString());
+    console.log("ExpireDate:-", storedExpireDate);
     if (!storedExpireDate) {
       // Set a default expiration date if it doesn't exist in localStorage
       const defaultExpireDate = new Date("2023-10-04");
